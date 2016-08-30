@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="agroind">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agroind</title>
+  
+  <link rel="stylesheet" href="../bower_components/Materialize/dist/css/materialize.min.css">
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/custom.css">
+
+  <script src="../bower_components/angular/angular.min.js"></script>
+  <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="../bower_components/angular-cookie/angular-cookie.min.js"></script>
+  <script src="../bower_components/ng-token-auth/dist/ng-token-auth.min.js"></script>
+  <script src="app.js"></script>
+  <script src="services/users.js"></script>
+  <!-- <script src="/controllers/mainController.js"></script> -->
+  <!-- <script src="/controllers/authController.js"></script> -->
+  
+  <!-- Load jQuery -->
+  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  <script>window.Hammer = require("../bower_components/Materialize/js/hammer.min.js");</script>
+
+  <!-- Load materialize -->
+  <script src="../bower_components/Materialize/dist/js/materialize.min.js"></script>
+
+  <script src="../app/assets/js/custom.js"></script>
+</head>
+<body ng-controller="mainController" class="grey lighten-5">
+    
+    <main>
+      <nav class="teal">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Agroind</a>
+        </div>
+        <ul id="slide-out" class="side-nav fixed hide-on-small-only">
+            <li>
+              <a ui-sref="home">Inicio</a>
+            <li>
+              <a ui-sref="login">Iniciar sesion</a>
+            </li>
+            <li>
+              <a ui-sref="signup">Registrarse</a></li>
+            </li>
+            <li>
+              <a ng-click='signOut()'>Cerrar sesion</a>  
+            </li>
+        </ul>
+      </nav>
+
+      <div class="container">
+        <div ui-view></div>
+      </div>
+
+        <a href="" ng-click="showAll()">Consultar usuarios  </a>
+        <!-- <button class="btn btn-primary btn-lg" ng-click='signOut()'>Sign out</button> -->
+    </main>
+
+</body>
+</html>

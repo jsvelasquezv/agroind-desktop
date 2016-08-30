@@ -1,0 +1,21 @@
+{
+  "name": "agroind",
+  "description": "Desktop client for agroind api",
+  "main": "main.js",
+  "authors": [
+    "Sebastian Velasquez - Oscar Ramirez"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ng-token-auth": "~0.0.29"
+  }
+}
