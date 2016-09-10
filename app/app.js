@@ -5,6 +5,10 @@ var agroind = angular.module('agroind', [
   'usersService'
 ]);
 
+agroind.constant('config', {
+  apiUrl: 'http://localhost:3000/api/v1'
+});
+
 // Configuration of router service
 agroind.config(function($stateProvider, $urlRouterProvider) {
 
@@ -30,6 +34,11 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       url: '/signup',
       templateUrl: 'pages/signup.html'
       // controller: 'authController'
+    })
+    .state('users', {
+      url: '/users',
+      templateUrl: 'pages/users/index.html',
+      controller: 'usersController'
     });
 });
 
@@ -41,27 +50,45 @@ agroind.config(function($authProvider) {
   });
 });
 
+
 //Controladores
 
-agroind.controller('mainController', function($scope, $rootScope, Users) {
+agroind.controller('mainController', function($scope, $rootScope, Users, config) {
   $rootScope.loggedIn = false;
+
   $scope.showAll = function() {
     console.log(Users.getUsers());
   };
 
   $scope.checkLogin = function () {
+    config.apiUrl;
     $rootScope.loggedIn = !$rootScope.loggedIn;
-    console.log($rootScope.loggedIn);
   };
 
   $rootScope.$on('auth:login-success', function(ev, user) {
-    console.log(ev);
     $rootScope.loggedIn = true;
+    $rootScope.us = user;
   });
 
   $rootScope.$on('auth:logout-success', function(ev) {
     $rootScope.loggedIn = false;
   });
+});
+
+//Controlador para la gestion de usuarios
+agroind.controller('usersController', function($scope, Users, config) {
+  // $scope.users = Users.getUsers();
+  Users.getUsers().then(function (response) {
+    $scope.allUsers = response.data;
+  });
+
+  $scope.delete = function (id) {
+    Users.deleteUser(id).then(function (response) {
+      $scope.allUsers.splice(id,1);
+      console.log("eliminado");
+    });
+  }
+
 });
 
 //Controlador de autenticacion

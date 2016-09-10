@@ -1,0 +1,18 @@
+<h3>Users</h3>
+
+<!-- <p>{{allUsers}}</p> -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in allUsers">
+      <td>{{user.email}}</td>
+      <td><a ng-click="delete(user.id)">Eliminar</a></td>
+    </tr>
+  </tbody>
+
+</table>

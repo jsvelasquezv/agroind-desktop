@@ -44,6 +44,9 @@
               <a ui-sref="signup" ng-hide="loggedIn">Registrarse</a></li>
             </li>
             <li>
+              <a ui-sref="users" ng-show="loggedIn">Gestionar Usuarios</a>
+            </li>
+            <li>
               <a ng-click='signOut()' ng-show="loggedIn">Cerrar sesion</a>  
             </li>
         </ul>
