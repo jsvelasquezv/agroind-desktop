@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col s8 offset-s2">
+    <div class="card-panel">
+      <h4>Crear Perfil</h4>
+      <form>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" ng-model="name">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s4">
+            <div class="switch">
+              <label>
+                <input type="checkbox" ng-model="users_permission">
+                <span class="lever"></span>
+                Usuarios
+              </label>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <div class="switch">
+              <label>
+                <input type="checkbox" ng-model="indicators_permission">
+                <span class="lever"></span>
+                Indicadores
+              </label>
+            </div>
+          </div>
+          <div class="input-field col s4">
+            <div class="switch">
+              <label>
+                <input type="checkbox" ng-model="reports_permission">
+                <span class="lever"></span>
+                Reportes
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s4">
+            <div class="switch">
+              <label>
+                <input type="checkbox" ng-model="statistics_permission">
+                <span class="lever"></span>
+                Estadistica
+              </label>
+            </div>
+          </div>
+
+          <div class="input-field col s4">
+            <div class="switch">
+              <label>
+                <input type="checkbox" ng-model="profiles_permission">
+                <span class="lever"></span>
+                Perfiles
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <input class="btn" type="submit" ng-click="newProfile()" value="Guardar"></input>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

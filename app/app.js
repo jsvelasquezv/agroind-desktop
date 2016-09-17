@@ -2,7 +2,8 @@ var agroind = angular.module('agroind', [
   'ui.router',
   'ipCookie',
   'ng-token-auth',
-  'usersService'
+  'usersService',
+  'profilesService'
 ]);
 
 agroind.constant('config', {
@@ -39,7 +40,22 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       url: '/users',
       templateUrl: 'pages/users/index.html',
       controller: 'usersController'
-    });
+    })
+    .state('profiles', {
+      url: '/profiles',
+      templateUrl: 'pages/profiles/index.html',
+      controller: 'profilesController'
+    })
+    .state('newProfile', {
+      url: '/newProfile',
+      templateUrl: 'pages/profiles/new.html',
+      controller: 'profilesController'
+    })
+    .state('editProfile', {
+      url: '/editProfile/:id',
+      templateUrl: 'pages/profiles/edit.html',
+      controller: 'profilesController'
+    })
 });
 
 //Configuration of authentication service
@@ -53,12 +69,8 @@ agroind.config(function($authProvider) {
 
 //Controladores
 
-agroind.controller('mainController', function($scope, $rootScope, Users, config) {
+agroind.controller('mainController', function($scope, $rootScope, Users, Profiles, config) {
   $rootScope.loggedIn = false;
-
-  $scope.showAll = function() {
-    console.log(Users.getUsers());
-  };
 
   $scope.checkLogin = function () {
     config.apiUrl;
@@ -67,7 +79,10 @@ agroind.controller('mainController', function($scope, $rootScope, Users, config)
 
   $rootScope.$on('auth:login-success', function(ev, user) {
     $rootScope.loggedIn = true;
-    $rootScope.us = user;
+    $rootScope.loggedUser = user;
+    Profiles.getProfile(user.profile_id).then(function (response) {
+      $rootScope.loggedProfile = response.data;
+    });
   });
 
   $rootScope.$on('auth:logout-success', function(ev) {
@@ -76,7 +91,7 @@ agroind.controller('mainController', function($scope, $rootScope, Users, config)
 });
 
 //Controlador para la gestion de usuarios
-agroind.controller('usersController', function($scope, Users, config) {
+agroind.controller('usersController', function ($scope, Users, config) {
   // $scope.users = Users.getUsers();
   Users.getUsers().then(function (response) {
     $scope.allUsers = response.data;
@@ -91,16 +106,73 @@ agroind.controller('usersController', function($scope, Users, config) {
 
 });
 
+agroind.controller('profilesController', function ($scope, Profiles, config, $stateParams) {
+
+  $scope.indexProfile = function () {
+    Profiles.getProfiles().then(function (response) {
+      $scope.allProfiles = response.data; 
+    });
+  }
+
+  $scope.viewProfile = function () {
+    // console.log($stateParams);
+    Profiles.getProfile($stateParams.id).then(function (response) {
+        // console.log(response.data);
+      $scope.profile = {
+        id: response.data.id,
+        name: response.data.name,
+        users_permission: response.data.users_permission,
+        indicators_permission: response.data.indicators_permission,
+        reports_permission: response.data.reports_permission,
+        profiles_permission: response.data.profiles_permission 
+      }
+      // console.log($scope.profile);
+    });
+  }
+
+  $scope.newProfile = function () {
+    Profiles.newProfile($scope.name,
+                        $scope.users_permission,
+                        $scope.indicators_permission,
+                        $scope.reports_permission,
+                        $scope.statistics_permission,
+                        $scope.profiles_permission).then(function (response) {
+                          console.log("guardado");
+                        });
+  }
+
+  $scope.editProfile = function () {
+    profile = $scope.profile;
+    Profiles.editProfile(profile.id, 
+                         profile.name,
+                         profile.users_permission,
+                         profile.indicators_permission,
+                         profile.reports_permission,
+                         profile.statistics_permission,
+                         profile.profiles_permission).then(function (response) {
+                           console.log("editado");
+                         });
+  }
+
+  $scope.deleteProfile = function (id) {
+    Profiles.deleteProfile(id).then(function (response) {
+      // $scope.allProfiles.splice(id,1);
+      $scope.indexProfile();
+      console.log("eliminado");
+    });
+  }
+});
+
 //Controlador de autenticacion
 
-agroind.controller('authController', function($scope, $auth, $rootScope) {
+agroind.controller('authController', function ($scope, $auth, $rootScope) {
   $scope.handleRegBtnClick = function() {
     $auth.submitRegistration($scope.submitRegistrationForm)
-      .then(function(resp) {
+      .then(function (resp) {
         console.log("ok");
         console.log(resp);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log("err");
         console.log(err);
       });
