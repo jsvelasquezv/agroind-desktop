@@ -3,7 +3,9 @@ var agroind = angular.module('agroind', [
   'ipCookie',
   'ng-token-auth',
   'usersService',
-  'profilesService'
+  'profilesService',
+  'angular-loading-bar', 
+  'ngAnimate'
 ]);
 
 agroind.constant('config', {
@@ -20,11 +22,6 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
     .state('home', {
       url: '/',
       templateUrl: 'pages/home.html',
-      resolve: {
-        auth: function($auth) {
-          return $auth.validateUser();
-        }
-      }
     })
     .state('login', {
       url: '/login',
@@ -69,7 +66,7 @@ agroind.config(function($authProvider) {
 
 //Controladores
 
-agroind.controller('mainController', function($scope, $rootScope, Users, Profiles, config) {
+agroind.controller('mainController', function($scope, $rootScope, $state, Users, Profiles, config) {
   $rootScope.loggedIn = false;
 
   $scope.checkLogin = function () {
@@ -78,35 +75,41 @@ agroind.controller('mainController', function($scope, $rootScope, Users, Profile
   };
 
   $rootScope.$on('auth:login-success', function(ev, user) {
+    Materialize.toast('Inicio de sesion correcto!', 4000);
     $rootScope.loggedIn = true;
     $rootScope.loggedUser = user;
     Profiles.getProfile(user.profile_id).then(function (response) {
       $rootScope.loggedProfile = response.data;
     });
+    $state.go('home');
   });
 
   $rootScope.$on('auth:logout-success', function(ev) {
+    Materialize.toast('Cierre de sesion correcto!', 4000);
     $rootScope.loggedIn = false;
+    $state.go('login');
   });
 });
 
 //Controlador para la gestion de usuarios
 agroind.controller('usersController', function ($scope, Users, config) {
   // $scope.users = Users.getUsers();
-  Users.getUsers().then(function (response) {
-    $scope.allUsers = response.data;
-  });
+  $scope.indexUser = function () {
+    Users.getUsers().then(function (response) {
+      $scope.allUsers = response.data;
+    });
+  }
 
   $scope.delete = function (id) {
     Users.deleteUser(id).then(function (response) {
       $scope.allUsers.splice(id,1);
-      console.log("eliminado");
+      // Materialize.toast('Cierre de sesion correcto!', 4000);
     });
   }
 
 });
 
-agroind.controller('profilesController', function ($scope, Profiles, config, $stateParams) {
+agroind.controller('profilesController', function ($scope, $stateParams, $state, Profiles, config) {
 
   $scope.indexProfile = function () {
     Profiles.getProfiles().then(function (response) {
@@ -137,7 +140,8 @@ agroind.controller('profilesController', function ($scope, Profiles, config, $st
                         $scope.reports_permission,
                         $scope.statistics_permission,
                         $scope.profiles_permission).then(function (response) {
-                          console.log("guardado");
+                          Materialize.toast('Se ha creado el perfil correctamente!', 4000);
+                          $state.go('profiles');
                         });
   }
 
@@ -150,8 +154,24 @@ agroind.controller('profilesController', function ($scope, Profiles, config, $st
                          profile.reports_permission,
                          profile.statistics_permission,
                          profile.profiles_permission).then(function (response) {
-                           console.log("editado");
+                          Materialize.toast('Se ha editado el perfil correctamente!', 4000);
                          });
+  }
+
+  $scope.cloneProfile = function (id) {
+    var profile = {};
+    Profiles.getProfile(id).then(function (response) {
+      profile = response.data;
+      Profiles.newProfile(profile.name,
+                          profile.users_permission,
+                          profile.indicators_permission,
+                          profile.reports_permission,
+                          profile.statistics_permission,
+                          profile.profiles_permission).then(function (response) {
+                            Materialize.toast('Se ha clonado el perfil correctamente!', 4000);
+                          });
+      $scope.indexProfile();
+    });
   }
 
   $scope.deleteProfile = function (id) {

@@ -2,15 +2,34 @@
 
 <!-- <p>{{allUsers}}</p> -->
 
-<table>
+<table ng-init="indexUser()">
   <thead>
     <tr>
-      <th>Email</th>
+      <th>Documento</th>
+      <th>Nombre</th>
+      <th>Apellidos</th>
+      <th>e-mail</th>
+      <th>Perfil</th>
+      <th>Estado</th>
+      <th>Direccion</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="user in allUsers">
+      <td>{{user.document}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.last_name}}</td>
       <td>{{user.email}}</td>
+      <td>{{user.profile_id}}</td>
+      <td>
+        <div class="switch">
+          <label>
+            <input type="checkbox" ng-checked="{{user.state}}" onclick="return false">
+            <span class="lever"></span>
+          </label>
+        </div>
+      </td>
+      <td>{{user.Address}}</td>
       <td><a ng-click="delete(user.id)">Eliminar</a></td>
     </tr>
   </tbody>

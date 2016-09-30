@@ -8,11 +8,15 @@
   <link rel="stylesheet" href="../bower_components/Materialize/dist/css/materialize.min.css">
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/custom.css">
+  <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.min.css">
 
   <script src="../bower_components/angular/angular.min.js"></script>
   <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="../bower_components/angular-cookie/angular-cookie.min.js"></script>
   <script src="../bower_components/ng-token-auth/dist/ng-token-auth.min.js"></script>
+  <script src="../bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.js"></script> -->
+  <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
   <script src="app.js"></script>
   <script src="services/users.js"></script>
   <script src="services/profiles.js"></script>
@@ -33,9 +37,10 @@
     <main>
       <nav class="teal">
         <div class="nav-wrapper">
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
             <a href="#" class="brand-logo center">Agroind</a>
         </div>
-        <ul id="slide-out" class="side-nav fixed hide-on-small-only">
+        <ul id="slide-out" class="side-nav fixed show-on-small">
             <li>
               <a ui-sref="home" ng-show="loggedIn">Inicio</a>
             <li>
@@ -50,16 +55,30 @@
             <li>
               <a ui-sref="profiles" ng-show="loggedIn && loggedProfile.profiles_permission">Gestionar Perfiles</a>
             </li>
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header">Gestionar Usuarios</a>
+                  <div class="collapsible-body">
+                    <ul>
+                      <li><a href="#!">Listado de usuarios</a></li>
+                      <li><a href="#!">Crear Usuario</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </li>
             <li>
               <a ng-click='signOut()' ng-show="loggedIn">Cerrar sesion</a>  
             </li>
         </ul>
       </nav>
 
+
       <div class="container">
         <div ui-view></div>
       </div>
-
+        <!-- <span us-spinner="{radius:30, width:8, length: 16}"></span> -->
         <a href="" ng-click="showAll()">Consultar usuarios </a>
         <a href="" ng-click="checkLogin()">Cambiar logueo </a>
         <!-- <button class="btn btn-primary btn-lg" ng-click='signOut()'>Sign out</button> -->
