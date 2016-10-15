@@ -11,3 +11,12 @@ header, main, footer {
     padding-left: 0;
   }
 }
+
+.permissions {
+    margin: 10px;
+    display: flex;
+}
+
+.permissions-section {
+    margin-bottom: 0px;
+}

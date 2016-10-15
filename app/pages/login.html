@@ -3,19 +3,32 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title">Ingresar</span>
-          <form ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}">
+          <form novalidate ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}" name="form">
             <div class="input-field">
-              <label>email</label>
-              <input type="email" name="email" ng-model="loginForm.email" required="required" class="form-control"/>
+              <label>Email</label>
+              <input type="email" name="email" ng-model="loginForm.email" required="required" class="form-control" ng-min="3" ng-max="256" required/>
             </div>
 
             <div class="input-field">
-              <label>password</label>
-              <input type="password" name="password" ng-model="loginForm.password" required="required" class="form-control"/>
+              <label>Password</label>
+              <input type="password" name="password" ng-model="loginForm.password" class="form-control" ng-minlength="8" ng-maxlength="16" required/>
+            </div>
+            <div ng-messages="form.email.$error" ng-if="form.email.$touched">
+              <p ng-message="minlength">El email es demasiado corto.</p>
+              <p ng-message="maxlength">El email es demasiado largo.</p>
+              <p ng-message="required">El email es requerido.</p>
+              <p ng-message="email">Ingresa una direccion de email valida.</p>
+            </div>
+            <div ng-messages="form.password.$error" ng-if="form.password.$touched">
+              <p ng-message="minlength">La contraseña es demasiado corta.</p>
+              <p ng-message="maxlength">La contraseña es demasiado larga.</p>
+              <p ng-message="required">La contraseña es requerida.</p>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg">Ingresar</button>
+
+            <button type="submit" class="btn btn-primary btn-lg" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid} ">Ingresar</button>
           </form>
+          <a ui-sref="recoverPassword">Recuperar contraseña</a>
       </div>
     </div>
   </div>

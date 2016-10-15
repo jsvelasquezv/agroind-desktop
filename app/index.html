@@ -17,6 +17,7 @@
   <script src="../bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
   <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.js"></script> -->
   <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="../bower_components/angular-messages/angular-messages.min.js"></script>
   <script src="app.js"></script>
   <script src="services/users.js"></script>
   <script src="services/profiles.js"></script>
@@ -46,34 +47,100 @@
             <li>
               <a ui-sref="login" ng-hide="loggedIn">Iniciar sesion</a>
             </li>
-            <li>
+            <!-- <li>
               <a ui-sref="signup" ng-hide="loggedIn">Registrarse</a></li>
-            </li>
-            <li>
-              <a ui-sref="users" ng-show="loggedIn && loggedProfile.users_permission">Gestionar Usuarios</a>
-            </li>
-            <li>
+            </li> -->
+            <!-- <li>
               <a ui-sref="profiles" ng-show="loggedIn && loggedProfile.profiles_permission">Gestionar Perfiles</a>
-            </li>
-            <li class="no-padding">
+            </li> -->
+
+            <li class="no-padding" ng-show="loggedIn && loggedProfile.profiles_permission">
               <ul class="collapsible collapsible-accordion">
                 <li>
-                  <a class="collapsible-header">Gestionar Usuarios</a>
+                  <a class="collapsible-header">Gestionar Perfiles</a>
                   <div class="collapsible-body">
                     <ul>
-                      <li><a href="#!">Listado de usuarios</a></li>
-                      <li><a href="#!">Crear Usuario</a></li>
+                      <li ng-show="loggedIn && loggedProfile.list_profiles">
+                        <a ui-sref="profiles">Listado de perfiles</a>
+                      </li>
+                      <li ng-show="loggedIn && loggedProfile.create_profiles">
+                        <a ui-sref="newProfile">Crear Perfil</a>
+                      </li>
                     </ul>
                   </div>
                 </li>
               </ul>
             </li>
+
+            <li class="no-padding" ng-show="loggedIn && loggedProfile.users_permission">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header">Gestionar Usuarios</a>
+                  <div class="collapsible-body">
+                    <ul>
+                      <li ng-show="loggedIn && loggedProfile.list_users">
+                        <a ui-sref="users">Listado de usuarios</a>
+                      </li>
+                      <li><a ui-sref="signup">Crear Usuario</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="no-padding" ng-show="loggedIn && loggedProfile.indicators_permission">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header">Indicadores</a>
+                  <div class="collapsible-body">
+                    <ul>
+                      <li ng-show="loggedIn && loggedProfile.list_users">
+                        <a ui-sref="users">Listado de usuarios</a>
+                      </li>
+                      <li><a ui-sref="signup">Crear Usuario</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="no-padding" ng-show="loggedIn && loggedProfile.reports_permission">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header">Reportes</a>
+                  <div class="collapsible-body">
+                    <ul>
+                      <li ng-show="loggedIn && loggedProfile.list_users">
+                        <a ui-sref="users">Listado de usuarios</a>
+                      </li>
+                      <li><a ui-sref="signup">Crear Usuario</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+            <li class="no-padding" ng-show="loggedIn && loggedProfile.statistics_permission">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header">Estadistica</a>
+                  <div class="collapsible-body">
+                    <ul>
+                      <li ng-show="loggedIn && loggedProfile.list_users">
+                        <a ui-sref="users">Listado de usuarios</a>
+                      </li>
+                      <li><a ui-sref="signup">Crear Usuario</a></li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
             <li>
               <a ng-click='signOut()' ng-show="loggedIn">Cerrar sesion</a>  
             </li>
         </ul>
       </nav>
-
 
       <div class="container">
         <div ui-view></div>

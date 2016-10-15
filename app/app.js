@@ -5,7 +5,8 @@ var agroind = angular.module('agroind', [
   'usersService',
   'profilesService',
   'angular-loading-bar', 
-  'ngAnimate'
+  'ngAnimate',
+  'ngMessages'
 ]);
 
 agroind.constant('config', {
@@ -32,6 +33,10 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       url: '/signup',
       templateUrl: 'pages/signup.html'
       // controller: 'authController'
+    })
+    .state('recoverPassword', {
+      url: '/recoverPassword',
+      templateUrl: 'pages/resetPassword.html'
     })
     .state('users', {
       url: '/users',
@@ -84,16 +89,34 @@ agroind.controller('mainController', function($scope, $rootScope, $state, Users,
     $state.go('home');
   });
 
+  $rootScope.$on('auth:login-error', function(ev) {
+    Materialize.toast('Correo o contraseña incorrectos!', 4000);
+  });
+
   $rootScope.$on('auth:logout-success', function(ev) {
     Materialize.toast('Cierre de sesion correcto!', 4000);
     $rootScope.loggedIn = false;
     $state.go('login');
   });
+
+  $rootScope.$on('auth:logout-error', function(ev) {
+    Materialize.toast('Error al cerrar sesion');
+  });
+
+  $rootScope.$on('auth:password-reset-request-success', function(ev) {
+    Materialize.toast('Ok');
+  });
+
+  $rootScope.$on('auth:password-reset-request-error', function(ev) {
+    Materialize.toast('No');
+  });
+
+
+
 });
 
 //Controlador para la gestion de usuarios
 agroind.controller('usersController', function ($scope, Users, config) {
-  // $scope.users = Users.getUsers();
   $scope.indexUser = function () {
     Users.getUsers().then(function (response) {
       $scope.allUsers = response.data;
@@ -122,12 +145,27 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
     Profiles.getProfile($stateParams.id).then(function (response) {
         // console.log(response.data);
       $scope.profile = {
+        // id: response.data.id,
+        // name: response.data.name,
+        // users_permission: response.data.users_permission,
+        // indicators_permission: response.data.indicators_permission,
+        // reports_permission: response.data.reports_permission,
+        // profiles_permission: response.data.profiles_permission
         id: response.data.id,
         name: response.data.name,
         users_permission: response.data.users_permission,
+        list_users: response.data.list_users,
+        create_users: response.data.create_users,
+        edit_users: response.data.edit_users,
+        deactivate_users: response.data.deactivate_users,
         indicators_permission: response.data.indicators_permission,
         reports_permission: response.data.reports_permission,
-        profiles_permission: response.data.profiles_permission 
+        statistics_permission: response.data.statistics_permission,
+        profiles_permission: response.data.profiles_permission,
+        list_profiles: response.data.list_profiles,
+        create_profiles: response.data.create_profiles,
+        edit_profiles: response.data.edit_profiles,
+        clone_profiles: response.data.clone_profiles
       }
       // console.log($scope.profile);
     });
@@ -136,10 +174,19 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
   $scope.newProfile = function () {
     Profiles.newProfile($scope.name,
                         $scope.users_permission,
+                        $scope.list_users,
+                        $scope.create_users,
+                        $scope.edit_users,
+                        $scope.deactivate_users,
                         $scope.indicators_permission,
                         $scope.reports_permission,
                         $scope.statistics_permission,
-                        $scope.profiles_permission).then(function (response) {
+                        $scope.profiles_permission,
+                        $scope.list_profiles,
+                        $scope.create_profiles,
+                        $scope.edit_profiles,
+                        $scope.clone_profiles
+                        ).then(function (response) {
                           Materialize.toast('Se ha creado el perfil correctamente!', 4000);
                           $state.go('profiles');
                         });
@@ -148,12 +195,20 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
   $scope.editProfile = function () {
     profile = $scope.profile;
     Profiles.editProfile(profile.id, 
-                         profile.name,
+                         profile.name, 
                          profile.users_permission,
+                         profile.list_users,
+                         profile.create_users,
+                         profile.edit_users,
+                         profile.deactivate_users,
                          profile.indicators_permission,
                          profile.reports_permission,
                          profile.statistics_permission,
-                         profile.profiles_permission).then(function (response) {
+                         profile.profiles_permission,
+                         profile.list_profiles,
+                         profile.create_profiles,
+                         profile.edit_profiles,
+                         profile.clone_profiles).then(function (response) {
                           Materialize.toast('Se ha editado el perfil correctamente!', 4000);
                          });
   }
@@ -211,12 +266,23 @@ agroind.controller('authController', function ($scope, $auth, $rootScope) {
   };
 
   $scope.handleSignOutBtnClick = function() {
-      $auth.signOut()
-        .then(function(resp) {
-          $rootScope.loggedIn = false;
-        })
-        .catch(function(resp) {
-          // handle error response
-        });
-    };
+    $auth.signOut()
+      .then(function(resp) {
+        $rootScope.loggedIn = false;
+      })
+      .catch(function(resp) {
+        // handle error response
+      });
+  };
+
+  $scope.handlePwdResetBtnClick = function() {
+    $auth.requestPasswordReset($scope.pwdResetForm)
+      .then(function(resp) {
+        // handle success response
+      })
+      .catch(function(resp) {
+        // handle error response
+      });
+  };
+
 });
