@@ -6,13 +6,14 @@
           <form novalidate ng-submit="submitLogin(loginForm)" role="form" ng-init="loginForm = {}" name="form">
             <div class="input-field">
               <label>Email</label>
-              <input type="email" name="email" ng-model="loginForm.email" required="required" class="form-control" ng-min="3" ng-max="256" required/>
+              <input type="email" name="email" ng-model="loginForm.email" ng-min="3" ng-max="256" required/>
             </div>
 
             <div class="input-field">
               <label>Password</label>
-              <input type="password" name="password" ng-model="loginForm.password" class="form-control" ng-minlength="8" ng-maxlength="16" required/>
+              <input type="password" name="password" ng-model="loginForm.password" ng-minlength="8" ng-maxlength="16" required/>
             </div>
+
             <div ng-messages="form.email.$error" ng-if="form.email.$touched">
               <p ng-message="minlength">El email es demasiado corto.</p>
               <p ng-message="maxlength">El email es demasiado largo.</p>
@@ -26,7 +27,7 @@
             </div>
 
 
-            <button type="submit" class="btn btn-primary btn-lg" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid} ">Ingresar</button>
+            <button type="submit" class="btn" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Ingresar</button>
           </form>
           <a ui-sref="recoverPassword">Recuperar contraseña</a>
       </div>

@@ -1,43 +1,51 @@
-<div class="row">
+<div class="row" ng-init="indexProfiles()">
   <div class="col s12 m12">
     <div class="card">
       <div class="card-content">
         <span class="card-title">Registrar usuario</span>
           <form ng-submit="submitRegistration(registrationForm)" role="form" ng-init="registrationForm = {}">
-            <div class="form-group">
+            <div class="input-field">
               <label>Documento</label>
               <input type="text" name="document" ng-model="registrationForm.document" required="required" class="form-control"/>
             </div>
-            <div class="form-group">
+            <div class="input-field">
               <label>Nombre</label>
               <input type="text" name="name" ng-model="registrationForm.name" required="required" class="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="input-field">
               <label>Apellido</label>
               <input type="text" name="last_name" ng-model="registrationForm.last_name" required="required" class="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="input-field">
               <label>Direccion</label>
               <input type="text" name="address" ng-model="registrationForm.address" required="required" class="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="input-field">
               <label>Email</label>
               <input type="email" name="email" ng-model="registrationForm.email" required="required" class="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="input-field">
               <label>Password</label>
               <input type="password" name="password" ng-model="registrationForm.password" required="required" class="form-control"/>
             </div>
 
-            <div class="form-group">
+            <div class="input-field">
               <label>Password confirmation</label>
               <input type="password" name="password_confirmation" ng-model="registrationForm.password_confirmation" required="required" class="form-control"/>
             </div>
 
+            <div class="input-field">
+              <select ng-repeat="profile in profiles">
+                <!-- <option value="{}" disabled selected>Choose your option</option> -->
+                <option value="{{ profile.id }}">{{ profile.name }}</option>
+              </select>
+              <label>Materialize Select</label>
+            </div>
+          
             <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
           </form>
       </div>

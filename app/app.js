@@ -31,8 +31,8 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('signup', {
       url: '/signup',
-      templateUrl: 'pages/signup.html'
-      // controller: 'authController'
+      templateUrl: 'pages/users/new.html',
+      controller: 'profilesController'
     })
     .state('recoverPassword', {
       url: '/recoverPassword',
