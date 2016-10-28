@@ -35,17 +35,31 @@
 </head>
 <body ng-controller="mainController" class="grey lighten-5">
     
-    <main>
+    <main ng-class="{ 'full-width': !loggedIn }">
       <nav class="teal">
         <div class="nav-wrapper">
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
             <a href="#" class="brand-logo center">Agroind</a>
         </div>
-        <ul id="slide-out" class="side-nav fixed show-on-small">
+        <ul ng-show="loggedIn" id="slide-out" class="side-nav fixed show-on-small">
+
             <li>
-              <a ui-sref="home" ng-show="loggedIn">Inicio</a>
+              <a ui-sref="home" class="collapsible-header" ng-show="loggedIn">
+                <i class="material-icons menu-icons">dashboard</i>
+                Inicio
+              </a>
+            </li>  
+            <!-- <li>
+              <a ui-sref="login" class="collapsible-header" ng-hide="loggedIn">
+                  <i class="material-icons menu-icons small">open_in_browser</i>
+                  Iniciar sesion
+              </a>
+            </li> -->
             <li>
-              <a ui-sref="login" ng-hide="loggedIn">Iniciar sesion</a>
+              <a ui-sref="myAccount" class="collapsible-header" ng-show="loggedIn">
+                <i class="material-icons menu-icons">picture_in_picture</i>
+                Mi cuenta
+              </a>
             </li>
             <!-- <li>
               <a ui-sref="signup" ng-hide="loggedIn">Registrarse</a></li>
@@ -57,7 +71,10 @@
             <li class="no-padding" ng-show="loggedIn && loggedProfile.profiles_permission">
               <ul class="collapsible collapsible-accordion">
                 <li>
-                  <a class="collapsible-header">Gestionar Perfiles</a>
+                  <a class="collapsible-header">
+                    <i class="material-icons menu-icons">assignment_ind</i>
+                    Gestionar Perfiles
+                  </a>
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_profiles">
@@ -75,7 +92,10 @@
             <li class="no-padding" ng-show="loggedIn && loggedProfile.users_permission">
               <ul class="collapsible collapsible-accordion">
                 <li>
-                  <a class="collapsible-header">Gestionar Usuarios</a>
+                  <a class="collapsible-header">
+                    <i class="material-icons menu-icons">supervisor_account</i>
+                    Gestionar Usuarios
+                  </a>
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_users">
@@ -91,7 +111,10 @@
             <li class="no-padding" ng-show="loggedIn && loggedProfile.indicators_permission">
               <ul class="collapsible collapsible-accordion">
                 <li>
-                  <a class="collapsible-header">Indicadores</a>
+                  <a class="collapsible-header">
+                    <i class="material-icons menu-icons">trending_up</i>
+                    Indicadores
+                  </a>
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_users">
@@ -107,7 +130,10 @@
             <li class="no-padding" ng-show="loggedIn && loggedProfile.reports_permission">
               <ul class="collapsible collapsible-accordion">
                 <li>
-                  <a class="collapsible-header">Reportes</a>
+                  <a class="collapsible-header">
+                    <i class="material-icons menu-icons">description</i>
+                    Reportes
+                  </a>
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_users">
@@ -123,7 +149,10 @@
             <li class="no-padding" ng-show="loggedIn && loggedProfile.statistics_permission">
               <ul class="collapsible collapsible-accordion">
                 <li>
-                  <a class="collapsible-header">Estadistica</a>
+                  <a class="collapsible-header">
+                    <i class="material-icons menu-icons">assessment</i>
+                    Estadistica
+                  </a>
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_users">
@@ -137,7 +166,9 @@
             </li>
 
             <li>
-              <a ng-click='signOut()' ng-show="loggedIn">Cerrar sesion</a>  
+              <a ng-click='signOut()' class="collapsible-header" ng-show="loggedIn">
+                <i class="material-icons menu-icons">power_settings_new</i>
+                Cerrar sesion</a>  
             </li>
         </ul>
       </nav>

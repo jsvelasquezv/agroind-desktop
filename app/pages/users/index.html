@@ -1,37 +1,40 @@
-<h3>Users</h3>
-
-<!-- <p>{{allUsers}}</p> -->
-
-<table ng-init="indexUser()">
-  <thead>
-    <tr>
-      <th>Documento</th>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>e-mail</th>
-      <th>Perfil</th>
-      <th>Estado</th>
-      <th>Direccion</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="user in allUsers">
-      <td>{{user.document}}</td>
-      <td>{{user.name}}</td>
-      <td>{{user.last_name}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.profile_id}}</td>
-      <td>
-        <div class="switch">
-          <label>
-            <input type="checkbox" ng-checked="{{user.state}}" onclick="return false">
-            <span class="lever"></span>
-          </label>
-        </div>
-      </td>
-      <td>{{user.Address}}</td>
-      <td><a ng-click="delete(user.id)">Eliminar</a></td>
-    </tr>
-  </tbody>
-
-</table>
+<div class="row">
+  <div class="col l12 s12 m12">
+    <div class="card-panel">
+      <h3>Usuarios</h3>
+      <table ng-init="indexUser()" class="responsive-table highlight">
+        <thead>
+          <tr>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>e-mail</th>
+            <th>Perfil</th>
+            <th>Estado</th>
+            <th>Direccion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in allUsers">
+            <td>{{user.document}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.profile_id}}</td>
+            <td>
+              <div class="switch">
+                <label>
+                  <input type="checkbox" ng-checked="{{user.state}}" onclick="return false">
+                  <span class="lever"></span>
+                </label>
+              </div>
+            </td>
+            <td>{{user.address}}</td>
+            <td><a ng-click="delete(user.id)">Eliminar</a></td>
+            <td><a ui-sref="editUser({id: user.id})">Editar</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

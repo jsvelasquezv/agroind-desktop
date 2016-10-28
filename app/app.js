@@ -34,6 +34,10 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'pages/users/new.html',
       controller: 'profilesController'
     })
+    .state('myAccount', {
+      url: '/myAccount',
+      templateUrl: 'pages/users/myAccount.html'
+    })
     .state('recoverPassword', {
       url: '/recoverPassword',
       templateUrl: 'pages/resetPassword.html'
@@ -41,6 +45,11 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
     .state('users', {
       url: '/users',
       templateUrl: 'pages/users/index.html',
+      controller: 'usersController'
+    })
+    .state('editUser', {
+      url: '/editUser/:id',
+      templateUrl: 'pages/users/edit.html',
       controller: 'usersController'
     })
     .state('profiles', {
@@ -93,6 +102,25 @@ agroind.controller('mainController', function($scope, $rootScope, $state, Users,
     Materialize.toast('Correo o contraseña incorrectos!', 4000);
   });
 
+  $scope.$on('auth:registration-email-success', function(ev, message) {
+    Materialize.toast('Registro de usuario correcto!', 4000);
+    $state.go('users');
+    console.log(message);
+  });
+
+  $scope.$on('auth:registration-email-error', function(ev, reason) {
+    Materialize.toast('Error al registrar el usuario!', 4000);
+    console.log(reason.errors);
+  });
+
+  $scope.$on('auth:account-update-success', function(ev) {
+    alert("Your account has been successfully updated!");
+  });
+
+  $scope.$on('auth:account-update-error', function(ev, reason) {
+    alert("Registration failed: " + reason.errors[0]);
+  });
+
   $rootScope.$on('auth:logout-success', function(ev) {
     Materialize.toast('Cierre de sesion correcto!', 4000);
     $rootScope.loggedIn = false;
@@ -111,15 +139,41 @@ agroind.controller('mainController', function($scope, $rootScope, $state, Users,
     Materialize.toast('No');
   });
 
-
-
 });
 
 //Controlador para la gestion de usuarios
-agroind.controller('usersController', function ($scope, Users, config) {
+agroind.controller('usersController', function ($scope, $stateParams, $state, Users, config, Profiles) {
+
+
   $scope.indexUser = function () {
     Users.getUsers().then(function (response) {
       $scope.allUsers = response.data;
+    });
+  }
+
+  $scope.viewUser = function () {
+    Users.getUser($stateParams.id).then(function (response) {
+      $scope.user = response.data;
+      console.log(response.data);
+    });
+  }
+
+  $scope.editUser = function (id, name, last_name, address, email, profile_id) {
+    user = $scope.user;
+    Users.editUser(user.id,
+                   user.name,
+                   user.last_name,
+                   user.address,
+                   user.email,
+                   user.profile_id).then(function (response) {
+                     Materialize.toast('Se ha actualizado el usuario correctamente!', 4000);
+                     $state.go('users');
+                   });
+  }
+
+  $scope.listProfiles = function () {
+     Profiles.getProfiles().then(function (response) {
+      $scope.allProfiles = response.data; 
     });
   }
 
@@ -284,5 +338,15 @@ agroind.controller('authController', function ($scope, $auth, $rootScope) {
         // handle error response
       });
   };
+
+  $scope.handleUpdatePasswordBtnClick = function() {
+      $auth.updatePassword($scope.updatePasswordForm)
+        .then(function(resp) {
+          // handle success response
+        })
+        .catch(function(resp) {
+          // handle error response
+        });
+    };
 
 });

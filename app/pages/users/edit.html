@@ -1,0 +1,82 @@
+<div class="row" ng-init="viewUser()">
+  <div class="col s8 offset-s2">
+    <div class="card-panel">
+      <h4>Editar Usuario</h4>
+      <!-- {{profile.reports_permission}} -->
+      <form>        
+        <div class="row">
+          <div class="input-field col s6">
+            <!-- <label class="active">Documento</label>
+            <input type="text" name="document" ng-model="user.document" ng-min="8" ng-max="15" required/> -->
+            <label class="active">Nombre</label>
+            <input type="text" name="name" ng-model="user.name" ng-min="3" ng-max="30" required/>
+          </div>
+          <div class="input-field col s6">
+            <label class="active">Apellido</label>
+            <input type="text" name="last_name" ng-model="user.last_name" ng-min="2" ng-max="30" required/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s6">
+            <label class="active">Direccion</label>
+            <input type="text" name="address" ng-model="user.address" ng-min="8" ng-max="50" required/>
+          </div>
+          <div class="input-field col s6">
+            <label class="active">Email</label>
+            <input type="email" name="email" ng-model="user.email" class="form-control" ng-min="3" ng-max="256" required/>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12" ng-init=listProfiles()>
+            <select class="browser-default" name="profile_id" id="profile_id" ng-model=user.profile_id required>
+              <option ng-repeat="profile in allProfiles" value="{{profile.id}}">{{profile.name}}</option>
+            </select>
+           <!--  <select name="profile_id" id="profile_id" ng-options="profile for profile in allProfiles" ng-model="user.profile_id"> -->
+            </select>
+          </div>
+        </div>
+
+        <div ng-messages="form.document.$error" ng-if="form.document.$touched">
+          <p ng-message="minlength">El documento es demasiado corto.</p>
+          <p ng-message="maxlength">El documento es demasiado largo.</p>
+          <p ng-message="required">El documento es requerido.</p>
+        </div>
+
+        <div ng-messages="form.name.$error" ng-if="form.name.$touched">
+          <p ng-message="minlength">El nombre es demasiado corto.</p>
+          <p ng-message="maxlength">El nombre es demasiado largo.</p>
+          <p ng-message="required">El nombre es requerido.</p>
+        </div>
+
+        <div ng-messages="form.last_name.$error" ng-if="form.last_name.$touched">
+          <p ng-message="minlength">El apellido es demasiado corto.</p>
+          <p ng-message="maxlength">El apellido es demasiado largo.</p>
+          <p ng-message="required">El apellido es requerido.</p>
+        </div>
+
+        <div ng-messages="form.address.$error" ng-if="form.address.$touched">
+          <p ng-message="minlength">La direccion es demasiado corta.</p>
+          <p ng-message="maxlength">La direccion es demasiado larga.</p>
+          <p ng-message="required">La direccion es requerida.</p>
+        </div>
+
+        <div ng-messages="form.email.$error" ng-if="form.email.$touched">
+          <p ng-message="minlength">El email es demasiado corto.</p>
+          <p ng-message="maxlength">El email es demasiado largo.</p>
+          <p ng-message="required">El email es requerido.</p>
+          <p ng-message="email">Ingresa una direccion de email valida.</p>
+        </div>
+
+        <div ng-messages="form.profile_id.$error" ng-if="form.profile_id.$touched">
+          <p ng-message="required">Selecciona un perfil.</p>
+        </div>
+        
+        <div class="row">
+          <input class="btn" type="submit" ng-click="editUser()" value="Guardar"></input>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
