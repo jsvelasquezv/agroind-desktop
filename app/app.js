@@ -67,6 +67,11 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'pages/profiles/edit.html',
       controller: 'profilesController'
     })
+    .state('cloneProfile', {
+      url: '/cloneProfile/:id',
+      templateUrl: 'pages/profiles/clone.html',
+      controller: 'profilesController'
+    })
 });
 
 //Configuration of authentication service
@@ -243,6 +248,10 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
                         ).then(function (response) {
                           Materialize.toast('Se ha creado el perfil correctamente!', 4000);
                           $state.go('profiles');
+                        }).catch(function (error) {
+                          for (var i = error.data['name'].length - 1; i >= 0; i--) {
+                            Materialize.toast(error.data['name'][i],4000);
+                          }
                         });
   }
 
@@ -264,23 +273,37 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
                          profile.edit_profiles,
                          profile.clone_profiles).then(function (response) {
                           Materialize.toast('Se ha editado el perfil correctamente!', 4000);
+                          $state.go('profiles');
+                         }).catch(function (error) {
+                          for (var i = error.data['name'].length - 1; i >= 0; i--) {
+                            Materialize.toast(error.data['name'][i],4000);
+                          }
                          });
   }
 
   $scope.cloneProfile = function (id) {
-    var profile = {};
-    Profiles.getProfile(id).then(function (response) {
-      profile = response.data;
-      Profiles.newProfile(profile.name,
-                          profile.users_permission,
-                          profile.indicators_permission,
-                          profile.reports_permission,
-                          profile.statistics_permission,
-                          profile.profiles_permission).then(function (response) {
-                            Materialize.toast('Se ha clonado el perfil correctamente!', 4000);
-                          });
-      $scope.indexProfile();
-    });
+    profile = $scope.profile;
+    Profiles.newProfile(profile.name, 
+                        profile.users_permission,
+                        profile.list_users,
+                        profile.create_users,
+                        profile.edit_users,
+                        profile.deactivate_users,
+                        profile.indicators_permission,
+                        profile.reports_permission,
+                        profile.statistics_permission,
+                        profile.profiles_permission,
+                        profile.list_profiles,
+                        profile.create_profiles,
+                        profile.edit_profiles,
+                        profile.clone_profiles).then(function (response) {
+                         Materialize.toast('Se ha clonado el perfil correctamente!', 4000);
+                         $state.go('profiles');
+                        }).catch(function (error) {
+                         for (var i = error.data['name'].length - 1; i >= 0; i--) {
+                           Materialize.toast(error.data['name'][i],4000);
+                         }
+                        });
   }
 
   $scope.deleteProfile = function (id) {
