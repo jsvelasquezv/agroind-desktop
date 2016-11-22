@@ -1,0 +1,75 @@
+<h3>Perfiles</h3>
+
+<!-- <p>{{allUsers}}</p> -->
+
+<table ng-init="indexProfile()">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Usuarios</th>
+      <th>Indicadores</th>
+      <th>Reportes</th>
+      <th>Estadistica</th>
+      <th>Perfiles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="profile in allProfiles">
+      <td>{{profile.name}}</td>
+
+      <td>
+        <div class="switch">
+          <label>
+            <input type="checkbox" ng-checked="{{profile.users_permission}}" onclick="return false">
+            <span class="lever"></span>
+          </label>
+        </div>
+      </td>
+
+      <td>
+        <div class="switch">
+          <label>
+            <input type="checkbox" ng-checked="{{profile.indicators_permission}}" onclick="return false">
+            <span class="lever"></span>
+          </label>
+        </div>
+      </td>
+
+      <td>
+        <div class="switch">
+          <label>
+            <input type="checkbox" ng-checked="{{profile.reports_permission}}" onclick="return false">
+            <span class="lever"></span>
+          </label>
+        </div>
+      </td>
+
+      <td>
+        <div class="switch">
+          <label>
+            <input type="checkbox" ng-checked="{{profile.statistics_permission}}" onclick="return false">
+            <span class="lever"></span>
+          </label>
+        </div>
+      </td>
+
+      <td>
+        <div class="switch">
+          <label>
+            <input type="checkbox" ng-checked="{{profile.profiles_permission}}" onclick="return false">
+            <span class="lever"></span>
+          </label>
+        </div>
+      </td>
+
+      <td><a ui-sref="editProfile({id: profile.id})">Editar</a></td>
+      <td><a ui-sref="cloneProfile({id: profile.id})">Clonar</a></td>
+      <td><a ng-click="deleteProfile(profile.id)">Eliminar</a></td>
+    </tr>
+  </tbody>
+
+</table>
+
+<a class="btn-floating btn-large waves-effect waves-light red right" ui-sref="newProfile">
+  <i class="material-icons">add</i>
+</a>

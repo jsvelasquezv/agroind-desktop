@@ -1,0 +1,158 @@
+<div class="row">
+  <div class="col s8 offset-s2">
+    <div class="card-panel">
+      <h4>Crear Perfil</h4>
+      <form>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="name">Nombre</label>
+            <input type="text" name="name" ng-model="name">
+          </div>
+        </div>
+        <div class="row permissions-section">
+          <h5>Permisos</h5>
+          <ul class="collapsible" data-collapsible="accordion">
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons">supervisor_account</i>
+                Modulo de Usuarios
+                <div class="switch right">
+                  <label>
+                    <input type="checkbox" ng-model="users_permission">
+                    <span class="lever"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="collapsible-body">
+                <div class="permissions">
+                  <div class="switch">
+                    <label>
+                      Listar usuarios
+                      <input type="checkbox" ng-model="list_users">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                  <div class="switch">
+                    <label>
+                      Crear usuarios
+                      <input type="checkbox" ng-model="create_users">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                  <div class="switch">
+                    <label>
+                      Editar usuarios
+                      <input type="checkbox" ng-model="edit_users">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                  <div class="switch">
+                    <label>
+                      Desactivar usuarios
+                      <input type="checkbox" ng-model="deactivate_users">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons">assignment_ind</i>
+                Modulo de Perfiles
+                <div class="switch right">
+                  <label>
+                    <input type="checkbox" ng-model="profiles_permission">
+                    <span class="lever"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="collapsible-body">
+                <div class="permissions">
+                  <div class="switch">
+                    <label>
+                      Listar Perfiles
+                      <input type="checkbox" ng-model="list_profiles">
+                      <span class="lever"></span>
+                    </label>
+                  </div> 
+                  <div class="switch">
+                    <label>
+                      Crear Perfiles
+                      <input type="checkbox" ng-model="create_profiles">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                  <div class="switch">
+                    <label>
+                      Editar Perfiles
+                      <input type="checkbox" ng-model="edit_profiles">
+                      <span class="lever"></span>
+                    </label>
+                  </div>
+                  <div class="switch">
+                    <label>
+                      Clonar Perfiles
+                      <input type="checkbox" ng-model="clone_profiles">
+                      <span class="lever"></span>
+                    </label>
+                  </div> 
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons">trending_up</i>
+                Modulo de Indicadores
+                <div class="switch right">
+                  <label>
+                    <input type="checkbox" ng-model="indicators_permission">
+                    <span class="lever"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="collapsible-body">
+                <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons">description</i>
+                Modulo de Reportes
+                <div class="switch right">
+                  <label>
+                    <input type="checkbox" ng-model="reports_permission">
+                    <span class="lever"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="collapsible-body">
+                <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header">
+                <i class="material-icons">assessment</i>
+                Modulo de Estadistica
+                <div class="switch right">
+                  <label>
+                    <input type="checkbox" ng-model="statistics_permission">
+                    <span class="lever"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="collapsible-body">
+                <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+            </li>
+          </ul>
+          
+        <div class="row">
+          <div class="col m12 s12">
+            <input class="btn right" type="submit" ng-click="newProfile()" value="Guardar"></input>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -10,6 +10,14 @@
   <link rel="stylesheet" href="assets/css/custom.css">
   <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.min.css">
 
+  <!-- Load jQuery -->
+  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+  <script>window.Hammer = require("../bower_components/Materialize/js/hammer.min.js");</script>
+
+  <!-- Load materialize -->
+  <script src="../bower_components/Materialize/dist/js/materialize.min.js"></script>
+
+  <!-- Load angular -->
   <script src="../bower_components/angular/angular.min.js"></script>
   <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="../bower_components/angular-cookie/angular-cookie.min.js"></script>
@@ -21,17 +29,13 @@
   <script src="app.js"></script>
   <script src="services/users.js"></script>
   <script src="services/profiles.js"></script>
+  <script src="services/indicators.js"></script>
   <!-- <script src="/controllers/mainController.js"></script> -->
   <!-- <script src="/controllers/authController.js"></script> -->
   
-  <!-- Load jQuery -->
-  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
-  <script>window.Hammer = require("../bower_components/Materialize/js/hammer.min.js");</script>
-
-  <!-- Load materialize -->
-  <script src="../bower_components/Materialize/dist/js/materialize.min.js"></script>
-
+  <!-- Load js assets -->
   <script src="../app/assets/js/custom.js"></script>
+
 </head>
 <body ng-controller="mainController" class="grey lighten-5">
     
@@ -118,10 +122,10 @@
                   </a>
                   <div class="collapsible-body">
                     <ul>
-                      <li ng-show="loggedIn && loggedProfile.list_users">
-                        <a ui-sref="users">Listado de usuarios</a>
+                      <li>
+                        <a ui-sref="indicators">Listado de indicatores</a>
                       </li>
-                      <li><a ui-sref="signup">Crear Usuario</a></li>
+                      <li><a ui-sref="newIndicator">Crear Indicador</a></li>
                     </ul>
                   </div>
                 </li>

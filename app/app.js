@@ -4,6 +4,7 @@ var agroind = angular.module('agroind', [
   'ng-token-auth',
   'usersService',
   'profilesService',
+  'indicatorsService',
   'angular-loading-bar', 
   'ngAnimate',
   'ngMessages'
@@ -71,6 +72,21 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       url: '/cloneProfile/:id',
       templateUrl: 'pages/profiles/clone.html',
       controller: 'profilesController'
+    })
+    .state('indicators', {
+      url: '/indicators',
+      templateUrl: 'pages/indicators/index.html',
+      controller: 'indicatorsController'
+    })
+    .state('newIndicator', {
+      url: '/newIndicator',
+      templateUrl: 'pages/indicators/new.html',
+      controller: 'indicatorsController'
+    })
+    .state('editIndicator', {
+      url: '/editIndicator/:id',
+      templateUrl: 'pages/indicators/edit.html',
+      controller: 'indicatorsController'
     })
 });
 
@@ -191,6 +207,7 @@ agroind.controller('usersController', function ($scope, $stateParams, $state, Us
 
 });
 
+// Controlador para la gestion de perfiles
 agroind.controller('profilesController', function ($scope, $stateParams, $state, Profiles, config) {
 
   $scope.indexProfile = function () {
@@ -315,6 +332,47 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
   }
 });
 
+// Controlador para la gestion de indicadores
+agroind.controller('indicatorsController', function ($scope, $stateParams, $state, Indicators, config) {
+
+  $scope.indexIndicator = function () {
+    Indicators.getIndicators().then(function (response) {
+      $scope.allIndicators = response.data; 
+    });
+  }
+
+  $scope.viewIndicator = function () {
+    // console.log($stateParams);
+    Indicators.getIndicator($stateParams.id).then(function (response) {
+        // console.log(response.data);
+      $scope.indicator = {
+        id: response.data.id,
+        name: response.data.name,
+        lands_id: response.data.lands_id,
+        users: response.data.users_id,
+      }
+      // console.log($scope.profile);
+    });
+  }
+
+  $scope.newIndicator = function () {
+    Indicators.newIndicator($scope.name,
+                            $scope.lands_id,
+                            $scope.users_id
+                           ).then(function (response) {
+                             Materialize.toast('Se ha creado el perfil correctamente!', 4000);
+                              // $state.go('indicators');
+                           });
+  }
+
+  $scope.deleteIndicator = function (id) {
+    Indicators.deleteIndicator(id).then(function (response) {
+      // $scope.allProfiles.splice(id,1);
+      $scope.indexIndicator();
+      console.log("eliminado");
+    });
+  }
+});
 //Controlador de autenticacion
 
 agroind.controller('authController', function ($scope, $auth, $rootScope) {
