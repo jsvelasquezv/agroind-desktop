@@ -29,7 +29,9 @@
   <script src="app.js"></script>
   <script src="services/users.js"></script>
   <script src="services/profiles.js"></script>
+  <script src="services/lands.js"></script>
   <script src="services/indicators.js"></script>
+  <script src="services/variables.js"></script>
   <!-- <script src="/controllers/mainController.js"></script> -->
   <!-- <script src="/controllers/authController.js"></script> -->
   
@@ -82,7 +84,7 @@
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_profiles">
-                        <a ui-sref="profiles">Listado de perfiles</a>
+                        <a ui-sref="profiles">Listado de Perfiles</a>
                       </li>
                       <li ng-show="loggedIn && loggedProfile.create_profiles">
                         <a ui-sref="newProfile">Crear Perfil</a>
@@ -103,7 +105,7 @@
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="loggedIn && loggedProfile.list_users">
-                        <a ui-sref="users">Listado de usuarios</a>
+                        <a ui-sref="users">Listado de Usuarios</a>
                       </li>
                       <li>
                         <a ui-sref="signup">Crear Usuario</a></li>
@@ -122,10 +124,10 @@
                   </a>
                   <div class="collapsible-body">
                     <ul>
-                      <li>
-                        <a ui-sref="indicators">Listado de indicatores</a>
-                      </li>
+                      <li><a ui-sref="indicators">Listado de Indicatores</a></li>
                       <li><a ui-sref="newIndicator">Crear Indicador</a></li>
+                      <li><a ui-sref="lands">Listado de Fincas</a></li>
+                      <li><a ui-sref="newLand">Registrar Finca</a></li>
                     </ul>
                   </div>
                 </li>

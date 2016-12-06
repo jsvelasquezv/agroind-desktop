@@ -14,26 +14,25 @@ var variablesUrl = config.apiUrl + '/variables';
     return $http.get(variablesUrl);
   }
 
-  this.newVariable = function (name, land_id, user_id,) {
+  this.newVariable = function (name, optimun_rating, indicators_id) {
     var data = {
       name :name,
-      land_id :land_id,
-      user_id :user_id,
+      optimun_rating :optimun_rating,
+      indicators_id :indicators_id,
     };
     return $http.post(variablesUrl, data);
   }
 
-  this.editIndicator = function (id, name, land_id, user_id,) {
+  this.editVariable = function (name, optimun_rating, indicators_id) {
     var data = {
-      id :id,
       name :name,
-      land_id :land_id,
-      user_id :user_id,
+      optimun_rating :optimun_rating,
+      indicators_id :indicators_id,
     };
     return $http.patch(variablesUrl + '/' + id, data);
   }
 
-  this.deleteIndicator = function (id) {
+  this.deleteVariable = function (id) {
     return $http.delete(variablesUrl + '/' + id);
   }
 });

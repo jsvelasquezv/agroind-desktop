@@ -14,23 +14,12 @@ var indicatorsUrl = config.apiUrl + '/indicators';
     return $http.get(indicatorsUrl);
   }
 
-  this.newIndicator = function (name, land_id, user_id) {
-    var data = {
-      name :name,
-      lands_id :land_id,
-      users_id :user_id,
-    };
-    return $http.post(indicatorsUrl, data);
+  this.newIndicator = function (indicator) {
+    return $http.post(indicatorsUrl, indicator);
   }
 
-  this.editIndicator = function (id, name, land_id, user_id) {
-    var data = {
-      id :id,
-      name :name,
-      land_id :land_id,
-      user_id :user_id,
-    };
-    return $http.patch(indicatorsUrl + '/' + id, data);
+  this.editIndicator = function (indicator) {
+    return $http.patch(indicatorsUrl + '/' + indicator.id, indicator);
   }
 
   this.deleteIndicator = function (id) {

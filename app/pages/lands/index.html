@@ -1,75 +1,37 @@
-<h3>Perfiles</h3>
-
-<!-- <p>{{allUsers}}</p> -->
-
-<table ng-init="indexProfile()">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Usuarios</th>
-      <th>Indicadores</th>
-      <th>Reportes</th>
-      <th>Estadistica</th>
-      <th>Perfiles</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="profile in allProfiles">
-      <td>{{profile.name}}</td>
-
-      <td>
-        <div class="switch">
-          <label>
-            <input type="checkbox" ng-checked="{{profile.users_permission}}" onclick="return false">
-            <span class="lever"></span>
-          </label>
-        </div>
-      </td>
-
-      <td>
-        <div class="switch">
-          <label>
-            <input type="checkbox" ng-checked="{{profile.indicators_permission}}" onclick="return false">
-            <span class="lever"></span>
-          </label>
-        </div>
-      </td>
-
-      <td>
-        <div class="switch">
-          <label>
-            <input type="checkbox" ng-checked="{{profile.reports_permission}}" onclick="return false">
-            <span class="lever"></span>
-          </label>
-        </div>
-      </td>
-
-      <td>
-        <div class="switch">
-          <label>
-            <input type="checkbox" ng-checked="{{profile.statistics_permission}}" onclick="return false">
-            <span class="lever"></span>
-          </label>
-        </div>
-      </td>
-
-      <td>
-        <div class="switch">
-          <label>
-            <input type="checkbox" ng-checked="{{profile.profiles_permission}}" onclick="return false">
-            <span class="lever"></span>
-          </label>
-        </div>
-      </td>
-
-      <td><a ui-sref="editProfile({id: profile.id})">Editar</a></td>
-      <td><a ui-sref="cloneProfile({id: profile.id})">Clonar</a></td>
-      <td><a ng-click="deleteProfile(profile.id)">Eliminar</a></td>
-    </tr>
-  </tbody>
-
-</table>
-
-<a class="btn-floating btn-large waves-effect waves-light red right" ui-sref="newProfile">
-  <i class="material-icons">add</i>
-</a>
+<div class="row">
+  <div class="col l12 s12 m12">
+    <div class="card-panel">
+      <h3>Fincas</h3>
+      <table ng-init="indexLands()" class="responsive-table highlight bordered">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Vereda</th>
+            <th>Municipio</th>
+            <th>ASNM</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th>Area</th>
+            <th>Asociacion</th>
+            <th>Propietario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="land in allLands track by $index">
+            <td>{{land.name}}</td>
+            <td>{{land.zone}}</td>
+            <td>{{land.municipality}}</td>
+            <td>{{land.asnm}}</td>
+            <td>{{land.latitude}}</td>
+            <td>{{land.longitude}}</td>
+            <td>{{land.area}}</td>
+            <td>{{land.affiliation}}</td>
+            <td>{{land.users_id}}</td>
+            <!-- <td><a ng-click="delete(land.id)">Eliminar</a></td> -->
+            <td><a ui-sref="editLand({id: land.id})">Editar</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

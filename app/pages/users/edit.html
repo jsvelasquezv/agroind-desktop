@@ -3,28 +3,28 @@
     <div class="card-panel">
       <h4>Editar Usuario</h4>
       <!-- {{profile.reports_permission}} -->
-      <form>        
+      <form novalidate role="form" name="form">        
         <div class="row">
           <div class="input-field col s6">
             <!-- <label class="active">Documento</label>
-            <input type="text" name="document" ng-model="user.document" ng-min="8" ng-max="15" required/> -->
+            <input type="text" name="document" ng-model="user.document" ng-minlength="8" ng-maxlength="15" required/> -->
             <label class="active">Nombre</label>
-            <input type="text" name="name" ng-model="user.name" ng-min="3" ng-max="30" required/>
+            <input type="text" name="name" ng-model="user.name" ng-minlength="3" ng-maxlength="30" required/>
           </div>
           <div class="input-field col s6">
             <label class="active">Apellido</label>
-            <input type="text" name="last_name" ng-model="user.last_name" ng-min="2" ng-max="30" required/>
+            <input type="text" name="last_name" ng-model="user.last_name" ng-minlength="2" ng-maxlength="30" required/>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s6">
             <label class="active">Direccion</label>
-            <input type="text" name="address" ng-model="user.address" ng-min="8" ng-max="50" required/>
+            <input type="text" name="address" ng-model="user.address" ng-minlength="8" ng-maxlength="50" required/>
           </div>
           <div class="input-field col s6">
             <label class="active">Email</label>
-            <input type="email" name="email" ng-model="user.email" class="form-control" ng-min="3" ng-max="256" required/>
+            <input type="email" name="email" ng-model="user.email" class="form-control" ng-minlength="3" ng-maxlength="256" required/>
           </div>
         </div>
 

@@ -2,16 +2,19 @@ var agroind = angular.module('agroind', [
   'ui.router',
   'ipCookie',
   'ng-token-auth',
-  'usersService',
-  'profilesService',
-  'indicatorsService',
   'angular-loading-bar', 
   'ngAnimate',
-  'ngMessages'
+  'ngMessages',
+  'usersService',
+  'profilesService',
+  'landsService',
+  'indicatorsService',
+  'variablesService',
 ]);
 
 agroind.constant('config', {
   apiUrl: 'http://localhost:3000/api/v1'
+  // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1'
 });
 
 // Configuration of router service
@@ -88,12 +91,28 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'pages/indicators/edit.html',
       controller: 'indicatorsController'
     })
+    .state('lands', {
+      url: '/lands',
+      templateUrl: 'pages/lands/index.html',
+      controller: 'landsController'
+    })
+    .state('newLand', {
+      url: '/newLand/:id',
+      templateUrl: 'pages/lands/new.html',
+      controller: 'landsController'
+    })
+    .state('editLand', {
+      url: '/editLand/:id',
+      templateUrl: 'pages/lands/edit.html',
+      controller: 'landsController'
+    })
 });
 
 //Configuration of authentication service
 agroind.config(function($authProvider) {
   $authProvider.configure({
     apiUrl: 'http://localhost:3000/api/v1',
+    // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
 });
@@ -332,47 +351,95 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
   }
 });
 
+agroind.controller('landsController', function ($scope, $stateParams, $state, Lands, Users, config) {
+
+  $scope.allUsers = function () {
+    Users.getUsers().then(function (response) {
+      $scope.allUsers = response.data;
+    })
+  }
+  
+  $scope.indexLands = function () {
+    Lands.getLands().then(function (response) {
+      $scope.allLands = response.data;
+    });
+  }
+
+  $scope.viewLand = function () {
+    Lands.getLand($stateParams.id).then(function (response) {
+      $scope.land = response.data;
+    });
+  }
+
+  $scope.newLand = function () {
+    Lands.newLand($scope.newLandForm).then(function (response) {
+      console.log('creada');
+    });
+  }
+
+  $scope.editLand = function () {
+    Lands.editLand($scope.land).then(function (response) {
+      console.log('creada');
+    });
+  }
+
+});
+
 // Controlador para la gestion de indicadores
 agroind.controller('indicatorsController', function ($scope, $stateParams, $state, Indicators, config) {
 
-  $scope.indexIndicator = function () {
+  $scope.indexIndicators = function () {
     Indicators.getIndicators().then(function (response) {
-      $scope.allIndicators = response.data; 
+      $scope.allIndicators = response.data;
     });
   }
 
   $scope.viewIndicator = function () {
-    // console.log($stateParams);
     Indicators.getIndicator($stateParams.id).then(function (response) {
-        // console.log(response.data);
-      $scope.indicator = {
-        id: response.data.id,
-        name: response.data.name,
-        lands_id: response.data.lands_id,
-        users: response.data.users_id,
-      }
-      // console.log($scope.profile);
+      $scope.indicator = response.data;
     });
   }
 
   $scope.newIndicator = function () {
-    Indicators.newIndicator($scope.name,
-                            $scope.lands_id,
-                            $scope.users_id
-                           ).then(function (response) {
-                             Materialize.toast('Se ha creado el perfil correctamente!', 4000);
-                              // $state.go('indicators');
-                           });
-  }
-
-  $scope.deleteIndicator = function (id) {
-    Indicators.deleteIndicator(id).then(function (response) {
-      // $scope.allProfiles.splice(id,1);
-      $scope.indexIndicator();
-      console.log("eliminado");
+    Indicators.newIndicator($scope.newIndicatorForm).then(function (response) {
+      console.log('creado');
     });
   }
+
+  $scope.editIndicator = function () {
+    Indicators.editIndicator($scope.indicator).then(function (response) {
+      console.log('editado');
+    });
+  }
+
 });
+
+// Controller for variables
+agroind.controller('variablesController', function ($scope, $stateParams, $state, Variables, Indicators, config) {
+
+  $scope.indexVariables = function () {
+    Variables.getVariables().then(function (response) {
+      $scope.allVariables = response.data;
+    });
+  }
+
+  $scope.viewVariable = function () {
+    Variables.getIndicator($stateParams.id).then(function (response) {
+      $scope.variable = response.data;
+    });
+  }
+
+  $scope.newVariable = function () {
+    Variables.newVariable($scope.newLandForm).then(function (response) {
+      console.log('creada');
+    });
+  }
+
+});
+
+
+
+
 //Controlador de autenticacion
 
 agroind.controller('authController', function ($scope, $auth, $rootScope) {

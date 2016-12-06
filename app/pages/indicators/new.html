@@ -1,34 +1,27 @@
 <div class="row">
-  <div class="col s8 offset-s2">
+  <div class="col l8 m12 s12 offset-l2">
     <div class="card-panel">
       <h4>Crear Indicador</h4>
-      <form>
+      <form novalidate role="form" name="form">
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col l6 m12 s12">
             <label for="name">Nombre</label>
-            <input type="text" name="name" ng-model="name">
+            <input type="text" name="name" ng-model="newIndicatorForm.name" ng-minlengthlength="3" ng-maxlength="30" required>
           </div>
         </div>
 
-        <div class="row">
-          <div class="input-field col s12">
-            <label for="name">Finca</label>
-            <input type="text" name="lands_id" ng-model="lands_id">
-          </div>
+        <div ng-messages="form.name.$error" ng-if="form.name.$touched">
+          <p ng-message="minlength">El nombre es muy corto.</p>
+          <p ng-message="maxlength">El nombre es muy largo.</p>
+          <p ng-message="required">El nombre es requerido.</p>
         </div>
 
-        <div class="row">
-          <div class="input-field col s12">
-            <label for="name">Usuario</label>
-            <input type="text" name="users_id" ng-model="users_id">
-          </div>
-        </div>
-          
         <div class="row">
           <div class="col m12 s12">
-            <input class="btn right" type="submit" ng-click="newIndicator()" value="Guardar"></input>
+            <input class="btn right" type="submit" ng-click="newIndicator()" value="Registrar" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}"></input>
           </div>
         </div>
+
       </form>
     </div>
   </div>

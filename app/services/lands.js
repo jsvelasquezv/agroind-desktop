@@ -1,6 +1,6 @@
 var landsService = angular.module("landsService", []);
 
-landsService.service('Lannds', function ($http, config) {
+landsService.service('Lands', function ($http, config) {
 var landsUrl = config.apiUrl + '/lands';
 // console.log(landsUrl);
 
@@ -14,52 +14,12 @@ var landsUrl = config.apiUrl + '/lands';
     return $http.get(landsUrl);
   }
 
-  this.newLand = function (propietary_document,
-                           name,
-                           zone,
-                           municipality,
-                           asnm,
-                           latitude,
-                           longitude,
-                           area,
-                           affiliation) {
-    var data = {
-      propietary_document :propietary_document,
-      name :name,
-      zone :zone,
-      municipality :municipality,
-      asnm :asnm,
-      latitude :latitude,
-      longitude:longitude,
-      area :area,
-      affiliation :affiliation
-    };
-    return $http.post(landsUrl, data);
+  this.newLand = function (land) {
+    return $http.post(landsUrl, land);
   }
 
-  this.editLand = function (id,
-                            propietary_document,
-                            name,
-                            zone,
-                            municipality,
-                            asnm,
-                            latitude,
-                            longitude,
-                            area,
-                            affiliation) {
-    var data = {
-      id :id,
-      propietary_document :propietary_document,
-      name :name,
-      zone :zone,
-      municipality :municipality,
-      asnm :asnm,
-      latitude :latitude,
-      longitude:longitude,
-      area :area,
-      affiliation :affiliation
-    };
-    return $http.patch(landsUrl + '/' + id, data);
+  this.editLand = function (land) {
+    return $http.patch(landsUrl + '/' + land.id, land);
   }
 
   this.deleteLand = function (id) {
