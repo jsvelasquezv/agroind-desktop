@@ -1,13 +1,15 @@
 var usersService = angular.module("usersService", []);
 
 usersService.service('Users', function ($http, config) {
-  // Returns all the moves for the logged user
+  var usersUrl = config.apiUrl + '/users';
+
+
   this.getUsers = function () {
-    return $http.get('http://localhost:3000/api/v1/users');
+    return $http.get(usersUrl);
   }
 
   this.getUser = function (id) {
-    return $http.get('http://localhost:3000/api/v1/users/' + id);
+    return $http.get(usersUrl + '/' + id);
   }
 
   this.newUser = function (email, password, password_confirmation) {
@@ -16,7 +18,7 @@ usersService.service('Users', function ($http, config) {
       password: password,
       password_confirmation: password_confirmation
     };
-    return $http.post('http://localhost:3000/api/v1/users', data);
+    return $http.post(usersUrl, data);
   }
 
   this.editUser = function (id, name, last_name, address, email, profile_id) {
@@ -27,11 +29,11 @@ usersService.service('Users', function ($http, config) {
       email: email,
       profile_id: profile_id
     }
-    return $http.patch('http://localhost:3000/api/v1/users/' + id, data);
+    return $http.patch(usersUrl + '/' + id, data);
   }
 
   this.deleteUser = function (id) {
-    return $http.delete('http://localhost:3000/api/v1/users/' + id);
+    return $http.delete(usersUrl + '/' + id);
   }
 
 //Create a new move for the user logged

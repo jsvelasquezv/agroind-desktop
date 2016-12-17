@@ -13,8 +13,8 @@ var agroind = angular.module('agroind', [
 ]);
 
 agroind.constant('config', {
-  apiUrl: 'http://localhost:3000/api/v1'
-  // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1'
+  // apiUrl: 'http://localhost:3000/api/v1'
+  apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1'
 });
 
 // Configuration of router service
@@ -111,8 +111,8 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
 //Configuration of authentication service
 agroind.config(function($authProvider) {
   $authProvider.configure({
-    apiUrl: 'http://localhost:3000/api/v1',
-    // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
+    // apiUrl: 'http://localhost:3000/api/v1',
+    apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
 });
