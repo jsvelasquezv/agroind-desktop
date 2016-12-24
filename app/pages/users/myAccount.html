@@ -2,35 +2,60 @@
   <div class="col l6 s12 m8 offset-l3 offset-m2">
     <div class="card-panel">
       <h5>Actualizar informacion personal</h5>
-      <form ng-submit="updateAccount(updateAccountForm)" role="form" >
+      <form novalidate ng-submit="updateAccount(updateAccountForm)" role="form" name="form">
         <!-- <fieldset ng-disabled="!user.signedIn"> -->
           <div class="row">
             <div class="col l6 m6 s12">
               <label>Nombre</label>
-              <input type="text" name="text" ng-model="updateAccountForm.name">
+              <input type="text" name="name" ng-model="updateAccountForm.name" ng-minlengthlength="3" ngmaxlengthlength="30" required>
             </div>
             <div class="col l6 m6 s12">
               <label>Apellidos</label>
-              <input type="text" name="text" ng-model="updateAccountForm.last_name">
+              <input type="text" name="last_name" ng-model="updateAccountForm.last_name" ng-minlengthlength="2" ngmaxlengthlength="30" required>
             </div>
           </div>
 
           <div class="row">
             <div class="col l6 m6 s12">
               <label>Direccion</label>
-              <input type="text" name="text" ng-model="updateAccountForm.address">
+              <input type="text" name="address" ng-model="updateAccountForm.address" ng-minlengthlength="8" ngmaxlengthlength="50" required>
             </div>
             <div class="col l6 m6 s12">
               <label>Correo</label>
-              <input type="text" name="text" ng-model="updateAccountForm.email">
+              <input type="email" name="email" ng-model="updateAccountForm.email" required>
             </div>
           </div>
-          <button type="submit" class="btn">Guardar</button>
+          <div ng-messages="form.name.$error" ng-if="form.name.$touched">
+            <p ng-message="minlength">El nombre es muy corto.</p>
+            <p ng-message="maxlength">El nombre es muy largo.</p>
+            <p ng-message="required">El nombre es requerido.</p>
+          </div>
+
+          <div ng-messages="form.last_name.$error" ng-if="form.last_name.$touched">
+            <p ng-message="minlength">El apeliido es muy corto.</p>
+            <p ng-message="maxlength">El apeliido es muy largo.</p>
+            <p ng-message="required">El apeliido es requerido.</p>
+          </div>
+
+          <div ng-messages="form.address.$error" ng-if="form.address.$touched">
+            <p ng-message="minlength">La direccion es muy corta.</p>
+            <p ng-message="maxlength">La direccion es muy larga.</p>
+            <p ng-message="required">La direccion es requerida.</p>
+          </div>
+
+          <div ng-messages="form.email.$error" ng-if="form.email.$touched">
+            <p ng-message="minlength">El email es demasiado corto.</p>
+            <p ng-message="maxlength">El email es demasiado largo.</p>
+            <p ng-message="required">El email es requerido.</p>
+            <p ng-message="email">Ingresa una direccion de email valida.</p>
+          </div>
+          <button type="submit" class="btn" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Guardar</button>
         <!-- </fieldset> -->
       </form>
     </div>
   </div>
 </div>
+
 
 <div class="row">
   <div class="col l6 s12 m8 offset-l3 offset-m2">
