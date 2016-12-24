@@ -13,8 +13,8 @@ var agroind = angular.module('agroind', [
 ]);
 
 agroind.constant('config', {
-  // apiUrl: 'http://localhost:3000/api/v1'
-  apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1'
+  apiUrl: 'http://localhost:3000/api/v1'
+  // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1'
 });
 
 // Configuration of router service
@@ -40,7 +40,8 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('myAccount', {
       url: '/myAccount',
-      templateUrl: 'pages/users/myAccount.html'
+      templateUrl: 'pages/users/myAccount.html',
+      controller: 'usersController'
     })
     .state('recoverPassword', {
       url: '/recoverPassword',
@@ -111,8 +112,8 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
 //Configuration of authentication service
 agroind.config(function($authProvider) {
   $authProvider.configure({
-    // apiUrl: 'http://localhost:3000/api/v1',
-    apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
+    apiUrl: 'http://localhost:3000/api/v1',
+    // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
 });
@@ -154,7 +155,7 @@ agroind.controller('mainController', function($scope, $rootScope, $state, Users,
   });
 
   $scope.$on('auth:account-update-success', function(ev) {
-    alert("Your account has been successfully updated!");
+    Materialize.toast('Se actualizo la informacion correctamente!', 4000);
   });
 
   $scope.$on('auth:account-update-error', function(ev, reason) {
@@ -182,8 +183,18 @@ agroind.controller('mainController', function($scope, $rootScope, $state, Users,
 });
 
 //Controlador para la gestion de usuarios
-agroind.controller('usersController', function ($scope, $stateParams, $state, Users, config, Profiles) {
+agroind.controller('usersController', function ($scope, $rootScope, $stateParams, $state, $auth, Users, config, Profiles) {
 
+ $scope.loadMyAccountForm = function () {
+    // console.log($scope.updateAccountForm);
+    var user = $rootScope.loggedUser;
+    $scope.updateAccountForm = {
+      name: user.name,
+      last_name: user.last_name,
+      address: user.address,
+      email: user.email
+    };
+  }
 
   $scope.indexUser = function () {
     Users.getUsers().then(function (response) {
@@ -194,7 +205,7 @@ agroind.controller('usersController', function ($scope, $stateParams, $state, Us
   $scope.viewUser = function () {
     Users.getUser($stateParams.id).then(function (response) {
       $scope.user = response.data;
-      console.log(response.data);
+      // console.log(response.data);
     });
   }
 

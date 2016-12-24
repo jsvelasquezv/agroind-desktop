@@ -34,16 +34,5 @@ usersService.service('Users', function ($http, config) {
 
   this.deleteUser = function (id) {
     return $http.delete(usersUrl + '/' + id);
-  }
-
-//Create a new move for the user logged
-/*this.createMove = function (name, description, amount, movement_date, user_id) {
-    return $http.post('http://localhost:3000/api/moves',{
-        name          : name,
-        description   : description,
-        amount        : amount,
-        user_id       : user_id,
-        movement_date : movement_date
-    });
-  }*/
+  } 
 });

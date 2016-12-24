@@ -1,8 +1,8 @@
-<div class="row">
+<div class="row" ng-init="loadMyAccountForm()">
   <div class="col l6 s12 m8 offset-l3 offset-m2">
     <div class="card-panel">
       <h5>Actualizar informacion personal</h5>
-      <form ng-submit="updateAccount(updateAccountForm)" role="form" ng-init="updateAccountForm = {name: null}">
+      <form ng-submit="updateAccount(updateAccountForm)" role="form" >
         <!-- <fieldset ng-disabled="!user.signedIn"> -->
           <div class="row">
             <div class="col l6 m6 s12">
