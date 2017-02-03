@@ -14,16 +14,11 @@ var evaluationsUrl = config.apiUrl + '/evaluations';
     return $http.get(evaluationsUrl);
   }
 
-  this.newEvaluation = function (name, land_id, user_id,) {
-    var data = {
-      name :name,
-      land_id :land_id,
-      user_id :user_id,
-    };
-    return $http.post(evaluationsUrl, data);
+  this.newEvaluation = function (evaluation) {
+    return $http.post(evaluationsUrl, evaluation);
   }
 
-  this.editEvaluation = function (id, name, land_id, user_id,) {
+  this.editEvaluation = function (id, name, land_id, user_id) {
     var data = {
       id :id,
       name :name,

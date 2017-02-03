@@ -5,11 +5,13 @@ var agroind = angular.module('agroind', [
   'angular-loading-bar', 
   'ngAnimate',
   'ngMessages',
+  'pouchdb',
   'usersService',
   'profilesService',
   'landsService',
   'indicatorsService',
   'variablesService',
+  'evaluationsService'
 ]);
 
 agroind.constant('config', {
@@ -92,6 +94,21 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'pages/indicators/edit.html',
       controller: 'indicatorsController'
     })
+    .state('variables', {
+      url: '/variables',
+      templateUrl: 'pages/variables/index.html',
+      controller: 'variablesController'
+    })
+    .state('newVariable', {
+      url: '/newVariable',
+      templateUrl: 'pages/variables/new.html',
+      controller: 'variablesController'
+    })
+    .state('editVariable', {
+      url: '/editVariable/:id',
+      templateUrl: 'pages/variables/edit.html',
+      controller: 'variablesController'
+    })
     .state('lands', {
       url: '/lands',
       templateUrl: 'pages/lands/index.html',
@@ -107,6 +124,11 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'pages/lands/edit.html',
       controller: 'landsController'
     })
+    .state('newEvaluation', {
+      url: '/newEvaluation',
+      templateUrl: 'pages/evaluations/new.html',
+      controller: 'evaluationsController'
+    })
 });
 
 //Configuration of authentication service
@@ -121,7 +143,36 @@ agroind.config(function($authProvider) {
 
 //Controladores
 
-agroind.controller('mainController', function($scope, $rootScope, $state, Users, Profiles, config) {
+agroind.controller('mainController', function($scope, $rootScope, $state, pouchDB, Users, Profiles, config) {
+    
+    // ********** pouchdb test 
+
+   var db = pouchDB($state.current.name);
+
+    $scope.docs = [];
+
+    $scope.add = function() {
+      db.post({
+        date: new Date().toJSON()
+      });
+    };
+
+    function onChange(change) {
+      $scope.docs.push(change);
+    }
+
+    var options = {
+      /*eslint-disable camelcase */
+      include_docs: true,
+      /*eslint-enable camelcase */
+      live: true
+    };
+
+    db.changes(options).$promise
+      .then(null, null, onChange);
+
+  // ********** pouchdb test 
+  
   $rootScope.loggedIn = false;
 
   $scope.checkLogin = function () {
@@ -428,6 +479,12 @@ agroind.controller('indicatorsController', function ($scope, $stateParams, $stat
 // Controller for variables
 agroind.controller('variablesController', function ($scope, $stateParams, $state, Variables, Indicators, config) {
 
+  $scope.allIndicators = function () {
+    Indicators.getIndicators().then(function (response) {
+      $scope.allIndicators = response.data;
+    })
+  }
+
   $scope.indexVariables = function () {
     Variables.getVariables().then(function (response) {
       $scope.allVariables = response.data;
@@ -441,12 +498,50 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
   }
 
   $scope.newVariable = function () {
-    Variables.newVariable($scope.newLandForm).then(function (response) {
+    Variables.newVariable($scope.newVariableForm).then(function (response) {
+      console.log("controller");
       console.log('creada');
     });
   }
 
+  $scope.editVariable = function () {
+    Variables.editVariable($scope.variable).then(function (response) {
+      console.log('editado');
+    });
+  }
+
 });
+
+agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, config) {
+  $scope.allIndicators = function () {
+    Indicators.getIndicators().then(function (response) {
+      $scope.allIndicators = response.data;
+    });
+  }
+
+  $scope.allLands = function () {
+    Lands.getLands().then(function (response) {
+      $scope.allLands = response.data;
+    });
+  }
+
+  $scope.allEvaluations = function () {
+    Evaluations.getEvaluations().then(function (response) {
+      $scope.allEvaluations = response.data;
+    });
+  }
+
+  $scope.newEvaluation = function () {
+    var evaluation = {
+      land_id: $scope.land_id,
+      user_id: $rootScope.loggedUser.id
+    }
+    Evaluations.newEvaluation(evaluation).then(function (response) {
+      Materialize.toast("Evaluacion creada", 4000);
+    });
+  }
+
+})
 
 
 
