@@ -124,9 +124,24 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'pages/lands/edit.html',
       controller: 'landsController'
     })
+    .state('evaluations', {
+      url: '/evaluations',
+      templateUrl: 'pages/evaluations/index.html',
+      controller: 'evaluationsController'
+    })
     .state('newEvaluation', {
       url: '/newEvaluation',
       templateUrl: 'pages/evaluations/new.html',
+      controller: 'evaluationsController'
+    })
+    .state('qualifyIndicators', {
+      url: '/qualifyIndicators/:id',
+      templateUrl: 'pages/qualifications/index.html',
+      controller: 'evaluationsController'
+    })
+    .state('qualifyIndicator', {
+      url: '/qualifyIndicator/:id',
+      templateUrl: 'pages/qualifications/indicator.html',
       controller: 'evaluationsController'
     })
 });
@@ -513,7 +528,15 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
 });
 
 agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, config) {
+  
+  $scope.indicator = function () {
+    Indicators.getIndicator($stateParams.id).then(function (response) {
+      $scope.indicator = response.data;
+    });
+  }
+
   $scope.allIndicators = function () {
+    $scope.currentEvaluation = $stateParams.id;
     Indicators.getIndicators().then(function (response) {
       $scope.allIndicators = response.data;
     });
@@ -541,10 +564,16 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     });
   }
 
-})
+});
 
-
-
+// agroind.controller('qualificationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Evaluations, config) {
+  
+//   $scope.allIndicators = function () {
+//     Indicators.getIndicators().then(function (response) {
+//       $scope.allIndicators = response.data;
+//     });
+//   }
+// });
 
 //Controlador de autenticacion
 
