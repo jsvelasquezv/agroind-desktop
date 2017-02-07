@@ -2,7 +2,7 @@ var agroind = angular.module('agroind', [
   'ui.router',
   'ipCookie',
   'ng-token-auth',
-  'angular-loading-bar', 
+  'angular-loading-bar',
   'ngAnimate',
   'ngMessages',
   'pouchdb',
@@ -11,7 +11,7 @@ var agroind = angular.module('agroind', [
   'landsService',
   'indicatorsService',
   'variablesService',
-  'evaluationsService'
+  'evaluationsService',
 ]);
 
 agroind.constant('config', {
@@ -20,12 +20,13 @@ agroind.constant('config', {
 });
 
 // Configuration of router service
-agroind.config(function($stateProvider, $urlRouterProvider) {
+agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+    // $httpProvider.responseInterceptors.push(interceptor);
 
   $urlRouterProvider.otherwise("/login");
 
   $stateProvider
-
     .state('home', {
       url: '/',
       templateUrl: 'pages/home.html',
@@ -135,7 +136,7 @@ agroind.config(function($stateProvider, $urlRouterProvider) {
       controller: 'evaluationsController'
     })
     .state('qualifyIndicators', {
-      url: '/qualifyIndicators/:id',
+      url: '/qualifyIndicators/:evaluation_id',
       templateUrl: 'pages/qualifications/index.html',
       controller: 'evaluationsController'
     })
@@ -160,7 +161,9 @@ agroind.config(function($authProvider) {
 
 agroind.controller('mainController', function($scope, $rootScope, $state, pouchDB, Users, Profiles, config) {
     
+
     // ********** pouchdb test 
+
 
    var db = pouchDB($state.current.name);
 
@@ -189,6 +192,10 @@ agroind.controller('mainController', function($scope, $rootScope, $state, pouchD
   // ********** pouchdb test 
   
   $rootScope.loggedIn = false;
+
+  $rootScope.$on("ServerError", function () {
+    Materialize.toast("Dsiconnected");
+  });
 
   $scope.checkLogin = function () {
     config.apiUrl;
@@ -528,7 +535,9 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
 });
 
 agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, config) {
-  
+  $scope.scores = {1:1,2:1,3:0.3,4:0.3,5:0.3,6:0.3};
+  // $scope.currentEvaluationId = $stateParams.evaluation_id;
+
   $scope.indicator = function () {
     Indicators.getIndicator($stateParams.id).then(function (response) {
       $scope.indicator = response.data;
@@ -536,7 +545,7 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   }
 
   $scope.allIndicators = function () {
-    $scope.currentEvaluation = $stateParams.id;
+    $scope.currentEvaluationId = $stateParams.evaluation_id;
     Indicators.getIndicators().then(function (response) {
       $scope.allIndicators = response.data;
     });
@@ -562,6 +571,20 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     Evaluations.newEvaluation(evaluation).then(function (response) {
       Materialize.toast("Evaluacion creada", 4000);
     });
+  }
+
+  $scope.qualify = function () {
+    var qualifications = [];
+    var qualification = {};
+    console.log($scope.currentEvaluationId);
+    // $scope.scores.forEach(function (score, index) {
+    //   qualification = {
+    //     variable_id: index,
+    //     score: score
+    //   };
+    //   qualifications.push(qualification);
+    // });
+    console.log($scope.scores);
   }
 
 });
