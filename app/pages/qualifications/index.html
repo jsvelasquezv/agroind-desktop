@@ -12,7 +12,7 @@
           <tr ng-repeat="indicator in allIndicators">
             <td>{{indicator.name}}</td>
             <!-- <td><a ng-click="delete(land.id)">Eliminar</a></td> -->
-            <td><a ui-sref="qualifyIndicator({id: indicator.id})">Calificar</a></td>
+            <td><a ui-sref="qualifyIndicator({indicator_id: indicator.id})">Calificar</a></td>
           </tr>
         </tbody>
       </table>

@@ -141,7 +141,7 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       controller: 'evaluationsController'
     })
     .state('qualifyIndicator', {
-      url: '/qualifyIndicator/:id',
+      url: '/qualifyIndicator/:indicator_id',
       templateUrl: 'pages/qualifications/indicator.html',
       controller: 'evaluationsController'
     })
@@ -535,17 +535,17 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
 });
 
 agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, config) {
-  $scope.scores = {1:1,2:1,3:0.3,4:0.3,5:0.3,6:0.3};
-  // $scope.currentEvaluationId = $stateParams.evaluation_id;
+  
+  $scope.scores = {};
 
   $scope.indicator = function () {
-    Indicators.getIndicator($stateParams.id).then(function (response) {
+    Indicators.getIndicator($stateParams.indicator_id).then(function (response) {
       $scope.indicator = response.data;
     });
   }
 
   $scope.allIndicators = function () {
-    $scope.currentEvaluationId = $stateParams.evaluation_id;
+    $rootScope.currentEvaluationId = $stateParams.evaluation_id;
     Indicators.getIndicators().then(function (response) {
       $scope.allIndicators = response.data;
     });
@@ -576,15 +576,18 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   $scope.qualify = function () {
     var qualifications = [];
     var qualification = {};
-    console.log($scope.currentEvaluationId);
-    // $scope.scores.forEach(function (score, index) {
-    //   qualification = {
-    //     variable_id: index,
-    //     score: score
-    //   };
-    //   qualifications.push(qualification);
-    // });
-    console.log($scope.scores);
+    var data = {};
+    Object.keys($scope.scores).forEach(function (key) {
+      qualification = {
+        variable_id: key,
+        score: $scope.scores[key]
+      };
+      qualifications.push(qualification);
+    });
+    data = {evaluation_id: $rootScope.currentEvaluationId, qualifications: qualifications};
+    Evaluations.qualifyEvaluation(data).then(function (response) {
+      Materialize.toast("Evaluacion registrada", 4000);
+    });
   }
 
 });
