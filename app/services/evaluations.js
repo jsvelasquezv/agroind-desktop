@@ -28,6 +28,10 @@ var evaluationsUrl = config.apiUrl + '/evaluations';
     return $http.patch(evaluationsUrl + '/' + id, data);
   }
 
+  this.getQualifications = function (evaluation_id, indicator_id) {
+    return $http.get(evaluationsUrl + '/' + evaluation_id + '/qualifications/indicator/' + indicator_id);
+  }
+
   this.qualifyEvaluation = function(qualifications) {
     return $http.post(evaluationsUrl + '/qualify', qualifications);
   }

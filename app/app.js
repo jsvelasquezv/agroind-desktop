@@ -11,7 +11,7 @@ var agroind = angular.module('agroind', [
   'landsService',
   'indicatorsService',
   'variablesService',
-  'evaluationsService',
+  'evaluationsService'
 ]);
 
 agroind.constant('config', {
@@ -22,7 +22,23 @@ agroind.constant('config', {
 // Configuration of router service
 agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-    // $httpProvider.responseInterceptors.push(interceptor);
+  $httpProvider.interceptors.push(function() {
+    return {
+      request: function(config) {
+        return config;
+      },
+      response: function(response) {
+        return response;
+      },
+      responseError: function(rejection) {
+          if(rejection.status <= 0) {
+              Materialize.toast("Sin conexion", 4000);
+              return rejection;
+          }
+          return $q.reject(rejection);
+      }
+    };
+  });
 
   $urlRouterProvider.otherwise("/login");
 
@@ -165,29 +181,29 @@ agroind.controller('mainController', function($scope, $rootScope, $state, pouchD
     // ********** pouchdb test 
 
 
-   var db = pouchDB($state.current.name);
+   // var db = pouchDB($state.current.name);
 
-    $scope.docs = [];
+   //  $scope.docs = [];
 
-    $scope.add = function() {
-      db.post({
-        date: new Date().toJSON()
-      });
-    };
+   //  $scope.add = function() {
+   //    db.post({
+   //      date: new Date().toJSON()
+   //    });
+   //  };
 
-    function onChange(change) {
-      $scope.docs.push(change);
-    }
+   //  function onChange(change) {
+   //    $scope.docs.push(change);
+   //  }
 
-    var options = {
-      /*eslint-disable camelcase */
-      include_docs: true,
-      /*eslint-enable camelcase */
-      live: true
-    };
+   //  var options = {
+   //    /*eslint-disable camelcase */
+   //    include_docs: true,
+   //    /*eslint-enable camelcase */
+   //    live: true
+   //  };
 
-    db.changes(options).$promise
-      .then(null, null, onChange);
+   //  db.changes(options).$promise
+   //    .then(null, null, onChange);
 
   // ********** pouchdb test 
   
@@ -457,13 +473,15 @@ agroind.controller('landsController', function ($scope, $stateParams, $state, La
 
   $scope.newLand = function () {
     Lands.newLand($scope.newLandForm).then(function (response) {
-      console.log('creada');
+      Materialize.toast("Se ha registrado la propiedad", 4000);
+      $state.go('lands');
     });
   }
 
   $scope.editLand = function () {
     Lands.editLand($scope.land).then(function (response) {
-      console.log('creada');
+      Materialize.toast("Se han guardado los cambios", 4000);
+      $state.go('lands');
     });
   }
 
@@ -486,13 +504,15 @@ agroind.controller('indicatorsController', function ($scope, $stateParams, $stat
 
   $scope.newIndicator = function () {
     Indicators.newIndicator($scope.newIndicatorForm).then(function (response) {
-      console.log('creado');
+      Materialize.toast("Se ha creado el indicador", 4000);
+      $state.go('indicators');
     });
   }
 
   $scope.editIndicator = function () {
     Indicators.editIndicator($scope.indicator).then(function (response) {
-      console.log('editado');
+      Materialize.toast("Se han guardado los cambios", 4000);
+      $state.go('indicators');
     });
   }
 
@@ -521,14 +541,15 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
 
   $scope.newVariable = function () {
     Variables.newVariable($scope.newVariableForm).then(function (response) {
-      console.log("controller");
-      console.log('creada');
+      Materialize.toast("Se ha creado la variable", 4000);
+      $state.go('variables');
     });
   }
 
   $scope.editVariable = function () {
     Variables.editVariable($scope.variable).then(function (response) {
-      console.log('editado');
+      Materialize.toast("Se han guardado los cambios", 4000);
+      $state.go('variables');
     });
   }
 
@@ -538,9 +559,18 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   
   $scope.scores = {};
 
-  $scope.indicator = function () {
-    Indicators.getIndicator($stateParams.indicator_id).then(function (response) {
+  $scope.loadQualificationsForm = function () {
+    var indicator_id = $stateParams.indicator_id;
+    Indicators.getIndicator(indicator_id).then(function (response) {
       $scope.indicator = response.data;
+    });
+
+    Evaluations.getQualifications($rootScope.currentEvaluationId, indicator_id).then(function (response) {
+      var scores = {};
+      response.data.forEach(function (score, key) {
+        scores[parseFloat(score.variable_id)] = parseFloat(score.score);
+      });
+      $scope.scores = scores;
     });
   }
 
@@ -570,6 +600,7 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     }
     Evaluations.newEvaluation(evaluation).then(function (response) {
       Materialize.toast("Evaluacion creada", 4000);
+      $state.go('evaluations');
     });
   }
 
@@ -584,9 +615,14 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
       };
       qualifications.push(qualification);
     });
-    data = {evaluation_id: $rootScope.currentEvaluationId, qualifications: qualifications};
+    data = {
+      evaluation_id: $rootScope.currentEvaluationId,
+      indicator_id: $stateParams.indicator_id,
+      qualifications: qualifications
+    };
     Evaluations.qualifyEvaluation(data).then(function (response) {
-      Materialize.toast("Evaluacion registrada", 4000);
+      Materialize.toast("Se han registrado las calificaciones", 4000);
+      $state.go('qualifyIndicator', {indicator_id: $stateParams.indicator_id});
     });
   }
 
