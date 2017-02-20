@@ -15,8 +15,9 @@ var agroind = angular.module('agroind', [
 ]);
 
 agroind.constant('config', {
-  apiUrl: 'http://localhost:3000/api/v1'
+  apiUrl: 'http://localhost:3000/api/v1',
   // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1'
+  localDBName: "agroind-local"
 });
 
 // Configuration of router service
@@ -180,42 +181,27 @@ agroind.controller('mainController', function($scope, $rootScope, $state, pouchD
 
     // ********** pouchdb test 
 
-
-   // var db = pouchDB($state.current.name);
-
-   //  $scope.docs = [];
-
-   //  $scope.add = function() {
-   //    db.post({
-   //      date: new Date().toJSON()
-   //    });
-   //  };
-
-   //  function onChange(change) {
-   //    $scope.docs.push(change);
-   //  }
-
-   //  var options = {
-   //    /*eslint-disable camelcase */
-   //    include_docs: true,
-   //    /*eslint-enable camelcase */
-   //    live: true
-   //  };
-
-   //  db.changes(options).$promise
-   //    .then(null, null, onChange);
-
-  // ********** pouchdb test 
+  var db = pouchDB(config.localDBName);
+  var db2 = pouchDB("holi");
   
   $rootScope.loggedIn = false;
 
   $rootScope.$on("ServerError", function () {
-    Materialize.toast("Dsiconnected");
+    Materialize.toast("Disconnected");
   });
 
   $scope.checkLogin = function () {
     config.apiUrl;
     $rootScope.loggedIn = !$rootScope.loggedIn;
+  };
+
+  $scope.infoDB = function () {
+    db.info().then(function (info) {
+      console.log(info);
+    })
+    db2.info().then(function (info) {
+      console.log(info);
+    })
   };
 
   $rootScope.$on('auth:login-success', function(ev, user) {
@@ -294,7 +280,7 @@ agroind.controller('usersController', function ($scope, $rootScope, $stateParams
   $scope.viewUser = function () {
     Users.getUser($stateParams.id).then(function (response) {
       $scope.user = response.data;
-      // console.log(response.data);
+      $scope.profile_id = response.data.profile_id;
     });
   }
 
@@ -318,9 +304,14 @@ agroind.controller('usersController', function ($scope, $rootScope, $stateParams
   }
 
   $scope.delete = function (id) {
+    var updatedAllUsers;
     Users.deleteUser(id).then(function (response) {
-      $scope.allUsers.splice(id,1);
-      // Materialize.toast('Cierre de sesion correcto!', 4000);
+      // updatedAllUsers = $scope.allUsers.filter(function (user) {
+      //   return user.id !== id;
+      // });
+      // $scope.allUsers = updatedAllUsers;
+      $scope.indexUser();
+      Materialize.toast('Se ha eliminado el usuario', 4000);
     });
   }
 
@@ -446,7 +437,7 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
     Profiles.deleteProfile(id).then(function (response) {
       // $scope.allProfiles.splice(id,1);
       $scope.indexProfile();
-      console.log("eliminado");
+      console.log("Perfil eliminado correctamente");
     });
   }
 });

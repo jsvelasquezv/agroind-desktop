@@ -14,7 +14,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="profile in allProfiles">
+    <tr ng-repeat="profile in allProfiles track by profile.id">
       <td>{{profile.name}}</td>
 
       <td>

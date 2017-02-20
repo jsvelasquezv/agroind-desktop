@@ -10,12 +10,12 @@
             <th>Apellidos</th>
             <th>e-mail</th>
             <th>Perfil</th>
-            <th>Estado</th>
+            <!-- <th>Estado</th> -->
             <th>Direccion</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="user in allUsers track by $index">
+          <tr ng-repeat="user in allUsers track by user.document">
             <td>{{user.document}}</td>
             <td>{{user.name}}</td>
             <td>{{user.last_name}}</td>

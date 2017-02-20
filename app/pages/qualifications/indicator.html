@@ -15,8 +15,9 @@
                 <td>{{variable.name}}</td>
                 <td>
                   <ng-form name="qualificationInput">
-                    <input type="number" name="qualification" class="validate" ng-model="scores[variable.id]" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" min="0" max="{{variable.optimun_rating}}" step="0.1" required placeholder="max {{variable.optimun_rating}}" />
-                    <p class="error" ng-show="qualificationInput.$invalid"> error</p>
+                    <input type="number" name="qualification" class="validate" ng-model="scores[variable.id]" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" min="0" max="{{variable.optimun_rating}}" step="0.1" 
+                    required placeholder="max {{variable.optimun_rating}}" />
+                    <p class="error" ng-show="qualificationInput.$invalid">Invalido</p>
                   </ng-form>
                 </td>
               </tr>
@@ -24,7 +25,6 @@
         </form>
       </table>
       <br>
-      <!-- {{form.$valid}} -->
       <button class="btn" ng-class="{disabled: form.$invalid}" ng-click="qualify()">Guardar</button>
     </div>
   </div>

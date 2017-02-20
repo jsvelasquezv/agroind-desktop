@@ -1,6 +1,6 @@
 var indicatorsService = angular.module("indicatorsService", []);
 
-indicatorsService.service('Indicators', function ($http, config) {
+indicatorsService.service('Indicators', function ($http, config, pouchDB) {
 var indicatorsUrl = config.apiUrl + '/indicators';
 // console.log(indicatorsUrl);
 

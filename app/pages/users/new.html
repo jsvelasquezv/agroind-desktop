@@ -6,46 +6,50 @@
         <div class="row">
           <div class="input-field col s6">
             <label>Documento</label>
-            <input type="text" name="document" ng-model="registrationForm.document" ng-min="8" ng-max="15" required/>
+            <input type="text" name="document" ng-model="registrationForm.document" ng-minlength="8" ng-maxlength="15" required/>
           </div>
           <div class="input-field col s6">
             <label>Nombre</label>
-            <input type="text" name="name" ng-model="registrationForm.name" ng-min="3" ng-max="30" required/>
+            <input type="text" name="name" ng-model="registrationForm.name" ng-minlength="3" ng-maxlength="30" required/>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s6">
             <label>Apellido</label>
-            <input type="text" name="last_name" ng-model="registrationForm.last_name" ng-min="2" ng-max="30" required/>
+            <input type="text" name="last_name" ng-model="registrationForm.last_name" ng-minlength="2" ng-maxlength="30" required/>
           </div>
           <div class="input-field col s6">
             <label>Direccion</label>
-            <input type="text" name="address" ng-model="registrationForm.address" ng-min="8" ng-max="50" required/>
+            <input type="text" name="address" ng-model="registrationForm.address" ng-minlength="4" ng-maxlength="50" required/>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s6">
             <label>Email</label>
-            <input type="email" name="email" ng-model="registrationForm.email" class="form-control" ng-min="3" ng-max="256" required/>
+            <input type="email" name="email" ng-model="registrationForm.email" class="form-control" ng-minlength="3" ng-maxlength="256" required/>
           </div>
           <div class="input-field col s6">
-            <select class="browser-default" name="profile_id" id="profile_id" ng-model=registrationForm.profile_id required>
+           <!--  <select class="browser-default" name="profile_id" id="profile_id" ng-model=registrationForm.profile_id required>
               <option value="">Selecciona un perfil</option>
               <option ng-repeat="profile in allProfiles" value="{{profile.id}}">{{profile.name}}</option>
-            </select>
+            </select> -->
+            <!-- <label for="profile_id">Perfil</label> -->
+            <select class="browser-default" name="profile_id" id="profile_id" ng-options="profile.id as profile.name for profile in allProfiles track by profile.id" ng-model="user.profile_id">
+              <option value="" selected disabled>Seleccione perfil</option>
+           </select>
           </div>
         </div>
 
         <div class="row">
           <div class="input-field col s6">
             <label>Password</label>
-            <input type="password" name="password" ng-model="registrationForm.password" class="form-control" ng-min="8" ng-max="50" required/>
+            <input type="password" name="password" ng-model="registrationForm.password" class="form-control" ng-minlength="8" ng-maxlength="50" required/>
           </div>
           <div class="input-field col s6">
             <label>Password confirmation</label>
-            <input type="password" name="password_confirmation" ng-model="registrationForm.password_confirmation" class="form-control" ng-min="8" ng-max="50" required />
+            <input type="password" name="password_confirmation" ng-model="registrationForm.password_confirmation" class="form-control" ng-minlength="8" ng-maxlength="50" required />
           </div>
         </div>
 
@@ -96,8 +100,7 @@
           <p ng-message="required">La contraseña es requerida.</p>
         </div>
 
-
-        <button type="submit" class="btn" >Registrarse</button>
+        <button type="submit" class="btn" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Guardar</button>
       </form>
     </div>
   </div>
