@@ -181,27 +181,36 @@ agroind.controller('mainController', function($scope, $rootScope, $state, pouchD
 
     // ********** pouchdb test 
 
-  var db = pouchDB(config.localDBName);
-  var db2 = pouchDB("holi");
+  // var db = pouchDB($state.current.name);
+  // var db2 = pouchDB("holi");
+  var db = pouchDB("landsDB");
   
   $rootScope.loggedIn = false;
+  $rootScope.online = false;
+
 
   $rootScope.$on("ServerError", function () {
     Materialize.toast("Disconnected");
+    $rootScope.online = true;
   });
 
-  $scope.checkLogin = function () {
-    config.apiUrl;
-    $rootScope.loggedIn = !$rootScope.loggedIn;
-  };
+  // $scope.checkLogin = function () {
+  //   config.apiUrl;
+  //   $rootScope.loggedIn = !$rootScope.loggedIn;
+  // };
 
-  $scope.infoDB = function () {
-    db.info().then(function (info) {
-      console.log(info);
-    })
-    db2.info().then(function (info) {
-      console.log(info);
-    })
+  // $scope.infoDB = function () {
+  //   Lands.dbInfo().then(function (info) {
+  //     console.log(info);
+  //   });
+  // };
+  $scope.deleteDB = function () {
+    db.destroy().then(function (response) {
+      console.log(response);
+    });
+    // db2.destroy().then(function (response) {
+    //   console.log(response);
+    // })
   };
 
   $rootScope.$on('auth:login-success', function(ev, user) {
@@ -473,6 +482,20 @@ agroind.controller('landsController', function ($scope, $stateParams, $state, La
     Lands.editLand($scope.land).then(function (response) {
       Materialize.toast("Se han guardado los cambios", 4000);
       $state.go('lands');
+    });
+  }
+
+  $scope.downloadLands = function () {
+    Lands.saveToLocal($scope.allLands).then(function (response) {
+      console.log(response);
+    });
+  }
+
+  $scope.downloadedLands = function () {
+    Lands.loadFromLocal().then(function (lands) {
+      console.log(lands);
+    }).catch(function (error) {
+      console.log(error);
     });
   }
 
