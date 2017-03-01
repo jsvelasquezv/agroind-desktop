@@ -1,5 +1,6 @@
 {
   "name": "agroind",
+  "productName": "Agroind app",
   "version": "1.0.0",
   "description": "Desktop client for agroind api",
   "main": "main.js",
@@ -8,14 +9,10 @@
   },
   "author": "Sebastian Velasquez - Oscar Ramirez",
   "license": "ISC",
+  "devDependencies": {
+    "electron": "1.4.1"
+  },
   "dependencies": {
-    "0": "e",
-    "1": "l",
-    "2": "e",
-    "3": "c",
-    "4": "t",
-    "5": "r",
-    "6": "o",
-    "7": "n"
+    
   }
 }

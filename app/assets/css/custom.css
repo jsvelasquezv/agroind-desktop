@@ -40,3 +40,25 @@ header, main, footer {
 .menu-icons {
   font-size: 1.5rem !important;
 }
+
+body .bar {
+  background-color: #FF5252 !important;
+  height: 3px !important;
+}
+
+body .peg {
+  box-shadow: 0 0 10px #FF5252, 0 0 5px #FF5252 !important;
+}
+
+#loading-bar-spinner .spinner-icon {
+  width: 30px !important;
+  height: 30px !important;
+  border-top-color:  #FF5252 !important;
+  border-left-color: #FF5252 !important;
+}
+
+#loading-bar-spinner {
+  top: 70px !important;
+  right: 10px !important;
+  left: auto !important;
+}

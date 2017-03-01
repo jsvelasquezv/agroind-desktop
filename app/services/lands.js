@@ -31,7 +31,17 @@ var landsDB = pouchDB("landsDB");
   }
 
   this.saveToLocal = function (lands) {
-    return landsDB.bulkDocs(lands);
+    return landsDB.destroy()
+      .then(function (response) {
+        console.log(response);
+        landsDB = pouchDB("landsDB");
+        landsToPouch = setIdsToLands(lands)
+        return landsDB.bulkDocs(landsToPouch);
+      })
+      .catch(function (error) {
+        console.log(error);
+        return landsDB.bulkDocs(landsToPouch);
+      });
   }
 
   this.loadFromLocal = function () {
@@ -39,7 +49,18 @@ var landsDB = pouchDB("landsDB");
       include_docs: true,
       attachments: true
     });
-    // return landsDB.get('42775C38-F2F6-1707-BAA3-8ED60C51FA0E');
+  }
+
+  // Sets the _id property required by pouch
+  function setIdsToLands(lands) {
+    var landsToPouch = [];
+    var landToPouch = {};
+    lands.forEach(function (land, index) {
+      landToPouch = land;
+      landToPouch._id = land.id.toString();
+      landsToPouch.push(landToPouch);
+    });
+    return landsToPouch;
   }
 
 });

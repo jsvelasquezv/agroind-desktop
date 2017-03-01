@@ -37,15 +37,22 @@
               <label>Password confirmation</label>
               <input type="password" name="password_confirmation" ng-model="registrationForm.password_confirmation" required="required" class="form-control"/>
             </div>
-
+<!-- 
             <div class="input-field">
-              <select ng-repeat="profile in profiles">
-                <!-- <option value="{}" disabled selected>Choose your option</option> -->
+              <select ng-repeat="profile in profiles" ng-model="registrationForm.profile_id">
+                <option value="{}" disabled selected>Choose your option</option>
                 <option value="{{ profile.id }}">{{ profile.name }}</option>
               </select>
               <label>Materialize Select</label>
+            </div> -->
+            
+            <div class="input-field">
+              <select class="browser-default" name="profile_id" id="profile_id" ng-model=registrationForm.profile_id required>
+                <option value="">Seleccione un perfil</option>
+                <option ng-repeat="profile in profiles" value="{{profile.id}}">{{profile.name}}</option>
+              </select>
             </div>
-          
+
             <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
           </form>
       </div>

@@ -29,6 +29,7 @@
   <script src="../bower_components/angular-messages/angular-messages.min.js"></script>
   <script src="../bower_components/angular-pouchdb/angular-pouchdb.min.js"></script>
   <script src="app.js"></script>
+  <!-- <script src="services/connectionStatus.js"></script> -->
   <script src="services/users.js"></script>
   <script src="services/profiles.js"></script>
   <script src="services/lands.js"></script>
@@ -47,7 +48,7 @@
     <main ng-class="{ 'full-width': !loggedIn }">
       <nav class="teal">
         <div class="nav-wrapper">
-            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+            <a href="#" ng-show="loggedIn" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
             <a href="#" class="brand-logo center">Agroind</a>
         </div>
         <ul ng-show="loggedIn" id="slide-out" class="side-nav fixed show-on-small">
@@ -77,7 +78,7 @@
               <a ui-sref="profiles" ng-show="loggedIn && loggedProfile.profiles_permission">Gestionar Perfiles</a>
             </li> -->
 
-            <li class="no-padding" ng-show="loggedIn && loggedProfile.profiles_permission">
+            <li class="no-padding" ng-show="loggedIn && loggedProfile.profiles_permission && online=='on'">
               <ul class="collapsible collapsible-accordion">
                 <li>
                   <a class="collapsible-header">
@@ -111,7 +112,7 @@
                         <a ui-sref="users">Listado de Usuarios</a>
                       </li>
                       <li>
-                        <a ui-sref="signup">Crear Usuario</a></li>
+                        <a ui-sref="newUser">Crear Usuario</a></li>
                     </ul>
                   </div>
                 </li>
@@ -128,11 +129,16 @@
                   <div class="collapsible-body">
                     <ul>
                       <li><a ui-sref="indicators">Listado de Indicatores</a></li>
+                      <li><a ui-sref="localIndicators">Listado de Indicatores Local</a></li>
                       <li><a ui-sref="newIndicator">Crear Indicador</a></li>
+                      <li><a ui-sref="variables">Listado de Variables</a></li>
+                      <li><a ui-sref="localVariables">Listado de Variables Local</a></li>
                       <li><a ui-sref="newVariable">Crear Variable</a></li>
                       <li><a ui-sref="lands">Listado de Fincas</a></li>
+                      <li><a ui-sref="localLands">Listado de Fincas Local</a></li>
                       <li><a ui-sref="newLand">Registrar Finca</a></li>
-                      <li><a ui-sref="evaluations">Evaluaciones</a></li>
+                      <li><a ui-sref="evaluations">Listado de Evaluaciones</a></li>
+                      <li><a ui-sref="localEvaluations">Listado de Evaluaciones Local</a></li>
                       <li><a ui-sref="newEvaluation">Realizar Evaluacion</a></li>
                       <!-- <li><a ui-sref="newCalification">Calificar evaluaciones</a></li> -->
                     </ul>
@@ -187,6 +193,13 @@
         </ul>
       </nav>
 
+      <div class="notification blue white-text row" ng-show="online == 'off'">
+        <div class="col right">
+          <a href="" class="btn btn-flat white-text waves-effect waves-light blue" style="text-transform: capitalize;">
+            <i class="material-icons left" style="margin-right: 0;">swap_vert</i>Volver a conectar.
+          </a>
+        </div>
+      </div>
       <div class="container">
         <div ui-view></div>
       </div>

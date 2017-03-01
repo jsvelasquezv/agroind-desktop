@@ -12,13 +12,8 @@ usersService.service('Users', function ($http, config) {
     return $http.get(usersUrl + '/' + id);
   }
 
-  this.newUser = function (email, password, password_confirmation) {
-    var data = {
-      email: email,
-      password: password,
-      password_confirmation: password_confirmation
-    };
-    return $http.post(usersUrl, data);
+  this.newUser = function (user) {
+    return $http.post(usersUrl, user);
   }
 
   this.editUser = function (id, name, last_name, address, email, profile_id) {
