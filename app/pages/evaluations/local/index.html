@@ -2,7 +2,7 @@
   <div class="col l12 s12 m12">
     <div class="card-panel">
       <h3>Evaluaciones</h3>
-      <table ng-init="allEvaluations()" class="responsive-table highlight bordered">
+      <table ng-init="downloadedEvaluations()" class="responsive-table highlight bordered">
         <thead>
           <tr>
             <th>Finca</th>
@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="evaluation in allEvaluations">
+          <tr ng-repeat="evaluation in localAllEvaluations">
             <td>{{evaluation.land.name}}</td>
             <td>{{evaluation.user.name}}</td>
             <td>{{evaluation.created_at}}</td>
@@ -20,7 +20,7 @@
           </tr>
         </tbody>
       </table>
-      <button class="btn" ng-click="downloadEvaluations()">Descargar listado</button>
+      <button class="btn" ng-click="uploadEvaluations()">Cargar listado</button>
     </div>
   </div>
 </div>
