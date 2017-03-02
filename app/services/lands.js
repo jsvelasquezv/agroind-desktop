@@ -9,6 +9,10 @@ var landsDB = pouchDB("landsDB");
     return $http.get(landsUrl + '/' + id);
   }
 
+  this.getLocalLand = function (id) {
+    return landsDB.get(id.toString());
+  }
+
   // returns all profiles
   this.getLands = function () {
     return $http.get(landsUrl);
@@ -33,7 +37,6 @@ var landsDB = pouchDB("landsDB");
   this.saveToLocal = function (lands) {
     return landsDB.destroy()
       .then(function (response) {
-        console.log(response);
         landsDB = pouchDB("landsDB");
         landsToPouch = setIdsToLands(lands)
         return landsDB.bulkDocs(landsToPouch);

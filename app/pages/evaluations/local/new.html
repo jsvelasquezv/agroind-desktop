@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col m12 s12 l8">
+        <div ng-init="downloadedLands()">
+            <select class="browser-default" ng-options="land.id as land.name for land in localAllLands track by land.id" ng-model="evaluation.land_id">
+            <!-- <select class="browser-default" ng-options="land.name for land in allLands track by land.id" ng-model="land_id"> -->
+                <option value="">Selecciona una finca</option>
+            </select>
+            <button ng-click="newLocalEvaluation()" class="btn">Crear asignacion</button>
+        </div>
+    </div>
+</div>

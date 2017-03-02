@@ -169,9 +169,19 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: 'pages/evaluations/index.html',
       controller: 'evaluationsController'
     })
+    .state('localEvaluations', {
+      url: '/localEvaluations',
+      templateUrl: 'pages/evaluations/local/index.html',
+      controller: 'evaluationsController'
+    })
     .state('newEvaluation', {
       url: '/newEvaluation',
       templateUrl: 'pages/evaluations/new.html',
+      controller: 'evaluationsController'
+    })
+    .state('newLocalEvaluation', {
+      url: '/newLocalEvaluation',
+      templateUrl: 'pages/evaluations/local/new.html',
       controller: 'evaluationsController'
     })
     .state('qualifyIndicators', {
@@ -678,12 +688,6 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     });
   }
 
-  $scope.allLands = function () {
-    Lands.getLands().then(function (response) {
-      $scope.allLands = response.data;
-    });
-  }
-
   $scope.allEvaluations = function () {
     Evaluations.getEvaluations().then(function (response) {
       $scope.allEvaluations = response.data;
@@ -698,6 +702,58 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     Evaluations.newEvaluation(evaluation).then(function (response) {
       Materialize.toast("Evaluacion creada", 4000);
       $state.go('evaluations');
+    });
+  }
+
+  $scope.newLocalEvaluation = function () {
+    Lands.getLocalLand($scope.evaluation.land_id).then(function (land) {
+      var evaluation = {
+        land_id: $scope.evaluation.land_id,
+        user_id: $rootScope.loggedUser.id,
+        land: land,
+        user: $rootScope.loggedUser
+      };
+      Evaluations.newLocalEvaluation(evaluation).then(function (response) {
+        Materialize.toast("Evaluacion creada", 4000);
+        $state.go('localEvaluations');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }).catch(function (error) {
+        console.log(error);
+    })
+  }
+
+  $scope.downloadedLands = function () {
+    Lands.loadFromLocal().then(function (response) {
+      $scope.localAllLands = response.rows.map(function(row) {return row.doc;});
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  $scope.downloadEvaluations = function () {
+    Evaluations.saveToLocal($scope.allEvaluations).then(function (response) {
+      Materialize.toast("Se ha descargado correctamente la informacion");
+    }).catch(function (error) {
+      console.log(error);
+      Materialize.toast("Error al descargar la informacion");
+    });
+  }
+
+  $scope.downloadedEvaluations = function () {
+    Evaluations.loadFromLocal().then(function (response) {
+      $scope.localAllEvaluations = response.rows.map(function(row) {return row.doc;});
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  $scope.uploadEvaluations = function () {
+    Evaluations.pushToRemote($scope.localAllEvaluations).then(function (response) {
+      Materialize.toast("Datos cargados correctamente", 4000);
+    }).catch(function (error) {
+      console.log(error);
     });
   }
 
