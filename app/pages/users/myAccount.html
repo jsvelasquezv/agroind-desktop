@@ -17,11 +17,11 @@
 
           <div class="row">
             <div class="col l6 m6 s12">
-              <label>Direccion</label>
+              <label>Dirección</label>
               <input type="text" name="address" ng-model="updateAccountForm.address" ng-minlengthlength="8" ngmaxlengthlength="50" required>
             </div>
             <div class="col l6 m6 s12">
-              <label>Correo</label>
+              <label>Email</label>
               <input type="email" name="email" ng-model="updateAccountForm.email" required>
             </div>
           </div>
@@ -38,9 +38,9 @@
           </div>
 
           <div ng-messages="form.address.$error" ng-if="form.address.$touched">
-            <p ng-message="minlength">La direccion es muy corta.</p>
-            <p ng-message="maxlength">La direccion es muy larga.</p>
-            <p ng-message="required">La direccion es requerida.</p>
+            <p ng-message="minlength">La dirección es muy corta.</p>
+            <p ng-message="maxlength">La dirección es muy larga.</p>
+            <p ng-message="required">La dirección es requerida.</p>
           </div>
 
           <div ng-messages="form.email.$error" ng-if="form.email.$touched">
