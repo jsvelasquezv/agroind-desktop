@@ -14,7 +14,7 @@ var agroind = angular.module('agroind', [
   'evaluationsService',
 ]);
 
-agroind.factory('ConnectionStatus', function($rootScope) {
+agroind.factory('ConnectionStatus', function($rootScope, $q) {
   return {
     request: function(config) {
       return config;
@@ -750,11 +750,46 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   }
 
   $scope.uploadEvaluations = function () {
-    Evaluations.pushToRemote($scope.localAllEvaluations).then(function (response) {
-      Materialize.toast("Datos cargados correctamente", 4000);
-    }).catch(function (error) {
-      console.log(error);
+    // Evaluations.pushToRemote($scope.localAllEvaluations).then(function (response) {
+    //   Materialize.toast("Datos cargados correctamente", 4000);
+    // }).catch(function (error) {
+    //   console.log(error);
+    // });
+    var evaluationsToCreate = [];
+    var evaluationsToUpdate = [];
+    $scope.localAllEvaluations.forEach(function (evaluation, index) {
+      var temp_evaluation = {};
+      if (evaluation.id) {
+        temp_evaluation.id = evaluation.id;
+        temp_evaluation.land_id = evaluation.land_id;
+        temp_evaluation.user_id = evaluation.user_id;
+        evaluationsToUpdate.push(temp_evaluation);
+      } else {
+        temp_evaluation.land_id = evaluation.land_id;
+        temp_evaluation.user_id = evaluation.user_id;
+        evaluationsToCreate.push(temp_evaluation);
+      }
     });
+
+    if (evaluationsToCreate.length > 0) {
+      var data = {evaluations: evaluationsToCreate};
+
+      Evaluations.batchCreate(data).then(function (response) {
+        Materialize.toast("Datos creados correctamente", 4000);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+
+    if (evaluationsToUpdate.length > 0) {
+      var data = {evaluations: evaluationsToUpdate};
+
+      Evaluations.batchUpdate(data).then(function (response) {
+        Materialize.toast("Datos actualizados correctamente", 4000);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
   }
 
   $scope.qualify = function () {

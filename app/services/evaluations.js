@@ -61,6 +61,14 @@ var evaluationsDB = pouchDB("evaluationsDB");
     });
   }
 
+  this.batchCreate = function (evaluations) {
+    return $http.post(evaluationsUrl + '/batch/create', evaluations);
+  }
+
+  this.batchUpdate = function (evaluations) {
+    return $http.patch(evaluationsUrl + '/batch/update', evaluations);
+  }
+
   this.pushToRemote = function (evaluations) {
     evaluationsToRemote = [];
     evaluationToRemote = {};
