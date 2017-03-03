@@ -38,11 +38,11 @@
           
         <div class="row">
           <div class="input-field col l6 m12 s12">
-            <label class="active" for="area">Area</label>
+            <label class="active" for="area">Área</label>
             <input type="text" name="area" ng-model="land.area" ng-minlength="1" ng-maxlength="30">
           </div>
           <div class="input-field col l6 m12 s12">
-            <label class="active" for="affiliation">Asociacion</label>
+            <label class="active" for="affiliation">Asociación</label>
             <input type="text" name="affiliation" ng-model="land.affiliation" ng-minlength="1" ng-maxlength="50">
           </div>
         </div>
@@ -89,13 +89,13 @@
         </div>
 
         <div ng-messages="form.area.$error" ng-if="form.area.$touched">
-          <p ng-message="minlength">El area es muy corta.</p>
-          <p ng-message="maxlength">El area es muy larga.</p>
+          <p ng-message="minlength">El área es muy corta.</p>
+          <p ng-message="maxlength">El área es muy larga.</p>
         </div>
 
         <div ng-messages="form.affiliation.$error" ng-if="form.affiliation.$touched">
-          <p ng-message="minlength">La asociacion es muy corta.</p>
-          <p ng-message="maxlength">La asociacion es muy larga.</p>
+          <p ng-message="minlength">La asociación es muy corta.</p>
+          <p ng-message="maxlength">La asociación es muy larga.</p>
         </div>
 
         <div ng-messages="form.user_id.$error" ng-if="form.user_id.$touched">

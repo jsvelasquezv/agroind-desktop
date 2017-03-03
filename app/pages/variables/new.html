@@ -11,7 +11,7 @@
         </div>
         <div class="row">
           <div class="input-field col l4 m8 s8">
-            <label for="optimun_rating">Valor maximo</label>
+            <label for="optimun_rating">Valor máximo</label>
             <input type="text" name="optimun_rating" ng-model="newVariableForm.optimun_rating" ng-minlength="1" ng-maxlength="3" required>
           </div>
         </div>
@@ -32,8 +32,8 @@
         </div>
 
         <div ng-messages="form.optimun_rating.$error" ng-if="form.optimun_rating.$touched">
-          <p ng-message="minlength">El valor maximo es muy pequeño.</p>
-          <p ng-message="maxlength">El valor maximo es muy grande.</p>
+          <p ng-message="minlength">El valor máximo es muy pequeño.</p>
+          <p ng-message="maxlength">El valor máximo es muy grande.</p>
         </div>
 
         <div ng-messages="form.indicator_id.$error" ng-if="form.indicator_id.$touched">
