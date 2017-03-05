@@ -61,19 +61,28 @@
   <div class="col l6 s12 m8 offset-l3 offset-m2">
     <div class="card-panel">
       <h5>Cambiar contraseña</h5>
-      <form ng-submit="updatePassword(changePasswordForm)" role="form" ng-init="changePasswordForm = {}">
+      <form ng-submit="updatePassword(changePasswordForm)" role="form" name="form2" ng-init="changePasswordForm = {}">
         <div class="row">
           <div class="col l6 m6 s12">
             <label>Contraseña</label>
-            <input type="password" name="password" ng-model="changePasswordForm.password" required="required" class="form-control">
+            <input type="password" name="password" ng-model="changePasswordForm.password" required="required" class="form-control" ng-minlength="8" ng-maxlength="16">
           </div>
 
           <div class="col l6 m6 s12">
             <label>Confirmacion de contraseña</label>
-            <input type="password" name="password_confirmation" ng-model="changePasswordForm.password_confirmation" required="required" class="form-control">
+            <input type="password" name="password_confirmation" ng-model="changePasswordForm.password_confirmation" required="required" compare-to="changePasswordForm.password" class="form-control" ng-minlength="8" ng-maxlength="16">
+          </div>
+          <div ng-messages="form2.password.$error">
+           <p ng-message="minlength">La contraseña es muy corta.</p>
+            <p ng-message="maxlength">La contraseña es muy larga.</p>            
+          </div>
+          <div ng-messages="form2.password_confirmation.$error">
+           <p ng-message="minlength">La contraseña es muy corta.</p>
+            <p ng-message="maxlength">La contraseña es muy larga.</p>
+            <p ng-message="compareTo">Las contraseñas no son iguales</p>
           </div>
         </div>
-        <button type="submit" class="btn">Guardar</button>
+        <button type="submit" class="btn" ng-disabled="form2.$invalid" ng-class="{disabled: form2.$invalid}">Guardar</button>
       </form>
     </div>
   </div>

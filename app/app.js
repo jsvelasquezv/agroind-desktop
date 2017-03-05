@@ -13,7 +13,26 @@ var agroind = angular.module('agroind', [
   'variablesService',
   'evaluationsService',
 ]);
-
+var compareTo = function() {
+    return {
+        require: "ngModel",
+        scope: {
+            otherModelValue: "=compareTo"
+        },
+        link: function(scope, element, attributes, ngModel) {
+             
+            ngModel.$validators.compareTo = function(modelValue) {
+                return modelValue == scope.otherModelValue;
+            };
+ 
+            scope.$watch("otherModelValue", function() {
+                ngModel.$validate();
+            });
+        }
+    };
+};
+ 
+agroind.directive("compareTo", compareTo);
 agroind.factory('ConnectionStatus', function($rootScope, $q) {
   return {
     request: function(config) {
@@ -367,7 +386,7 @@ agroind.controller('usersController', function ($scope, $rootScope, $stateParams
       $scope.indexUser();
       Materialize.toast('Se ha eliminado el usuario', 4000);
     });
-  }
+  }  
 
 });
 
@@ -880,6 +899,7 @@ agroind.controller('authController', function ($scope, $auth, $rootScope) {
         .catch(function(resp) {
           // handle error response
         });
+
     };
 
 });

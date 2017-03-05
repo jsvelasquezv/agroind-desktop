@@ -30,4 +30,26 @@ usersService.service('Users', function ($http, config) {
   this.deleteUser = function (id) {
     return $http.delete(usersUrl + '/' + id);
   } 
+
+  var compareTo = function() {
+    return {
+        require: "ngModel",
+        scope: {
+            otherModelValue: "=compareTo"
+        },
+        link: function(scope, element, attributes, ngModel) {
+             
+            ngModel.$validators.compareTo = function(modelValue) {
+                return modelValue == scope.otherModelValue;
+            };
+ 
+            scope.$watch("otherModelValue", function() {
+                ngModel.$validate();
+            });
+        }
+    };
+};
+ 
+usersService.directive("compareTo", compareTo);
+
 });
