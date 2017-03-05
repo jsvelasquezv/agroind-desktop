@@ -53,6 +53,33 @@ var variablesDB = pouchDB("variablesDB");
     });
   }
 
+  this.localVariablesFromIndicator = function (indicator_id) {
+    // Create the index variables/indicator
+    var ddoc = {
+      _id: '_design/indicatorVariables',
+      views: {
+        by_indicator: {
+          map: function mapFun(doc) {
+            emit(doc.indicator_id); 
+          }.toString()
+        }
+      }
+    }
+    variablesDB.put(ddoc).catch(function (error) {
+      if (error.name !== 'conflict') {
+        throw error;
+      }
+    });    
+    return variablesDB.query('indicatorVariables/by_indicator', {
+      key: parseInt(indicator_id),
+      include_docs: true
+    });
+    // console.log(param);
+    // return variablesDB.query(function (doc, emit) {
+    //   emit(doc.indicator_id);
+    // }, {key: parseInt(param), include_docs: true});
+  }
+
   // Sets the _id property required by pouch
   function setIdsToVariables(variables) {
     var variablesToPouch = [];

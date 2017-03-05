@@ -50,7 +50,6 @@ var evaluationsDB = pouchDB("evaluationsDB");
       })
       .catch(function (error) {
         console.log(error);
-        // return indicatorsDB.bulkDocs(indicatorsToPouch);
       });
   }
 
