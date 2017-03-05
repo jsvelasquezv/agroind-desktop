@@ -12,6 +12,7 @@ var agroind = angular.module('agroind', [
   'indicatorsService',
   'variablesService',
   'evaluationsService',
+  'scoresService'
 ]);
 
 agroind.factory('ConnectionStatus', function($rootScope, $q) {
@@ -192,6 +193,16 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     .state('qualifyIndicator', {
       url: '/qualifyIndicator/:indicator_id',
       templateUrl: 'pages/qualifications/indicator.html',
+      controller: 'evaluationsController'
+    })
+    .state('localQualifyIndicators', {
+      url: '/localQualifyIndicators/:evaluation_id',
+      templateUrl: 'pages/qualifications/local/index.html',
+      controller: 'evaluationsController'
+    })
+    .state('localQualifyIndicator', {
+      url: '/localQualifyIndicator/:indicator_id',
+      templateUrl: 'pages/qualifications/local/indicator.html',
       controller: 'evaluationsController'
     })
 });
@@ -656,9 +667,10 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
 
 });
 
-agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, config) {
+agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, Variables, Scores, config) {
   
   $scope.scores = {};
+  $scope.localScores = {};
 
   $scope.loadQualificationsForm = function () {
     var indicator_id = $stateParams.indicator_id;
@@ -673,6 +685,25 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
       });
       $scope.scores = scores;
     });
+  }
+
+  $scope.localLoadQualificationsForm = function () {
+    Variables.localVariablesFromIndicator($stateParams.indicator_id).then(function (response) {
+      $scope.variables = response.rows.map(function(row) {return row.doc;});
+    }).catch(function (error) {
+      console.log(error);
+    });
+    Scores.loadScores($rootScope.localCurrentEvaluationId,$stateParams.indicator_id).then(function (response) {
+      var scores = {};
+      data = response.rows.map(function(row) {return row.doc;});
+      data[0].qualifications.forEach(function (score, key) {
+        scores[parseFloat(score.variable_id)] = parseFloat(score.score);
+      });
+      $scope.qualificationsRevision = data[0]._rev;
+      $scope.localScores = scores;
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
   $scope.allIndicators = function () {
@@ -724,6 +755,23 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     })
   }
 
+  $scope.downloadedIndicators = function () {
+    $rootScope.localCurrentEvaluationId = $stateParams.evaluation_id;
+    Indicators.loadFromLocal().then(function (response) {
+      $scope.localAllIndicators = response.rows.map(function(row) {return row.doc;});
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  $scope.downloadedVariables = function () {
+    Variables.loadFromLocal().then(function (response) {
+      $scope.localAllVariables = response.rows.map(function(row) {return row.doc;});
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
   $scope.downloadedLands = function () {
     Lands.loadFromLocal().then(function (response) {
       $scope.localAllLands = response.rows.map(function(row) {return row.doc;});
@@ -750,11 +798,6 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   }
 
   $scope.uploadEvaluations = function () {
-    // Evaluations.pushToRemote($scope.localAllEvaluations).then(function (response) {
-    //   Materialize.toast("Datos cargados correctamente", 4000);
-    // }).catch(function (error) {
-    //   console.log(error);
-    // });
     var evaluationsToCreate = [];
     var evaluationsToUpdate = [];
     $scope.localAllEvaluations.forEach(function (evaluation, index) {
@@ -812,6 +855,42 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
       Materialize.toast("Se han registrado las calificaciones", 4000);
       $state.go('qualifyIndicator', {indicator_id: $stateParams.indicator_id});
     });
+  }
+
+  $scope.localQualify = function () {
+    var qualifications = [];
+    var qualification = {};
+    var data = {};
+    Object.keys($scope.localScores).forEach(function (key) {
+      qualification = {
+        variable_id: key,
+        score: $scope.localScores[key]
+      };
+      qualifications.push(qualification);
+    });
+    data = {
+      evaluation_id: $rootScope.localCurrentEvaluationId,
+      indicator_id: $stateParams.indicator_id,
+      qualifications: qualifications
+    };
+    if ($scope.qualificationsRevision) {
+      data._rev = $scope.qualificationsRevision;
+    }
+    // if (qualifications.length > 0) {
+      Scores.saveToLocal(data).then(function (response) {
+        Materialize.toast("Calificacion registrada correctamente", 4000);
+      }).catch(function (error) {
+        console.log(error);
+      });
+    // }
+  }
+
+  $scope.loadScores = function () {
+    Scores.pushToRemote().then(function (response) {
+      console.log(response);
+    }).catch(function (error) {
+      console.log(error);
+    })
   }
 
 });
