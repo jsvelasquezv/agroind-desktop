@@ -6,36 +6,36 @@
           <form novalidate role="form" name="form">
             <div class="input-field">
               <label>Documento</label>
-              <input type="text" name="document" ng-model="newUserForm.document" required="required" class="form-control"/>
+              <input type="text" name="document" ng-model="newUserForm.document" required="required" class="form-control" ng-minlength="8" ng-maxlength="15" required/>
             </div>
             <div class="input-field">
               <label>Nombre</label>
-              <input type="text" name="name" ng-model="newUserForm.name" required="required" class="form-control"/>
+              <input type="text" name="name" ng-model="newUserForm.name" required="required" class="form-control" ng-minlength="3" ng-maxlength="30" required/>
             </div>
 
             <div class="input-field">
               <label>Apellido</label>
-              <input type="text" name="last_name" ng-model="newUserForm.last_name" required="required" class="form-control"/>
+              <input type="text" name="last_name" ng-model="newUserForm.last_name" required="required" class="form-control" ng-minlength="3" ng-maxlength="30" required/>
             </div>
 
             <div class="input-field">
               <label>Dirección</label>
-              <input type="text" name="address" ng-model="newUserForm.address" required="required" class="form-control"/>
+              <input type="text" name="address" ng-model="newUserForm.address" required="required" class="form-control" ng-minlength="3" ng-maxlength="30" required/>
             </div>
 
             <div class="input-field">
               <label>Email</label>
-              <input type="email" name="email" ng-model="newUserForm.email" required="required" class="form-control"/>
+              <input type="email" name="email" ng-model="newUserForm.email" required="required" class="form-control" required="" />
             </div>
 
             <div class="input-field">
               <label>Password</label>
-              <input type="password" name="password" ng-model="newUserForm.password" required="required" class="form-control"/>
+              <input type="password" name="password" ng-model="newUserForm.password" required="required" class="form-control" ng-minlength="8" ng-maxlength="16" />
             </div>
 
             <div class="input-field">
               <label>Password confirmation</label>
-              <input type="password" name="password_confirmation" ng-model="newUserForm.password_confirmation" required="required" class="form-control"/>
+              <input type="password" name="password_confirmation" ng-model="newUserForm.password_confirmation" required="required" class="form-control" ng-minlength="8" ng-maxlength="16" compare-to="newUserForm.password"  />
             </div>
             
             <div class="input-field">
@@ -43,9 +43,44 @@
                 <option value="">Seleccione un perfil</option>
                 <option ng-repeat="profile in allProfiles" value="{{profile.id}}">{{profile.name}}</option>
               </select>
+              <div ng-messages="form.document.$error" ng-if="form.address.$touched">
+                <p ng-message="minlength">El documento es muy corto.</p>
+                <p ng-message="maxlength">El documento es muy largo.</p>
+                <p ng-message="required">El documento es requerido.</p>            
+              </div>
+              <div ng-messages="form.name.$error" ng-if="form.address.$touched">
+                <p ng-message="minlength">El nombre es muy corto.</p>
+                <p ng-message="maxlength">El nombre es muy largo.</p>
+                <p ng-message="required">El nombre es requerido.</p>            
+              </div>
+              <div ng-messages="form.last_name.$error" ng-if="form.address.$touched">
+                <p ng-message="minlength">El apellido es muy corto.</p>
+                <p ng-message="maxlength">El apellido es muy largo.</p>
+                <p ng-message="required">El apellido es requerido.</p>            
+              </div>
+              <div ng-messages="form.address.$error" ng-if="form.address.$touched">
+                <p ng-message="minlength">La dirección es muy corta.</p>
+                <p ng-message="maxlength">La dirección es muy larga.</p>
+                <p ng-message="required">La dirección es requerida.</p>
+              </div>
+              <div ng-messages="form.email.$error" ng-if="form.email.$touched">
+                <p ng-message="minlength">El email es demasiado corto.</p>
+                <p ng-message="maxlength">El email es demasiado largo.</p>
+                <p ng-message="required">El email es requerido.</p>
+                <p ng-message="email">Ingresa una direccion de email valida.</p>
+              </div>
+              <div ng-messages="form.password.$error">
+                <p ng-message="minlength">La contraseña es muy corta.</p>
+                <p ng-message="maxlength">La contraseña es muy larga.</p>            
+              </div>
+              <div ng-messages="form.password_confirmation.$error">
+                <p ng-message="minlength">La contraseña es muy corta.</p>
+                <p ng-message="maxlength">La contraseña es muy larga.</p>
+                <p ng-message="compareTo">Las contraseñas no son iguales</p>
+              </div>
             </div>
 
-            <button type="submit" ng-click="newUser()" class="btn btn-primary btn-lg">Registrar</button>
+            <button type="submit" ng-click="newUser()" class="btn btn-primary btn-lg" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Registrar</button>
           </form>
       </div>
     </div>

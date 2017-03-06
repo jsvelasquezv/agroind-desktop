@@ -38,8 +38,8 @@ var scoresDB = pouchDB("scoresDB");
         qualification.qualifications = doc.qualifications;
         qualifications.push(qualification);
       });
-      data = ['all_qualifications'] = qualifications;
-      return $http.post(evaluationsUrl + '/batch/qualify',  data);
+      //data = ['all_qualifications'] = qualifications;
+      return $http.post(evaluationsUrl + '/batch/qualify',  qualifications);
     });
   }
 

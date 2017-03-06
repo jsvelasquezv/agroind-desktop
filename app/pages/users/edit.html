@@ -33,7 +33,7 @@
             <!-- <select class="browser-default" name="profile_id" id="profile_id" ng-model=user.profile_id required>
               <option ng-repeat="profile in allProfiles" value="{{profile.id}}">{{profile.name}}</option>
             </select> -->
-            <select ng-init=listProfiles() class="browser-default" name="profile_id" id="profile_id" ng-options="profile.id as profile.name for profile in allProfiles track by profile.id" ng-model="user.profile_id">
+            <select ng-init=listProfiles() class="browser-default" name="profile_id" id="profile_id" ng-options="profile.id as profile.name for profile in allProfiles track by profile.id" ng-model="user.profile_id" required="required">
            </select>
           </div>
         </div>
@@ -74,7 +74,7 @@
         </div>
         
         <div class="row">
-          <input class="btn" type="submit" ng-click="editUser()" value="Guardar"></input>
+          <button class="btn" type="submit" ng-click="editUser()" value="Guardar" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Guardar</button>
         </div>
       </form>
     </div>

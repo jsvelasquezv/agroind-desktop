@@ -58,8 +58,8 @@ agroind.factory('ConnectionStatus', function($rootScope, $q) {
 });
 
 agroind.constant('config', {
-  apiUrl: 'http://localhost:3000/api/v1',
-  // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
+      apiUrl: 'http://localhost:3000/api/v1',
+   //apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
   localDBName: "agroind-local"
 });
 
@@ -230,7 +230,7 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 agroind.config(function($authProvider) {
   $authProvider.configure({
     apiUrl: 'http://localhost:3000/api/v1',
-    // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
+     //apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
 });
