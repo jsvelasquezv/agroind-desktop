@@ -30,4 +30,6 @@ usersService.service('Users', function ($http, config) {
   this.deleteUser = function (id) {
     return $http.delete(usersUrl + '/' + id);
   } 
+  
+
 });
