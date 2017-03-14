@@ -41,7 +41,7 @@ agroind.factory('ConnectionStatus', function($rootScope, $q) {
 agroind.constant('config', {
   apiUrl: 'http://localhost:3000/api/v1',
   // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
-  localDBName: "agroind-local"
+  // localDBName: "agroind-local"
 });
 
 // Configuration of router service

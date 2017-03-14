@@ -2,7 +2,7 @@
   <div class="col l12 s12 m12">
     <div class="card-panel">
       <h3>Usuarios</h3>
-      <table ng-init="indexUser()" class="responsive-table highlight">
+      <table ng-init="indexUser()" class="responsive-table striped highlight">
         <thead>
           <tr>
             <th>Documento</th>
@@ -10,7 +10,6 @@
             <th>Apellidos</th>
             <th>e-mail</th>
             <th>Perfil</th>
-            <!-- <th>Estado</th> -->
             <th>Dirección</th>
           </tr>
         </thead>
@@ -30,7 +29,7 @@
               </div>
             </td>
             <td>{{user.address}}</td>
-            <td><a ng-click="delete(user.id)">Eliminar</a></td>
+            <!-- <td><a ng-click="delete(user.id)">Eliminar</a></td> -->
             <td><a ui-sref="editUser({id: user.id})">Editar</a></td>
           </tr>
         </tbody>
