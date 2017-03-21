@@ -22,6 +22,6 @@
     "angular-messages": "^1.5.8",
     "angular-materialize": "^0.2.1",
     "angular-pouchdb": "^5.0.0",
-    "highcharts": "^5.0.9"
+    "chart.js": "^2.5.0"
   }
 }

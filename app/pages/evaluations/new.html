@@ -4,7 +4,7 @@
             <select class="browser-default" ng-options="land.id as land.name for land in allLands track by land.id" ng-model="land_id">
                 <option value="">Selecciona una finca</option>
             </select>
-            <input type="date" class="datepicker" ng-model="date">
+            <input type="text" class="datepicker" ng-model="assignment_date">
             <button ng-click="newEvaluation()" class="btn">Crear asignacion</button>
         </div>
     </div>
@@ -13,7 +13,9 @@
     $(document).ready(function() {
         $('.datepicker').pickadate({
             selectMonths: true, // Creates a dropdown to control month
-            selectYears: 15 // Creates a dropdown of 15 years to control year
+            selectYears: 15, // Creates a dropdown of 15 years to control year
+            format: 'yyyy-mm-dd',
+            formatSubmit: 'yyyy-mm-dd'
         });
     });
 </script>

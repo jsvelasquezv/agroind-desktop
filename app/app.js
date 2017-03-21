@@ -12,7 +12,8 @@ var agroind = angular.module('agroind', [
   'indicatorsService',
   'variablesService',
   'evaluationsService',
-  'scoresService'
+  'scoresService',
+  'statisticsService'
 ]);
 var compareTo = function() {
     return {
@@ -58,7 +59,9 @@ agroind.factory('ConnectionStatus', function($rootScope, $q) {
 });
 
 agroind.constant('config', {
+  apiRoot: 'http://localhost:3000',
   apiUrl: 'http://localhost:3000/api/v1',
+  // apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
   // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
   // localDBName: "agroind-local"
 });
@@ -224,12 +227,23 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: 'pages/qualifications/local/indicator.html',
       controller: 'evaluationsController'
     })
+    .state('ranking', {
+      url: '/ranking',
+      templateUrl: 'pages/statistics/rankings.html',
+      controller: 'statisticsController'
+    })
+    .state('radarGraphicDates', {
+      url: '/radarGraphicDates',
+      templateUrl: 'pages/statistics/average_radar_graphic.html',
+      controller: 'statisticsController'
+    })
 });
 
 //Configuration of authentication service
 agroind.config(function($authProvider) {
   $authProvider.configure({
     apiUrl: 'http://localhost:3000/api/v1',
+    // apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
      //apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
@@ -242,7 +256,7 @@ agroind.config(function($authProvider) {
 
 //Controladores
 
-agroind.controller('mainController', function($scope, $rootScope, $state, pouchDB, Users, Profiles, config) {
+agroind.controller('mainController', function($scope, $rootScope, $state, $http, pouchDB, Users, Profiles, config) {
     
 
     // ********** pouchdb test 
@@ -254,23 +268,31 @@ agroind.controller('mainController', function($scope, $rootScope, $state, pouchD
   // $rootScope.loggedIn = false;
   // $rootScope.online = false;
 
-
-  $rootScope.$on("offline", function () {
-    Materialize.toast("Disconnected");
-    $rootScope.online = true;
-  });
+  $scope.reconnect = function () {
+    $http.get(config.apiRoot + '/ping').then(function (response) {
+      if (response.data == 'ok') {
+        Materialize.toast('Conectado', 4000);
+        $rootScope.online = true;
+      }
+    })
+  }
+  // $rootScope.$on("offline", function () {
+  //   Materialize.toast("Disconnected");
+  //   $rootScope.online = true;
+  // });
 
   $scope.checkLogin = function () {
-    config.apiUrl;
+    // config.apiUrl;
     $rootScope.loggedIn = !$rootScope.loggedIn;
+    // $rootScope.online = false;
   };
 
-  $scope.infoDB = function () {
-    // Lands.dbInfo().then(function (info) {
-    //   console.log(info);
-    // });
-    console.log($rootScope.online);
-  };
+  // $scope.infoDB = function () {
+  //   // Lands.dbInfo().then(function (info) {
+  //   //   console.log(info);
+  //   // });
+  //   console.log($rootScope.online);
+  // };
   // $scope.deleteDB = function () {
   //   db.destroy().then(function (response) {
   //     console.log(response);
@@ -747,8 +769,10 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   $scope.newEvaluation = function () {
     var evaluation = {
       land_id: $scope.land_id,
-      user_id: $rootScope.loggedUser.id
+      user_id: $rootScope.loggedUser.id,
+      assignment_date: $scope.assignment_date
     }
+    // console.log(evaluation);
     Evaluations.newEvaluation(evaluation).then(function (response) {
       Materialize.toast("Evaluacion creada", 4000);
       $state.go('evaluations');
@@ -914,14 +938,36 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
 
 });
 
-// agroind.controller('qualificationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Evaluations, config) {
+agroind.controller('statisticsController', function ($scope, $stateParams, $state, Statistics, config) {
   
-//   $scope.allIndicators = function () {
-//     Indicators.getIndicators().then(function (response) {
-//       $scope.allIndicators = response.data;
-//     });
-//   }
-// });
+  $scope.loadBestRanking = function () {
+    Statistics.getBestRanking().then(function (response) {
+      $scope.bestRanking = response.data;
+    })
+  }
+
+  $scope.loadWorstRanking = function () {
+    Statistics.getWorstRanking().then(function (response) {
+      $scope.worstRanking = response.data;
+    })
+  }
+
+  $scope.loadAverageRadarDates = function () {
+    console.log($scope.start_date, $scope.end_date);
+    Statistics.getRadarData($scope.start_date, $scope.end_date).then(function (response) {
+      var ctx = document.getElementById("average-radar-dates-graphic");
+      var data = {
+        labels: response.data.labels,
+        datasets: response.data.datasets
+      };
+      var averageRadarChartDates = new Chart(ctx, {
+        type: 'radar',
+        data: data
+      });
+    })
+  }
+  
+});
 
 //Controlador de autenticacion
 

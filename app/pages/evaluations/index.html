@@ -14,8 +14,7 @@
           <tr ng-repeat="evaluation in allEvaluations">
             <td>{{evaluation.land.name}}</td>
             <td>{{evaluation.user.name}}</td>
-            <td>{{evaluation.created_at}}</td>
-            <!-- <td><a ng-click="delete(land.id)">Eliminar</a></td> -->
+            <td>{{evaluation.assignment_date}}</td>
             <td><a ui-sref="qualifyIndicators({evaluation_id: evaluation.id})">Calificar</a></td>
           </tr>
         </tbody>
