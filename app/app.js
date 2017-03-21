@@ -13,7 +13,8 @@ var agroind = angular.module('agroind', [
   'variablesService',
   'evaluationsService',
   'scoresService',
-  'statisticsService'
+  'statisticsService',
+  'ncy-angular-breadcrumb'
 ]);
 var compareTo = function() {
     return {
@@ -77,6 +78,9 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     .state('home', {
       url: '/',
       templateUrl: 'pages/home.html',
+      ncyBreadcrumb: {
+    label: 'Home'
+  }
     })
     .state('login', {
       url: '/login',
