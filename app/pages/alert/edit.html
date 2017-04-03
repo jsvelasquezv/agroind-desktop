@@ -1,0 +1,74 @@
+<ul class="breadcrumb">
+  <li><a ui-sref="home">Home</a></li>
+  <li><a ui-sref="alert">Estado de alerta</a></li>
+  <li>Editar Estado de alerta</li>
+  </ul>
+<div class="row">
+  <div class="col s12 m12">
+    <div class="card-panel">
+      <h4>Editar Estado de alerta</h4>
+      <form novalidate role="form" name="form">
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="state">Estado</label>
+            <input type="text"  ng-minlength="3" ng-maxlength="350" required>
+          </div>
+          <div class="range-input" class="noUi-target noUi-ltr noUi-horizontal" col l12 m12 s12">
+            <label class="active" for="range">Rango</label>
+            <br>
+            <div class="slider" id="rangeN"></div>
+            <br>
+            <div class="nodes" id="lower-value"></div> 
+            <div class="nodes" id="upper-value"></div>           
+          </div>
+
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="color">Codigo de colores</label>
+            <br>
+            <input type="color" name="color"  ng-minlength="3" ng-maxlength="350" required>
+          </div>
+           <div class="input-field col l12 m12 s12">
+            <label class="active" for="alert">Alertar</label>
+            <input type="text" name="alert"  ng-minlength="3" ng-maxlength="350" required>
+          </div>
+           <div class="input-field col l12 m12 s12">
+            <label class="active" for="attention">Plazos de atención</label>
+            <input type="text" name="attention"  ng-minlength="3" ng-maxlength="350" required>
+          </div>
+        </div>        
+        <div class="row">
+          <div class="col m12 s12">
+            <button class="btn right" type="submit" >Guardar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script >   
+ 
+  var slider = document.getElementById('rangeN');
+
+noUiSlider.create(slider, {
+  start: [0, 1],
+  connect: true,
+  step: 0.1,
+  range: {
+    'min': 0,
+    'max': 5
+  }
+}); 
+
+var nodes = [
+  document.getElementById('lower-value'), // 0
+  document.getElementById('upper-value')  // 1
+];
+
+// Display the slider value and how far the handle moved
+// from the left edge of the slider.
+slider.noUiSlider.on('update', function ( values, handle, unencoded, isTap, positions ) {
+  nodes[handle].innerHTML = values[handle];
+});
+
+
+</script>

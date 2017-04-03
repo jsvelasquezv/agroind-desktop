@@ -211,6 +211,17 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: 'pages/evaluations/local/new.html',
       controller: 'evaluationsController'
     })
+    .state('alert', {
+      url: '/alert',
+      templateUrl: 'pages/alert/index.html',
+      controller: 'evaluationsController'
+      //Cambiar por alertController.
+    })
+    .state('editAlert', {
+      url: '/editAlert/ :id',
+      templateUrl: 'pages/alert/edit.html',
+      controller: 'evaluationsController'
+    })
     .state('qualifyIndicators', {
       url: '/qualifyIndicators/:evaluation_id',
       templateUrl: 'pages/qualifications/index.html',
@@ -973,6 +984,27 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
   }
 
 });
+
+// Controlador para la gestion de alertas
+agroind.controller('alertController', function ($scope, $stateParams, $state, Profiles, config) {
+
+  $scope.indexalert = function () {
+    
+  }
+
+  $scope.viewAlert = function () {
+    
+  }
+
+  $scope.newAlert = function () {
+    
+  }
+
+  $scope.editAlert = function () {
+    
+  }
+});
+
 
 agroind.controller('statisticsController', function ($scope, $stateParams, $state, Statistics, config) {
   
