@@ -22,6 +22,11 @@
     "angular-messages": "^1.5.8",
     "angular-materialize": "^0.2.1",
     "angular-pouchdb": "^5.0.0",
-    "chart.js": "^2.5.0"
+    "chart.js": "^2.5.0",
+    "pdfmake": "^0.1.27",
+    "html2canvas": "^0.4.1"
+  },
+  "resolutions": {
+    "jquery": ">=2.1.1"
   }
 }

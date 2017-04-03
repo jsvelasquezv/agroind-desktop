@@ -14,4 +14,8 @@ statisticsService.service('Statistics', function ($http, config) {
     return $http.get(config.apiUrl + '/statistics/graphics/radar/start_date/' + start_date + '/end_date/' + end_date);
   }
 
+  this.getEvaluationReport = function (evaluation_id) {
+    return $http.get(config.apiUrl + '/statistics/evaluation/' + evaluation_id)
+  }
+
 });

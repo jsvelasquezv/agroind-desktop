@@ -15,6 +15,9 @@
   <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
   <script>window.Hammer = require("../bower_components/Materialize/js/hammer.min.js");</script>
 
+  <script src="../bower_components/html2canvas/build/html2canvas.min.js"></script>
+  <!-- <script src="../bower_components/pdfmake/build/pdfmake.min.js"></script> -->
+  <script>window.jsPDF = require("../bower_components/jspdf/dist/jspdf.min.js");</script>
   <!-- Load materialize -->
   <script src="../bower_components/Materialize/dist/js/materialize.min.js"></script>
 
@@ -44,7 +47,9 @@
   <script src="services/statistics.js"></script>
   <!-- <script src="/controllers/mainController.js"></script> -->
   <!-- <script src="/controllers/authController.js"></script> -->
-  
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script> -->
+  <!-- <script src="../bower_components/jspdf/dist/jspdf.min.js"></script> -->
+
   <!-- Load js assets -->
   <script src="../app/assets/js/custom.js"></script>
 
@@ -233,6 +238,9 @@
                       <li ng-show="loggedIn">
                         <a ui-sref="radarGraphicDates">Promedio General</a>
                       </li>
+                      <!-- <li>
+                        <a ui-sref="evaluationReport({evaluation_id: 1})">Promedio General</a>
+                      </li> -->
                     </ul>
                   </div>
                 </li>

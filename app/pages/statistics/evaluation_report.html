@@ -1,0 +1,45 @@
+<div id="reporteEvaluacion" class="row" pdf-save-content="idOne" ng-init="loadEvaluationReport()">
+  <div class="col s12 m10 l10 offset-m1 offset-l1">
+    
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <h3>Reporte de evaluacion para la finca: {{evaluation_report.land.name}}</h3>
+      </li>
+      <li class="collection-item">
+        <span class="left"><h4>Promedio de indicadores: {{evaluation_report.evaluation.result}}</h4></span>
+        <span class="right"><h4 class="teal-text">{{evaluation_report.evaluation.assignment_date}}</h4></span>
+      </li>
+    </ul>
+    <ul class="collection with-header" ng-repeat="indicator_report in evaluation_report.indicators_report">
+      <li class="collection-item">
+        <h4>{{indicator_report.name}}</h4>
+        <span>Promedio de variables: {{indicator_report.variables_average[0].result}}</span></li>
+      <li class="collection-item" ng-repeat="variable_score in indicator_report.variables_scores">
+        {{ evaluation_report.variables[variable_score.variable_id][0].name }}
+        <span class="right">
+         {{variable_score.score}}
+        </span>
+      </li>
+    </ul>
+    <div class="card-panel">
+      <canvas id="average-radar-indicator-chart"></canvas>
+    </div>
+  </div>
+</div>
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light red" onclick="exportReport()"><i class="material-icons">file_download</i></a>
+</div>
+<script>
+
+function exportReport() {
+  html2canvas($("#reporteEvaluacion"), {
+    onrendered: function(canvas) {         
+      var imgData = canvas.toDataURL("image/png");
+      var doc = new jsPDF('', 'mm', [canvas.width, canvas.height]);
+      doc.addImage(imgData, 'png', 0, 0, canvas.width, canvas.height);
+      doc.save('sample-file.pdf');
+    }
+  });
+}
+</script>
+            

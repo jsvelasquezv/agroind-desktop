@@ -62,3 +62,7 @@ body .peg {
   right: 10px !important;
   left: auto !important;
 }
+
+.qualified {
+  background-color: #e0f2f1;
+}

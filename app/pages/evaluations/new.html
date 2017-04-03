@@ -1,11 +1,14 @@
 <div class="row">
-    <div class="col m12 s12 l8">
-        <div ng-init="allLands()">
-            <select class="browser-default" ng-options="land.id as land.name for land in allLands track by land.id" ng-model="land_id">
-                <option value="">Selecciona una finca</option>
-            </select>
-            <input type="text" class="datepicker" ng-model="assignment_date">
-            <button ng-click="newEvaluation()" class="btn">Crear asignacion</button>
+    <div class="col m12 s12 l8 offset-l2">
+        <div class="card-panel">
+            <h4>Asignar evaluación</h4>
+            <form novalidate role="form" name="form" ng-init="allLands()">
+                <select class="browser-default" name="land" ng-options="land.id as land.name for land in allLands track by land.id" ng-model="land_id" required>
+                    <option value="">Selecciona una finca</option>
+                </select>
+                <input type="text" class="datepicker" name="assignment_date" ng-model="assignment_date" required>
+            </form>
+            <button ng-click="newEvaluation()" class="btn" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Crear asignacion</button>
         </div>
     </div>
 </div>

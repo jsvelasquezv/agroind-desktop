@@ -237,6 +237,16 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: 'pages/statistics/average_radar_graphic.html',
       controller: 'statisticsController'
     })
+    .state('evaluationReport', {
+      url: '/evaluationReport/:evaluation_id',
+      templateUrl: 'pages/statistics/evaluation_report.html',
+      controller: 'statisticsController'
+    })
+    .state('recommendations', {
+      url: '/recommendations/:evaluation_id',
+      templateUrl: 'pages/evaluations/recommendations.html',
+      controller: 'evaluationsController'
+    })
 });
 
 //Configuration of authentication service
@@ -352,6 +362,10 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
   $rootScope.$on('auth:password-reset-request-error', function(ev) {
     Materialize.toast('No');
   });
+
+  $scope.sincronizeAll = function () {
+    
+  }
 
 });
 
@@ -766,6 +780,12 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     });
   }
 
+  $scope.getIndicatorsAverages = function () {
+    Evaluations.getIndicatorsAverages($stateParams.evaluation_id).then(function (response) {
+      $scope.allIndicatorsAverages = response.data;
+    });
+  }
+
   $scope.newEvaluation = function () {
     var evaluation = {
       land_id: $scope.land_id,
@@ -776,6 +796,18 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     Evaluations.newEvaluation(evaluation).then(function (response) {
       Materialize.toast("Evaluacion creada", 4000);
       $state.go('evaluations');
+    });
+  }
+
+  $scope.saveRecommendation = function () {
+    Evaluations.saveRecommendation($stateParams.evaluation_id, $scope.recommendation).then(function (response) {
+      Materialize.toast("Se ha guardado la recomendación", 4000);
+    });
+  }
+
+  $scope.saveObservations = function () {
+    Evaluations.saveObservations($stateParams.evaluation_id, $scope.observations).then(function (response) {
+      Materialize.toast("Se han guardado las observaciones", 4000);
     });
   }
 
@@ -940,6 +972,12 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
 
 agroind.controller('statisticsController', function ($scope, $stateParams, $state, Statistics, config) {
   
+  $scope.loadEvaluationReport = function () {
+    Statistics.getEvaluationReport().then(function (response) {
+      $scope.evaluationReport = response.data;
+    })
+  }
+
   $scope.loadBestRanking = function () {
     Statistics.getBestRanking().then(function (response) {
       $scope.bestRanking = response.data;
@@ -953,7 +991,6 @@ agroind.controller('statisticsController', function ($scope, $stateParams, $stat
   }
 
   $scope.loadAverageRadarDates = function () {
-    console.log($scope.start_date, $scope.end_date);
     Statistics.getRadarData($scope.start_date, $scope.end_date).then(function (response) {
       var ctx = document.getElementById("average-radar-dates-graphic");
       var data = {
@@ -963,6 +1000,20 @@ agroind.controller('statisticsController', function ($scope, $stateParams, $stat
       var averageRadarChartDates = new Chart(ctx, {
         type: 'radar',
         data: data
+      });
+    })
+  }
+
+  $scope.loadEvaluationReport = function () {
+    Statistics.getEvaluationReport($stateParams.evaluation_id).then(function (response) {
+      $scope.evaluation_report = response.data;
+      console.log(response.data);
+      chartData = response.data.chartData;
+      console.log(chartData);
+      var ctx = document.getElementById("average-radar-indicator-chart");
+      var averageRadarChartIndicator = new Chart(ctx, {
+        type: 'radar',
+        data: chartData
       });
     })
   }

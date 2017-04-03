@@ -2,16 +2,16 @@
   <div class="col l12 s12 m12">
     <div class="card-panel">
       <h3>Calificar indicadores</h3>
-      <table ng-init="allIndicators()" class="responsive-table highlight bordered">
+      <table ng-init="allIndicators(); getIndicatorsAverages();" class="responsive-table highlight bordered">
         <thead>
           <tr>
             <th>Nombre</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="indicator in allIndicators">
+          <tr ng-repeat="indicator in allIndicators" ng-class="{qualified: allIndicatorsAverages[indicator.id][0].qualification_percentage == 100}">
             <td>{{indicator.name}}</td>
-            <!-- <td><a ng-click="delete(land.id)">Eliminar</a></td> -->
+            <td><span ng-show="allIndicatorsAverages[indicator.id][0].qualification_percentage == 100" class="material-icons">check_circle</span></td>
             <td><a ui-sref="qualifyIndicator({indicator_id: indicator.id})">Calificar</a></td>
           </tr>
         </tbody>

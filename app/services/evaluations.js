@@ -15,8 +15,20 @@ var evaluationsDB = pouchDB("evaluationsDB");
     return $http.get(evaluationsUrl);
   }
 
+  this.getIndicatorsAverages = function (evaluation_id) {
+    return $http.get(evaluationsUrl + '/indicators/averages/' + evaluation_id);
+  }
+
   this.newEvaluation = function (evaluation) {
     return $http.post(evaluationsUrl, evaluation);
+  }
+
+  this.saveRecommendation = function (evaluation_id, recommendation) {
+    return $http.post(evaluationsUrl + '/' + evaluation_id + '/recommendation', recommendation);
+  }
+
+  this.saveObservation = function (evaluation_id, observation) {
+    return $http.post(evaluationsUrl + '/' + evaluation_id + '/observation', recommendation);
   }
 
   this.newLocalEvaluation = function (evaluation) {
@@ -31,6 +43,22 @@ var evaluationsDB = pouchDB("evaluationsDB");
       user_id :user_id,
     };
     return $http.patch(evaluationsUrl + '/' + id, data);
+  }
+
+  this.getEvaluationAnalysis = function (evaluation_id) {
+    return $http.get(evaluationsUrl + '/' + evaluation_id + '/analysis')
+  }
+
+  this.addEvaluationAnalysis = function (evaluation_id, analysis) {
+     return $http.post(evaluationsUrl + '/' + evaluation_id + '/analysis', analysis);
+  }
+
+  this.getEvaluationRecommendations = function (evaluation_id) {
+    return $http.get(evaluationsUrl + '/' + evaluation_id + '/recommendations');
+  }
+
+  this.addEvaluationRecommendation = function (evaluation_id, recommendation) {
+     return $http.post(evaluationsUrl + '/' + evaluation_id + '/recommendations', recommendation);
   }
 
   this.getQualifications = function (evaluation_id, indicator_id) {
