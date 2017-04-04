@@ -1,4 +1,4 @@
-<div class="row">
+<div id="reporteEvaluacion" class="row" pdf-save-content="idOne">
     <div class="col s12 m12 l6" ng-init="loadBestRanking()">
         <ul class="collection with-header" >
             <li class="collection-header"><h4>Mejores Calificados</h4></li>
@@ -30,3 +30,19 @@
         </ul>
     </div>
 </div>
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light red" onclick="exportReport()"><i class="material-icons">file_download</i></a>
+</div>
+<script>
+
+function exportReport() {
+  html2canvas($("#reporteEvaluacion"), {
+    onrendered: function(canvas) {         
+      var imgData = canvas.toDataURL("image/png");
+      var doc = new jsPDF('', 'mm', [canvas.width, canvas.height]);
+      doc.addImage(imgData, 'png', 0, 0, canvas.width, canvas.height);
+      doc.save('sample-file.pdf');
+    }
+  });
+}
+</script>

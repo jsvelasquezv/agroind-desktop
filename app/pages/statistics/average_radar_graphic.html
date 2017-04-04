@@ -15,12 +15,15 @@
         <button class="btn btn-primary" ng-click="loadAverageRadarDates()">Generar promedio</button>
     </div>
 </div>
-<div class="row">
+<div id="reporteEvaluacion" class="row" pdf-save-content="idOne">
     <div class="col s12 m12 l12">
         <div class="card-panel">
             <canvas id="average-radar-dates-graphic"></canvas>
         </div>
     </div>
+</div>
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large waves-effect waves-light red" onclick="exportReport()"><i class="material-icons">file_download</i></a>
 </div>
 <script>
     $(document).ready(function() {
@@ -31,4 +34,15 @@
             formatSubmit: 'yyyy-mm-dd'
         });
     });
+
+    function exportReport() {
+  html2canvas($("#reporteEvaluacion"), {
+    onrendered: function(canvas) {         
+      var imgData = canvas.toDataURL("image/png");
+      var doc = new jsPDF('', 'mm', [canvas.width, canvas.height]);
+      doc.addImage(imgData, 'png', 0, 0, canvas.width, canvas.height);
+      doc.save('sample-file.pdf');
+    }
+  });
+}
 </script>
