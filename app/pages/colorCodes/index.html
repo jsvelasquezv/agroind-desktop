@@ -1,0 +1,32 @@
+<ul class="breadcrumb">
+  <li><a ui-sref="home">Home</a></li>
+  <li>Estados de alerta</li>
+  </ul>
+<div class="row">
+  <div class="col l12 s12 m12">
+    <div class="card-panel">
+      <h3>Estado de alerta</h3>
+      <table ng-init="allColorCodes()" class="responsive-table highlight bordered">
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Rango de puntuación</th>
+            <th>Codigo de colores</th>
+            <th>Alertar</th>
+            <th>Plazos de atención</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="color_code in allColorCodes">
+            <td>{{color_code.state}}</td>
+            <td>{{color_code.min}} - {{color_code.max}}</td>
+            <td><input type="color" ng-model="color_code.color" readonly></td>
+            <td>{{color_code.alert}}</td>
+            <td>{{color_code.attention_time}}</td>
+            <td><a ui-sref="editColorCode({id: color_code.id})">Editar</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

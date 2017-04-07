@@ -1,0 +1,70 @@
+<ul class="breadcrumb">
+  <li><a ui-sref="home">Home</a></li>
+  <li><a ui-sref="colorCodes">Estado de alerta</a></li>
+  <li>Editar Estado de alerta</li>
+  </ul>
+<div class="row" ng-init=loadColorCode()>
+  <div class="col s12 m12">
+    <div class="card-panel">
+      <h4>Editar Variable</h4>
+      <form novalidate role="form" name="form">
+
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="name">Estado</label>
+            <input type="text" name="name" ng-model="colorCode.state" ng-minlength="3" ng-maxlength="350" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="name">Min</label>
+            <input type="number" name="name" ng-model="colorCode.min" ng-minlength="0" ng-maxlength="5" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="name">Max</label>
+            <input type="number" name="name" ng-model="colorCode.max" ng-minlength="0" ng-maxlength="5" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="name">Color</label>
+            <input type="color" name="name" ng-model="colorCode.color" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="name">Alertar</label>
+            <input type="text" name="name" ng-model="colorCode.alert" ng-minlength="3" ng-maxlength="350" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col l12 m12 s12">
+            <label class="active" for="name">Plazos de atención</label>
+            <input type="text" name="name" ng-model="colorCode.attention_time" ng-minlength="3" ng-maxlength="350" required>
+          </div>
+        </div>
+
+        <div ng-messages="form.name.$error" ng-if="form.name.$touched">
+          <p ng-message="minlength">El nombre es muy corto.</p>
+          <p ng-message="maxlength">El nombre es muy largo.</p>
+          <p ng-message="required">El nombre es requerido.</p>
+        </div>
+
+        <div class="row">
+          <div class="col m12 s12">
+            <button class="btn right" type="submit" ng-click="editColorCode()"  ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Guardar</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
