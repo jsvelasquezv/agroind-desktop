@@ -14,6 +14,7 @@ var agroind = angular.module('agroind', [
   'evaluationsService',
   'scoresService',
   'statisticsService',
+  'colorCodesService',
   'ncy-angular-breadcrumb'
 ]);
 var compareTo = function() {
@@ -211,17 +212,6 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       templateUrl: 'pages/evaluations/local/new.html',
       controller: 'evaluationsController'
     })
-    .state('alert', {
-      url: '/alert',
-      templateUrl: 'pages/alert/index.html',
-      controller: 'evaluationsController'
-      //Cambiar por alertController.
-    })
-    .state('editAlert', {
-      url: '/editAlert/ :id',
-      templateUrl: 'pages/alert/edit.html',
-      controller: 'evaluationsController'
-    })
     .state('qualifyIndicators', {
       url: '/qualifyIndicators/:evaluation_id',
       templateUrl: 'pages/qualifications/index.html',
@@ -261,6 +251,16 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       url: '/recommendations/:evaluation_id',
       templateUrl: 'pages/evaluations/recommendations.html',
       controller: 'evaluationsController'
+    })
+    .state('colorCodes', {
+      url: '/colorCode',
+      templateUrl: 'pages/colorCodes/index.html',
+      controller: 'colorCodesController'
+    })
+    .state('editColorCode', {
+      url: '/editColorCode/:id',
+      templateUrl: 'pages/colorCodes/edit.html',
+      controller: 'colorCodesController'
     })
 });
 
@@ -1040,27 +1040,6 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
 
 });
 
-// Controlador para la gestion de alertas
-agroind.controller('alertController', function ($scope, $stateParams, $state, Profiles, config) {
-
-  $scope.indexalert = function () {
-    
-  }
-
-  $scope.viewAlert = function () {
-    
-  }
-
-  $scope.newAlert = function () {
-    
-  }
-
-  $scope.editAlert = function () {
-    
-  }
-});
-
-
 agroind.controller('statisticsController', function ($scope, $stateParams, $state, Statistics, config) {
   
   $scope.loadEvaluationReport = function () {
@@ -1110,6 +1089,29 @@ agroind.controller('statisticsController', function ($scope, $stateParams, $stat
   }
   
 });
+
+agroind.controller('colorCodesController', function ($scope, $stateParams, $state, config, ColorCodes) {
+  
+  $scope.allColorCodes = function () {
+    ColorCodes.getColorCodes().then(function (response) {
+      $scope.allColorCodes = response.data;
+    });
+  }
+
+  $scope.loadColorCode = function () {
+    ColorCodes.getColorCode($stateParams.id).then(function (response) {
+      $scope.colorCode = response.data;
+    });
+  }
+
+  $scope.editColorCode = function () {
+    ColorCodes.editColorCode($scope.colorCode).then(function (response) {
+      $scope.colorCode = response.data;
+      Materialize.toast('El estado de alerta se ha actualizado correctamente', 4000);
+      $state.go('colorCodes');
+    });
+  }
+})
 
 //Controlador de autenticacion
 

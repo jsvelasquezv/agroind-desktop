@@ -47,6 +47,7 @@
   <script src="services/scores.js"></script>
   <script src="services/evaluations.js"></script>
   <script src="services/statistics.js"></script>
+  <script src="services/colorCodes.js"></script>
   <!-- <script src="/controllers/mainController.js"></script> -->
   <!-- <script src="/controllers/authController.js"></script> -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script> -->
@@ -205,7 +206,7 @@
                       <li ng-show="online == 'off'"><a ui-sref="localEvaluations">Listado de Evaluaciones Local</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="newEvaluation">Asignar Evaluación</a></li>
                       <li ng-show="online == 'on'"><a ng-click="syncEvaluations()">Sincronizar evaluaciones</a></li>
-                      <li ng-show="online == 'on'"><a ui-sref="alert">Estado de alerta</a></li>
+                      <li ng-show="online == 'on'"><a ui-sref="colorCodes">Estado de alerta</a></li>
                     </ul>
                   </div>
                 </li>
