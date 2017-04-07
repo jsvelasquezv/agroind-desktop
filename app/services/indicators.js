@@ -23,10 +23,6 @@ var indicatorsDB = pouchDB("indicatorsDB");
     return $http.patch(indicatorsUrl + '/' + indicator.id, indicator);
   }
 
-  // this.deleteIndicator = function (id) {
-  //   return $http.delete(indicatorsUrl + '/' + id);
-  // }
-
   this.saveToLocal = function (indicators) {
     return indicatorsDB.destroy()
       .then(function (response) {

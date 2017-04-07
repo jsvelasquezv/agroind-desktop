@@ -23,12 +23,12 @@ var evaluationsDB = pouchDB("evaluationsDB");
     return $http.post(evaluationsUrl, evaluation);
   }
 
-  this.saveRecommendation = function (evaluation_id, recommendation) {
-    return $http.post(evaluationsUrl + '/' + evaluation_id + '/recommendation', recommendation);
+  this.saveRecommendations = function (evaluation_id, recommendations) {
+    return $http.post(evaluationsUrl + '/' + evaluation_id + '/recommendation', {id: evaluation_id, recommendations: recommendations});
   }
 
-  this.saveObservation = function (evaluation_id, observation) {
-    return $http.post(evaluationsUrl + '/' + evaluation_id + '/observation', recommendation);
+  this.saveAnalysis = function (evaluation_id, analysis) {
+    return $http.post(evaluationsUrl + '/' + evaluation_id + '/analysis', {id: evaluation_id, analysis: analysis});
   }
 
   this.newLocalEvaluation = function (evaluation) {

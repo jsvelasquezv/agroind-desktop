@@ -145,6 +145,7 @@
                         <li ng-show="online == 'on'"><a ui-sref="lands">Listado de Fincas</a></li>
                         <li ng-show="online == 'off'"><a ui-sref="localLands">Listado de Fincas Local</a></li>
                         <li ng-show="online == 'on'"><a ui-sref="newLand">Registrar Finca</a></li>
+                        <li ng-show="online == 'on'"><a ng-click="syncLands()">Sincronizar Fincas</a></li>
                     </ul>
                   </div>
                 </li>
@@ -163,6 +164,7 @@
                       <li ng-show="online == 'on'"><a ui-sref="indicators">Listado de Indicadores</a></li>
                       <li ng-show="online == 'off'"><a ui-sref="localIndicators">Listado de Indicadores Local</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="newIndicator">Crear Indicador</a></li>
+                      <li ng-show="online == 'on'"><a ng-click="syncIndicators()">Sincronizar Indicadores</a></li>
                       <!-- <li><a ui-sref="newCalification">Calificar evaluaciones</a></li> -->
                       <!-- <li><a ui-sref="newLocalEvaluation">Asignar Evaluacion Local</a></li> -->
                     </ul>
@@ -183,6 +185,7 @@
                       <li ng-show="online == 'on'"><a ui-sref="variables">Listado de Variables</a></li>
                       <li ng-show="online == 'off'"><a ui-sref="localVariables">Listado de Variables Local</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="newVariable">Crear Variable</a></li>
+                      <li ng-show="online == 'on'"><a ng-click="syncVariables()">Sincronizar Variables</a></li>
                     </ul>
                   </div>
                 </li>
@@ -201,31 +204,13 @@
                       <li ng-show="online == 'on'"><a ui-sref="evaluations">Listado de Evaluaciones</a></li>
                       <li ng-show="online == 'off'"><a ui-sref="localEvaluations">Listado de Evaluaciones Local</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="newEvaluation">Asignar Evaluación</a></li>
+                      <li ng-show="online == 'on'"><a ng-click="syncEvaluations()">Sincronizar evaluaciones</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="alert">Estado de alerta</a></li>
                     </ul>
                   </div>
                 </li>
               </ul>
             </li>
-
-            <!-- <li class="no-padding" ng-show="loggedIn && loggedProfile.reports_permission">
-              <ul class="collapsible collapsible-accordion">
-                <li>
-                  <a class="collapsible-header">
-                    <i class="material-icons menu-icons">description</i>
-                    Reportes
-                  </a>
-                  <div class="collapsible-body">
-                    <ul>
-                      <li ng-show="loggedIn && loggedProfile.list_users">
-                        <a ui-sref="users">Listado de usuarios</a>
-                      </li>
-                      <li><a ui-sref="signup">Crear Usuario</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </li> -->
 
             <li class="no-padding" ng-show="loggedIn && loggedProfile.statistics_permission">
               <ul class="collapsible collapsible-accordion">
@@ -250,6 +235,30 @@
                 </li>
               </ul>
             </li>
+
+            <!-- <li class="no-padding" ng-show="loggedIn">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header" ng-click="">
+                    <i class="material-icons menu-icons">autorenew</i>
+                    <b>Sincronizar Datos</b>
+                  </a> -->
+                  <!-- <div class="collapsible-body">
+                    <ul>
+                      <li ng-show="loggedIn">
+                        <a ui-sref="ranking">Ranking</a>
+                      </li>
+                      <li ng-show="loggedIn">
+                        <a ui-sref="radarGraphicDates">Promedio General</a>
+                      </li>
+                      <li>
+                        <a ui-sref="evaluationReport({evaluation_id: 1})">Promedio General</a>
+                      </li>
+                    </ul>
+                  </div> -->
+                <!-- </li>
+              </ul>
+            </li> -->
 
             <li>
               <a ng-click='signOut()' class="collapsible-header" ng-show="loggedIn">

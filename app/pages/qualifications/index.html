@@ -21,6 +21,24 @@
           </tr>
         </tbody>
       </table>
+      <br ng-init="getEvaluation()">
+      <div class="row">
+        <h5>Recomendaciones</h5>
+        <form novalidate role="form" name="formRecommendations">
+            <textarea name="formRecommendations" ng-model="recommendations" class="materialize-textarea" id="recommendations" cols="30" rows="10" required>
+            </textarea>
+        </form>
+        <button ng-click="saveRecommendations()" class="btn" ng-disabled="formRecommendations.$invalid" ng-class="{disabled: formRecommendations.$invalid}">Guardar recomendaciones</button>
+      </div>
+
+      <div class="row">
+        <h5>Analisis</h5>
+        <form novalidate role="form" name="formAnalysis">
+            <textarea name="formAnalysis" ng-model="analysis" class="materialize-textarea" id="analysis" cols="30" rows="10" required>
+            </textarea>
+        </form>
+        <button ng-click="saveAnalysis()" class="btn" ng-disabled="formAnalysis.$invalid" ng-class="{disabled: formAnalysis.$invalid}">Guardar analisis</button>
+      </div>
     </div>
   </div>
 </div>

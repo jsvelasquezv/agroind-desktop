@@ -281,17 +281,7 @@ agroind.config(function($authProvider) {
 
 //Controladores
 
-agroind.controller('mainController', function($scope, $rootScope, $state, $http, pouchDB, Users, Profiles, config) {
-    
-
-    // ********** pouchdb test 
-
-  // var db = pouchDB($state.current.name);
-  // var db2 = pouchDB("holi");
-  // var db = pouchDB("landsDB");
-  
-  // $rootScope.loggedIn = false;
-  // $rootScope.online = false;
+agroind.controller('mainController', function($scope, $rootScope, $state, $http, pouchDB, Users, Profiles, Lands, Indicators, Variables, Evaluations, Scores, config) {
 
   $scope.reconnect = function () {
     $http.get(config.apiRoot + '/ping').then(function (response) {
@@ -301,31 +291,12 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
       }
     })
   }
-  // $rootScope.$on("offline", function () {
-  //   Materialize.toast("Disconnected");
-  //   $rootScope.online = true;
-  // });
 
   $scope.checkLogin = function () {
     // config.apiUrl;
     $rootScope.loggedIn = !$rootScope.loggedIn;
     // $rootScope.online = false;
   };
-
-  // $scope.infoDB = function () {
-  //   // Lands.dbInfo().then(function (info) {
-  //   //   console.log(info);
-  //   // });
-  //   console.log($rootScope.online);
-  // };
-  // $scope.deleteDB = function () {
-  //   db.destroy().then(function (response) {
-  //     console.log(response);
-  //   });
-  //   // db2.destroy().then(function (response) {
-  //   //   console.log(response);
-  //   // })
-  // };
 
   $rootScope.$on('auth:login-success', function(ev, user) {
     Materialize.toast('Inicio de sesion correcto!', 4000);
@@ -378,9 +349,86 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
     Materialize.toast('No');
   });
 
-  $scope.sincronizeAll = function () {
-    
+  $scope.syncLands = function () {
+    Lands.getLands().then(function (response) {
+      $scope.allLands = response.data;
+      Lands.saveToLocal($scope.allLands).then(function (response) {
+        Materialize.toast("Se ha sincronizado correctamente la información");
+      });
+    })
+    .catch(function (error) {
+      Materialize.toast("Error al sincronizar la información");
+    });
   }
+
+  $scope.syncIndicators = function () {
+    Indicators.getIndicators().then(function (response) {
+      $scope.allIndicators = response.data;
+      Indicators.saveToLocal($scope.allIndicators).then(function (response) {
+        Materialize.toast("Se ha sincronizado correctamente la información");
+        $scope.allIndicators = null;
+      });
+    })
+    .catch(function (error) {
+      Materialize.toast("Error al sincronizar la información");
+    });
+  }
+
+  $scope.syncVariables = function () {
+    Variables.getVariables().then(function (response) {
+      $scope.allVariables = response.data;
+      Variables.saveToLocal($scope.allVariables).then(function (response) {
+        Materialize.toast("Se ha sincronizado correctamente la información");
+        $scope.allVariables = null;
+      });
+    })
+    .catch(function (error) {
+      Materialize.toast("Error al sincronizar la información");
+    });
+  }
+
+  $scope.syncEvaluations = function () {
+    Evaluations.loadFromLocal().then(function (response) {
+      $scope.localAllEvaluations = response.rows.map(function(row) {return row.doc;});
+      var evaluationsToCreate = [];
+      var evaluationsToUpdate = [];
+      $scope.localAllEvaluations.forEach(function (evaluation, index) {
+        var temp_evaluation = {};
+        if (evaluation.id) {
+          temp_evaluation.id = evaluation.id;
+          temp_evaluation.land_id = evaluation.land_id;
+          temp_evaluation.user_id = evaluation.user_id;
+          evaluationsToUpdate.push(temp_evaluation);
+        } else {
+          temp_evaluation.land_id = evaluation.land_id;
+          temp_evaluation.user_id = evaluation.user_id;
+          evaluationsToCreate.push(temp_evaluation);
+        }
+      });
+
+      if (evaluationsToCreate.length > 0) {
+        var data = {evaluations: evaluationsToCreate};
+
+        Evaluations.batchCreate(data).then(function (response) {
+          Materialize.toast("Datos creados correctamente", 4000);
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+
+      if (evaluationsToUpdate.length > 0) {
+        var data = {evaluations: evaluationsToUpdate};
+
+        Evaluations.batchUpdate(data).then(function (response) {
+          Materialize.toast("Datos actualizados correctamente", 4000);
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }  
 
 });
 
@@ -781,7 +829,14 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     Indicators.getIndicators().then(function (response) {
       $scope.allIndicators = response.data;
     });
+    Evaluations.getEvaluation($stateParams.evaluation_id).then(function (response) {
+      $scope.evaluation = response.data;
+      $scope.recommendations = $scope.evaluation.recommendations;
+      $scope.analysis = $scope.evaluation.analysis;
+    })
   }
+
+  $scope.saveRecommendation
 
   $scope.allLands = function () {
     Lands.getLands().then(function (response) {
@@ -814,15 +869,15 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     });
   }
 
-  $scope.saveRecommendation = function () {
-    Evaluations.saveRecommendation($stateParams.evaluation_id, $scope.recommendation).then(function (response) {
+  $scope.saveRecommendations = function () {
+    Evaluations.saveRecommendations($stateParams.evaluation_id, $scope.recommendations).then(function (response) {
       Materialize.toast("Se ha guardado la recomendación", 4000);
     });
   }
 
-  $scope.saveObservations = function () {
-    Evaluations.saveObservations($stateParams.evaluation_id, $scope.observations).then(function (response) {
-      Materialize.toast("Se han guardado las observaciones", 4000);
+  $scope.saveAnalysis = function () {
+    Evaluations.saveAnalysis($stateParams.evaluation_id, $scope.analysis).then(function (response) {
+      Materialize.toast("Se ha guardado el analisis", 4000);
     });
   }
 
