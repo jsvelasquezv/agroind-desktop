@@ -3,17 +3,60 @@
     
     <ul class="collection with-header">
       <li class="collection-header">
-        <h3>Reporte de evaluacion para la finca: {{evaluation_report.land.name}}</h3>
+        <h3>Reporte de evaluacion </h3>
       </li>
       <li class="collection-item">
-        <span class="left"><h4>Promedio de indicadores: {{evaluation_report.evaluation.result}}</h4></span>
-        <span class="right"><h4 class="teal-text">{{evaluation_report.evaluation.assignment_date}}</h4></span>
+        <span class="left"><h4>Promedio de indicadores: {{evaluation_report.evaluation.result | number:2}}</h4></span>
+       
+      </li>
+      
+    </ul>
+    <ul class="collection with-header">
+    <li class="collection-header">
+    <h4>Datos personales</h4> 
+    </li>            
+      <table class="bordered">
+        <thead>
+        <tr>
+          <th>Identificación</th>
+          <th>Propietario</th>          
+          <th>Asociación</th>
+          <th>Fecha de asignación</th>
+        </tr> 
+        </thead>
+        <tbody>
+          <tr>
+          <td>{{evaluation_report.land.users_id}}</td>
+          <td>{{evaluation_report.land.users_id.users.name}}</td>          
+          <td>{{evaluation_report.land.affiliation}}</td>
+          <td>{{evaluation_report.evaluation.assignment_date}}</td>
+          </tr>
+        </tbody>
+        <thead>
+        <tr>
+          <th>Finca</th>
+          <th>Área</th>         
+          <th>Municipio</th>
+          <th>Vereda</th>        
+        </tr> 
+        </thead>
+        <tbody>
+          <tr>
+          <td>{{evaluation_report.land.name}}</td>
+          <td>{{evaluation_report.land.area}} mts&sup2;</td>
+          <td>{{evaluation_report.land.municipality}}</td>
+          <td>{{evaluation_report.land.zone}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <li class="collection-item">
+        <span><p id="sysdate"></p></span>
       </li>
     </ul>
     <ul class="collection with-header" ng-repeat="indicator_report in evaluation_report.indicators_report">
       <li class="collection-item">
         <h4>{{indicator_report.name}}</h4>
-        <span>Promedio de variables: {{indicator_report.variables_average[0].result}}</span></li>
+        <span>Promedio de variables: {{indicator_report.variables_average[0].result | number:2}}</span></li>
       <li class="collection-item" ng-repeat="variable_score in indicator_report.variables_scores">
         {{ evaluation_report.variables[variable_score.variable_id][0].name }}
         <span class="right">
@@ -49,5 +92,20 @@ function exportReport() {
     }
   });
 }
+Date.prototype.yyyymmdd = function() {
+  var mm = this.getMonth() + 1; // getMonth() is zero-based
+  var dd = this.getDate();
+  var hh =this.getHours();
+  var m =this.getMinutes();
+  var ss =this.getSeconds();
+
+  return [this.getFullYear(),'-',
+          (mm>9 ? '' : '0') + mm,'-',
+          (dd>9 ? '' : '0') + dd, ' ',
+          +hh,':',+m,':',+ss
+         ].join('');
+};
+var date = new Date();
+document.getElementById("sysdate").innerHTML = "Fecha de reporte: " + date.yyyymmdd();
 </script>
             
