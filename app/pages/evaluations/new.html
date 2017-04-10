@@ -7,6 +7,14 @@
                     <option value="">Selecciona una finca</option>
                 </select>
                 <input type="text" class="datepicker" name="assignment_date" ng-model="assignment_date" required>
+                <div class="row" ng-init = 'allUsers()'>
+                  <div class="input-field col l6 m12 s12">
+                    <select class="browser-default" name="evaluator_id" id="evaluator_id" ng-model=evaluator_id required>
+                      <option value="">Seleccione un evaluador</option>
+                      <option ng-repeat="user in allUsers" value="{{user.id}}">{{user.name}}</option>
+                    </select>
+                  </div>
+                </div>
             </form>
             <button ng-click="newEvaluation()" class="btn" ng-disabled="form.$invalid" ng-class="{disabled: form.$invalid}">Crear asignacion</button>
         </div>

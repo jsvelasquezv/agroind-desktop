@@ -785,7 +785,7 @@ agroind.controller('variablesController', function ($scope, $stateParams, $state
 
 });
 
-agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Lands, Evaluations, Variables, Scores, config) {
+agroind.controller('evaluationsController', function ($scope, $rootScope, $stateParams, $state, Indicators, Users, Lands, Evaluations, Variables, Scores, config) {
   
   $scope.scores = {};
   $scope.localScores = {};
@@ -836,12 +836,18 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     })
   }
 
-  $scope.saveRecommendation
+  // $scope.saveRecommendation
 
   $scope.allLands = function () {
     Lands.getLands().then(function (response) {
       $scope.allLands = response.data;
     });
+  }
+
+  $scope.allUsers = function () {
+    Users.getUsers().then(function (response) {
+      $scope.allUsers = response.data;
+    })
   }
 
   $scope.allEvaluations = function () {
@@ -860,7 +866,8 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     var evaluation = {
       land_id: $scope.land_id,
       user_id: $rootScope.loggedUser.id,
-      assignment_date: $scope.assignment_date
+      assignment_date: $scope.assignment_date,
+      evaluator_id: $scope.evaluator_id
     }
     // console.log(evaluation);
     Evaluations.newEvaluation(evaluation).then(function (response) {
