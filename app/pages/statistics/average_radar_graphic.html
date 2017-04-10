@@ -15,6 +15,24 @@
         <button class="btn btn-primary" ng-click="loadAverageRadarDates()">Generar promedio</button>
     </div>
 </div>
+<div  class="card-panel"><h4>Resumen</h4>
+    <table class="bordered">
+        <thead>
+          <tr>
+            <th>Indicador</th>
+            <th>Total</th>
+          </tr> 
+        </thead> 
+        <tbody>      
+      <tr ng-repeat="report in radars_data_between_dates">
+        <td >{{report.dataset.label}}</td>
+        <td >
+          {{report.dataset.data*5 | number:2}}
+        </td>
+      </tr>
+      </tbody>
+      </table>
+    </div>
 <div id="reporteEvaluacion" class="row" pdf-save-content="idOne">
     <div class="col s12 m12 l12">
         <div class="card-panel">

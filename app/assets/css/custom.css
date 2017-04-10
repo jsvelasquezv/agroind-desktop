@@ -100,3 +100,9 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
   border: none;
 }
+span.right{
+  padding: 5px 5px;
+}
+table#customTd td {
+  height: 15px;
+}
