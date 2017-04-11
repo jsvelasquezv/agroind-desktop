@@ -6,7 +6,7 @@
         <h3>Reporte de evaluacion </h3>
       </li>
       <li class="collection-item">
-        <span class="left"><h4>Promedio de indicadores: {{evaluation_report.evaluation.result*5 | number:2}}</h4></span>
+        <span class="left"><h4>Promedio de indicadores: {{evaluation_report.evaluation.result | number:2}}</h4></span>
        
       </li>
       
@@ -79,7 +79,7 @@
       <tr ng-repeat="indicator_report in evaluation_report.indicators_report">
         <td >{{indicator_report.name}}</td>
         <td  style="background: {{indicator_report.color}};">
-          {{indicator_report.variables_average[0].result*5 | number:2}}
+          {{indicator_report.variables_average[0].result | number:2}}
         </td>
       </tr>
       </tbody>
