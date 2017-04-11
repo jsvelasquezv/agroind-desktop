@@ -61,10 +61,10 @@ agroind.factory('ConnectionStatus', function($rootScope, $q) {
 });
 
 agroind.constant('config', {
-  apiRoot: 'http://localhost:3000',
- // apiRoot: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000',
-  apiUrl: 'http://localhost:3000/api/v1',
-  //apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
+ // apiRoot: 'http://localhost:3000',
+  apiRoot: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000',
+ // apiUrl: 'http://localhost:3000/api/v1',
+  apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
   // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
   // localDBName: "agroind-local"
 });
@@ -74,18 +74,18 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
   $httpProvider.interceptors.push('ConnectionStatus');
 
-  $urlRouterProvider.otherwise("/login");
+  $urlRouterProvider.otherwise("/");
 
   $stateProvider
     .state('home', {
-      url: '/',
+      url: '/home',
       templateUrl: 'pages/home.html',
       ncyBreadcrumb: {
     label: 'Home'
   }
     })
     .state('login', {
-      url: '/login',
+      url: '/',
       templateUrl: 'pages/login.html'
       // controller: 'authController'
     })
@@ -268,17 +268,12 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 //Configuration of authentication service
 agroind.config(function($authProvider) {
   $authProvider.configure({
-    apiUrl: 'http://localhost:3000/api/v1',
-    // apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
+   // apiUrl: 'http://localhost:3000/api/v1',
+     apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
      //apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
 });
-
-
-// agroind.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-//   cfpLoadingBarProvider.parentSelector = '#spinner-container';
-// }]);
 
 //Controladores
 
@@ -316,12 +311,10 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
   $scope.$on('auth:registration-email-success', function(ev, message) {
     Materialize.toast('Registro de usuario correcto!', 4000);
     $state.go('users');
-    console.log(message);
   });
 
   $scope.$on('auth:registration-email-error', function(ev, reason) {
     Materialize.toast('Error al registrar el usuario!', 4000);
-    console.log(reason.errors);
   });
 
   $scope.$on('auth:account-update-success', function(ev) {
@@ -409,48 +402,7 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
     }).catch(function (error) {
       console.log(error);
     });
-
-    // Evaluations.loadFromLocal().then(function (response) {
-    //   $scope.localAllEvaluations = response.rows.map(function(row) {return row.doc;});
-    //   var evaluationsToCreate = [];
-    //   var evaluationsToUpdate = [];
-    //   $scope.localAllEvaluations.forEach(function (evaluation, index) {
-    //     var temp_evaluation = {};
-    //     if (evaluation.id) {
-    //       temp_evaluation.id = evaluation.id;
-    //       temp_evaluation.land_id = evaluation.land_id;
-    //       temp_evaluation.user_id = evaluation.user_id;
-    //       evaluationsToUpdate.push(temp_evaluation);
-    //     } else {
-    //       temp_evaluation.land_id = evaluation.land_id;
-    //       temp_evaluation.user_id = evaluation.user_id;
-    //       evaluationsToCreate.push(temp_evaluation);
-    //     }
-    //   });
-
-    //   if (evaluationsToCreate.length > 0) {
-    //     var data = {evaluations: evaluationsToCreate};
-
-    //     Evaluations.batchCreate(data).then(function (response) {
-    //       Materialize.toast("Datos creados correctamente", 4000);
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    //   }
-
-    //   if (evaluationsToUpdate.length > 0) {
-    //     var data = {evaluations: evaluationsToUpdate};
-
-    //     Evaluations.batchUpdate(data).then(function (response) {
-    //       Materialize.toast("Datos actualizados correctamente", 4000);
-    //     }).catch(function (error) {
-    //       console.log(error);
-    //     });
-    //   }
-    // }).catch(function (error) {
-    //   console.log(error);
-    // });
-  }  
+  }
 
 });
 
@@ -458,7 +410,6 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
 agroind.controller('usersController', function ($scope, $rootScope, $stateParams, $state, $auth, Users, config, Profiles) {
 
  $scope.loadMyAccountForm = function () {
-    // console.log($scope.updateAccountForm);
     var user = $rootScope.loggedUser;
     $scope.updateAccountForm = {
       name: user.name,
@@ -482,7 +433,6 @@ agroind.controller('usersController', function ($scope, $rootScope, $stateParams
   }
 
   $scope.newUser = function () {
-    console.log($scope.newUserForm);
     Users.newUser($scope.newUserForm).then(function (response) {
       Materialize.toast("Usuario registrado correctamente", 4000);
       $state.go('users');
@@ -532,16 +482,8 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
   }
 
   $scope.viewProfile = function () {
-    // console.log($stateParams);
     Profiles.getProfile($stateParams.id).then(function (response) {
-        // console.log(response.data);
       $scope.profile = {
-        // id: response.data.id,
-        // name: response.data.name,
-        // users_permission: response.data.users_permission,
-        // indicators_permission: response.data.indicators_permission,
-        // reports_permission: response.data.reports_permission,
-        // profiles_permission: response.data.profiles_permission
         id: response.data.id,
         name: response.data.name,
         users_permission: response.data.users_permission,
@@ -558,7 +500,6 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
         edit_profiles: response.data.edit_profiles,
         clone_profiles: response.data.clone_profiles
       }
-      // console.log($scope.profile);
     });
   }
 
@@ -640,7 +581,6 @@ agroind.controller('profilesController', function ($scope, $stateParams, $state,
 
   $scope.deleteProfile = function (id) {
     Profiles.deleteProfile(id).then(function (response) {
-      // $scope.allProfiles.splice(id,1);
       $scope.indexProfile();
       console.log("Perfil eliminado correctamente");
     });
