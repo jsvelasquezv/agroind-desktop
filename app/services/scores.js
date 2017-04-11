@@ -20,7 +20,6 @@ var scoresDB = pouchDB("scoresDB");
   this.saveToLocal = function (scores) {
     var key = scores.evaluation_id + '_' + scores.indicator_id;
     scores._id = key;
-    console.log(scores);
     return scoresDB.put(scores);
   }
 
@@ -38,7 +37,16 @@ var scoresDB = pouchDB("scoresDB");
         qualification.qualifications = doc.qualifications;
         qualifications.push(qualification);
       });
-      return $http.post(evaluationsUrl + '/batch/qualify',  qualifications);
+      return $http.post(evaluationsUrl + '/batch/qualify',  {scores: qualifications});
+    });
+    
+  }
+
+  this.clearLocalScores = function () {
+    return scoresDB.destroy().then(function (response) {
+      scoresDB = pouchDB("scoresDB");
+    }).catch(function (error) {
+      console.log(error);
     });
   }
 

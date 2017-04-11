@@ -379,56 +379,77 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
     Variables.getVariables().then(function (response) {
       $scope.allVariables = response.data;
       Variables.saveToLocal($scope.allVariables).then(function (response) {
-        Materialize.toast("Se ha sincronizado correctamente la información");
+        Materialize.toast("Se ha sincronizado correctamente la información", 4000);
         $scope.allVariables = null;
       });
     })
     .catch(function (error) {
-      Materialize.toast("Error al sincronizar la información");
+      Materialize.toast("Error al sincronizar la información", 4000);
     });
   }
 
+  $scope.clearLocalScores = function() {
+    Scores.clearLocalScores();
+    // .then(function (response) {
+    //   Materialize.toast("Datos eliminados", 4000);
+    // }).catch(function (error) {
+    //   console.log(error);
+    // })
+  }
+
   $scope.syncEvaluations = function () {
-    Evaluations.loadFromLocal().then(function (response) {
-      $scope.localAllEvaluations = response.rows.map(function(row) {return row.doc;});
-      var evaluationsToCreate = [];
-      var evaluationsToUpdate = [];
-      $scope.localAllEvaluations.forEach(function (evaluation, index) {
-        var temp_evaluation = {};
-        if (evaluation.id) {
-          temp_evaluation.id = evaluation.id;
-          temp_evaluation.land_id = evaluation.land_id;
-          temp_evaluation.user_id = evaluation.user_id;
-          evaluationsToUpdate.push(temp_evaluation);
-        } else {
-          temp_evaluation.land_id = evaluation.land_id;
-          temp_evaluation.user_id = evaluation.user_id;
-          evaluationsToCreate.push(temp_evaluation);
-        }
-      });
-
-      if (evaluationsToCreate.length > 0) {
-        var data = {evaluations: evaluationsToCreate};
-
-        Evaluations.batchCreate(data).then(function (response) {
-          Materialize.toast("Datos creados correctamente", 4000);
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }
-
-      if (evaluationsToUpdate.length > 0) {
-        var data = {evaluations: evaluationsToUpdate};
-
-        Evaluations.batchUpdate(data).then(function (response) {
-          Materialize.toast("Datos actualizados correctamente", 4000);
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }
+    Scores.pushToRemote().then(function (responsePushScores) {
+      Materialize.toast("Calificaciones cargadas correctamente", 4000);
+      Scores.clearLocalScores();
+      Evaluations.getEvaluations().then(function (responseGetEvaluations) {
+        Evaluations.saveToLocal(responseGetEvaluations.data).then(function (responseSaveEvaluations) {
+          Materialize.toast("Evaluaciones sincronizadas correctamente", 4000);
+        })
+      })
     }).catch(function (error) {
       console.log(error);
     });
+
+    // Evaluations.loadFromLocal().then(function (response) {
+    //   $scope.localAllEvaluations = response.rows.map(function(row) {return row.doc;});
+    //   var evaluationsToCreate = [];
+    //   var evaluationsToUpdate = [];
+    //   $scope.localAllEvaluations.forEach(function (evaluation, index) {
+    //     var temp_evaluation = {};
+    //     if (evaluation.id) {
+    //       temp_evaluation.id = evaluation.id;
+    //       temp_evaluation.land_id = evaluation.land_id;
+    //       temp_evaluation.user_id = evaluation.user_id;
+    //       evaluationsToUpdate.push(temp_evaluation);
+    //     } else {
+    //       temp_evaluation.land_id = evaluation.land_id;
+    //       temp_evaluation.user_id = evaluation.user_id;
+    //       evaluationsToCreate.push(temp_evaluation);
+    //     }
+    //   });
+
+    //   if (evaluationsToCreate.length > 0) {
+    //     var data = {evaluations: evaluationsToCreate};
+
+    //     Evaluations.batchCreate(data).then(function (response) {
+    //       Materialize.toast("Datos creados correctamente", 4000);
+    //     }).catch(function (error) {
+    //       console.log(error);
+    //     });
+    //   }
+
+    //   if (evaluationsToUpdate.length > 0) {
+    //     var data = {evaluations: evaluationsToUpdate};
+
+    //     Evaluations.batchUpdate(data).then(function (response) {
+    //       Materialize.toast("Datos actualizados correctamente", 4000);
+    //     }).catch(function (error) {
+    //       console.log(error);
+    //     });
+    //   }
+    // }).catch(function (error) {
+    //   console.log(error);
+    // });
   }  
 
 });
@@ -1029,22 +1050,22 @@ agroind.controller('evaluationsController', function ($scope, $rootScope, $state
     if ($scope.qualificationsRevision) {
       data._rev = $scope.qualificationsRevision;
     }
-    // if (qualifications.length > 0) {
+    if (qualifications.length > 0) {
       Scores.saveToLocal(data).then(function (response) {
         Materialize.toast("Calificacion registrada correctamente", 4000);
       }).catch(function (error) {
         console.log(error);
       });
-    // }
+    }
   }
 
-  $scope.loadScores = function () {
-    Scores.pushToRemote().then(function (response) {
-      console.log(response);
-    }).catch(function (error) {
-      console.log(error);
-    })
-  }
+  // $scope.loadScores = function () {
+  //   Scores.pushToRemote().then(function (response) {
+  //     console.log(response);
+  //   }).catch(function (error) {
+  //     console.log(error);
+  //   })
+  // }
 
 });
 

@@ -203,7 +203,7 @@
                   <div class="collapsible-body">
                     <ul>
                       <li ng-show="online == 'on'"><a ui-sref="evaluations">Listado de Evaluaciones</a></li>
-                      <li ng-show="online == 'off'"><a ui-sref="localEvaluations">Listado de Evaluaciones Local</a></li>
+                      <li ng-show="online == 'on'"><a ui-sref="localEvaluations">Listado de Evaluaciones Local</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="newEvaluation">Asignar Evaluación</a></li>
                       <li ng-show="online == 'on'"><a ng-click="syncEvaluations()">Sincronizar evaluaciones</a></li>
                       <li ng-show="online == 'on'"><a ui-sref="colorCodes">Estado de alerta</a></li>
@@ -284,7 +284,7 @@
         <!-- <a href="" ng-click="showAll()">Consultar usuarios </a> -->
         <a href="" ng-click="checkLogin()">Cambiar logueo </a>
         <!-- <a href="" ng-click="infoDB()">Info db</a> -->
-        <!-- <a href="" ng-click="deleteDB()">Delete db</a> -->
+        <a href="" ng-click="clearLocalScores()">Delete db</a>
         <!-- <button class="btn btn-primary btn-lg" ng-click='signOut()'>Sign out</button> -->
     </main>
 
