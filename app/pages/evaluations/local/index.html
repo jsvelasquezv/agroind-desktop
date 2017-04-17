@@ -6,14 +6,12 @@
         <thead>
           <tr>
             <th>Finca</th>
-            <th>Evaluador</th>
             <th>Fecha de asignación</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="evaluation in localAllEvaluations">
             <td>{{evaluation.land.name}}</td>
-            <td>{{evaluation.evaluator.name}}</td>
             <td>{{evaluation.assignment_date}}</td>
             <!-- <td><a ng-click="delete(land.id)">Eliminar</a></td> -->
             <td><a ui-sref="localQualifyIndicators({evaluation_id: evaluation.id})">Calificar</a></td>

@@ -61,10 +61,10 @@ agroind.factory('ConnectionStatus', function($rootScope, $q) {
 });
 
 agroind.constant('config', {
- // apiRoot: 'http://localhost:3000',
-  apiRoot: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000',
- // apiUrl: 'http://localhost:3000/api/v1',
-  apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
+ apiRoot: 'http://localhost:3000',
+  // apiRoot: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000',
+ apiUrl: 'http://localhost:3000/api/v1',
+  // apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
   // apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
   // localDBName: "agroind-local"
 });
@@ -268,8 +268,8 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 //Configuration of authentication service
 agroind.config(function($authProvider) {
   $authProvider.configure({
-   // apiUrl: 'http://localhost:3000/api/v1',
-     apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
+   apiUrl: 'http://localhost:3000/api/v1',
+     // apiUrl: 'http://ec2-54-207-63-95.sa-east-1.compute.amazonaws.com:3000/api/v1',
      //apiUrl: 'https://agroind-api-jsvelasquezv.c9users.io/api/v1',
     storage: 'localStorage'
   });
@@ -394,7 +394,7 @@ agroind.controller('mainController', function($scope, $rootScope, $state, $http,
     Scores.pushToRemote().then(function (responsePushScores) {
       Materialize.toast("Calificaciones cargadas correctamente", 4000);
       Scores.clearLocalScores();
-      Evaluations.getEvaluations().then(function (responseGetEvaluations) {
+      Evaluations.getUserEvaluations($rootScope.loggedUser.id).then(function (responseGetEvaluations) {
         Evaluations.saveToLocal(responseGetEvaluations.data).then(function (responseSaveEvaluations) {
           Materialize.toast("Evaluaciones sincronizadas correctamente", 4000);
         })
@@ -1032,6 +1032,7 @@ agroind.controller('statisticsController', function ($scope, $stateParams, $stat
   $scope.loadAverageRadarDates = function () {
     Statistics.getRadarData($scope.start_date, $scope.end_date).then(function (response) {
       var ctx = document.getElementById("average-radar-dates-graphic");
+      $scope.summary = response.data.summary;
       var data = {
         labels: response.data.labels,
         datasets: response.data.datasets

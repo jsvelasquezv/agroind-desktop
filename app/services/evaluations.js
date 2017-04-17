@@ -15,6 +15,10 @@ var evaluationsDB = pouchDB("evaluationsDB");
     return $http.get(evaluationsUrl);
   }
 
+  this.getUserEvaluations = function (evaluator_id) {
+    return $http.get(evaluationsUrl + '/evaluator/' + evaluator_id);
+  }
+
   this.getIndicatorsAverages = function (evaluation_id) {
     return $http.get(evaluationsUrl + '/indicators/averages/' + evaluation_id);
   }
@@ -105,6 +109,14 @@ var evaluationsDB = pouchDB("evaluationsDB");
       evaluationsToRemote.push(evaluationToRemote);
     });
     return $http.post(evaluationsUrl + '/bulk/evaluations', evaluationsToRemote);
+  }
+
+  this.clearLocalEvaluations = function () {
+    return evaluationsDB.destroy().then(function (response) {
+      evaluationsDB = pouchDB("evaluationsDB");
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
   // Sets the _id property required by pouch
