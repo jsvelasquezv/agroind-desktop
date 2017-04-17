@@ -28,7 +28,7 @@
         <tbody>      
           <tr ng-repeat="average in summary">
             <td> {{average.indicator}}</td>
-            <td> {{average.value | number:2}} </td>
+            <td style="background: {{average.color}};"> {{average.value | number:2}} </td>
           </tr>
         </tbody>
       </table>
