@@ -287,6 +287,15 @@
         <!--<a href="" ng-click="clearLocalScores()">Delete db</a> -->
         <!-- <button class="btn btn-primary btn-lg" ng-click='signOut()'>Sign out</button> -->
     </main>
+<script>
+  document.addEventListener("keydown", function (e) {
+    if (e.which === 123) {
+      require('remote').getCurrentWindow().toggleDevTools();
+    } else if (e.which === 116) {
+      location.reload();
+    }
+  });
+</script>
 
 </body>
 </html>

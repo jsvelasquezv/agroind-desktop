@@ -1,2 +1,5 @@
-node_modules/electron/
+node_modules/*
 releases/
+!node_modules/pouchdb
+!node_modules/pouchdb-browser
+!node_modules/angular-pouchdb

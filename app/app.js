@@ -81,8 +81,8 @@ agroind.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       url: '/home',
       templateUrl: 'pages/home.html',
       ncyBreadcrumb: {
-    label: 'Home'
-  }
+        label: 'Home'
+      }
     })
     .state('login', {
       url: '/',
